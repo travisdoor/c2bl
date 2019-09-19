@@ -24,12 +24,6 @@ endif()
 # setup output directories
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-# deps
-find_package(LLVM REQUIRED CONFIG)
-
-message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
-message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
-
 set(HEADER_FILES
         src/config.h
         src/array.h
@@ -41,12 +35,9 @@ set(SOURCE_FILES
         src/main.cpp
         )
 
-add_definitions(${LLVM_DEFINITIONS})
 add_executable(c2bl ${SOURCE_FILES} ${HEADER_FILES})
 
-set(CLANG_LIBS clangFrontend  clangSerialization clangDriver clangParse clangRewriteFrontend clangStaticAnalyzerFrontend clangSema clangAnalysis clangEdit clangAST clangLex clangBasic clangTooling clangRewrite clangASTMatchers clangToolingCore)
-
-llvm_map_components_to_libnames(LLVM_LIBS profiledata mcparser bitreader support mc option)
+set(CLANG_LIBS clang)
 
 if (MSVC)
     # CXX 
@@ -70,16 +61,12 @@ else()
 endif()
 
 target_link_libraries(c2bl PUBLIC
-    ${LLVM_LIBS}
     ${CLANG_LIBS}
 )
 
 message(STATUS "include: ${LLVM_SRC_ROOT}")
 target_include_directories(c2bl PRIVATE
     src
-    ${LLVM_INCLUDE_DIRS}
-    ${LLVM_BUILD_MAIN_SRC_DIR}/tools/clang/include
-    ${LLVM_BUILD_BINARY_DIR}/tools/clang/include
 )
 
 # 'make install' to the correct locations (provided by GNUInstallDirs).

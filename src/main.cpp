@@ -27,21 +27,56 @@
 //*****************************************************************************
 
 #include "common.h"
-#include "clang/Frontend/FrontendActions.h"
-#include "clang/Tooling/CommonOptionsParser.h"
-#include "clang/Tooling/Tooling.h"
-#include "llvm/Support/CommandLine.h"
+#include "clang-c/Index.h"
 
-using namespace clang::tooling;
+static CXChildVisitResult
+visitor(CXCursor cursor, CXCursor parent, CXClientData client_data)
+{
+	switch (cursor.kind) {
+	case CXCursor_StructDecl:
+		printf("struct -> %s\n", clang_getCursorDisplayName(cursor).data);
+		break;
 
-// test run: ./c2bl ../test/testfile.h -- s
+	case CXCursor_EnumDecl:
+		printf("enum\n");
+		break;
+
+	case CXCursor_VarDecl:
+		printf("variable -> %s\n", clang_getCursorDisplayName(cursor).data);
+		break;
+
+	case CXCursor_FunctionDecl: 
+		printf("function -> %s\n", clang_getCursorDisplayName(cursor).data);
+		break;
+
+	case CXCursor_EnumConstantDecl: 
+		printf("variant -> %s\n", clang_getCursorDisplayName(cursor).data);
+		break;
+
+	case CXCursor_FieldDecl:
+		printf("field -> %s\n", clang_getCursorDisplayName(cursor).data);
+		break;
+
+	case CXCursor_TypedefDecl:
+		printf("type -> %s\n", clang_getCursorDisplayName(cursor).data);
+		break;
+
+	default:
+		C2BL_LOG("Missing implementation for node %i", cursor.kind);
+	}
+
+	return CXChildVisit_Recurse;
+}
 
 int
 main(int argc, const char **argv)
 {
-	llvm::cl::OptionCategory MyToolCategory("c2bl options");
-	CommonOptionsParser      OptionsParser(argc, argv, MyToolCategory);
+	auto idx = clang_createIndex(0, 0);
+	auto tu  = clang_parseTranslationUnit(idx, "../test/testfile.h", argv, argc, nullptr, 0, 0);
 
-	ClangTool Tool(OptionsParser.getCompilations(), OptionsParser.getSourcePathList());
-	return Tool.run(newFrontendActionFactory<clang::ASTPrintAction>().get());
+	clang_visitChildren(clang_getTranslationUnitCursor(tu), &visitor, 0);
+
+	clang_disposeTranslationUnit(tu);
+	clang_disposeIndex(idx);
+	return 0;
 }

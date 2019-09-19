@@ -32,6 +32,8 @@
 #include "array.h"
 #include "config.h"
 #include "small_array.h"
+#include "c2bl_debug.h"
 #include <stdint.h>
+#include <stdio.h>
 
 #endif
