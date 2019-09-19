@@ -1,7 +1,7 @@
 //*****************************************************************************
 // c2bl
 //
-// File:   main.cpp
+// File:   common.h
 // Author: Martin Dorazil
 // Date:   9/19/2019
 //
@@ -26,22 +26,12 @@
 // SOFTWARE.
 //*****************************************************************************
 
-#include "common.h"
-#include "clang/Frontend/FrontendActions.h"
-#include "clang/Tooling/CommonOptionsParser.h"
-#include "clang/Tooling/Tooling.h"
-#include "llvm/Support/CommandLine.h"
+#ifndef C2BL_COMMON_H
+#define C2BL_COMMON_H
 
-using namespace clang::tooling;
+#include "array.h"
+#include "config.h"
+#include "small_array.h"
+#include <stdint.h>
 
-// test run: ./c2bl ../test/testfile.h -- s
-
-int
-main(int argc, const char **argv)
-{
-	llvm::cl::OptionCategory MyToolCategory("c2bl options");
-	CommonOptionsParser      OptionsParser(argc, argv, MyToolCategory);
-
-	ClangTool Tool(OptionsParser.getCompilations(), OptionsParser.getSourcePathList());
-	return Tool.run(newFrontendActionFactory<clang::ASTPrintAction>().get());
-}
+#endif

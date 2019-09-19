@@ -32,6 +32,9 @@ message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
 set(HEADER_FILES
         src/config.h
+        src/array.h
+        src/small_array.h
+        src/common.h
         )
 
 set(SOURCE_FILES

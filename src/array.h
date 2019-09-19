@@ -1,7 +1,7 @@
 //*****************************************************************************
 // c2bl
 //
-// File:   main.cpp
+// File:   array.h
 // Author: Martin Dorazil
 // Date:   9/19/2019
 //
@@ -26,22 +26,65 @@
 // SOFTWARE.
 //*****************************************************************************
 
-#include "common.h"
-#include "clang/Frontend/FrontendActions.h"
-#include "clang/Tooling/CommonOptionsParser.h"
-#include "clang/Tooling/Tooling.h"
-#include "llvm/Support/CommandLine.h"
+#ifndef C2BL_ARRAY_H
+#define C2BL_ARRAY_H
 
-using namespace clang::tooling;
+#include <assert.h>
+#include <memory.h>
 
-// test run: ./c2bl ../test/testfile.h -- s
+#define ARRAY_INIT_CAPACITY 16
 
-int
-main(int argc, const char **argv)
-{
-	llvm::cl::OptionCategory MyToolCategory("c2bl options");
-	CommonOptionsParser      OptionsParser(argc, argv, MyToolCategory);
+template <typename T>
+struct Array {
+	T *    data;
+	size_t size;
+	size_t capacity;
 
-	ClangTool Tool(OptionsParser.getCompilations(), OptionsParser.getSourcePathList());
-	return Tool.run(newFrontendActionFactory<clang::ASTPrintAction>().get());
-}
+	~Array()
+	{
+		free(data);
+	}
+
+	void
+	clear()
+	{
+		size = 0;
+	}
+
+	void
+	push(const T &v)
+	{
+		if (!capacity)
+			reserve(ARRAY_INIT_CAPACITY);
+		else if (size >= capacity)
+			reserve(capacity * 2);
+
+		data[size++] = v;
+	}
+
+	T &
+	pop()
+	{
+		assert(size - 1 > 0);
+		return data[--size];
+	}
+
+	T &
+	at(const size_t i)
+	{
+		assert(i < size);
+		return data[i];
+	}
+
+	void
+	reserve(size_t nc)
+	{
+		if (nc <= capacity) return;
+		capacity = nc;
+
+		data = (T *)realloc(data, sizeof(T) * capacity);
+		if (!data) abort();
+	}
+};
+
+#endif

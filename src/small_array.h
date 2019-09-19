@@ -1,7 +1,7 @@
 //*****************************************************************************
 // c2bl
 //
-// File:   main.cpp
+// File:   small_array.h
 // Author: Martin Dorazil
 // Date:   9/19/2019
 //
@@ -26,22 +26,60 @@
 // SOFTWARE.
 //*****************************************************************************
 
-#include "common.h"
-#include "clang/Frontend/FrontendActions.h"
-#include "clang/Tooling/CommonOptionsParser.h"
-#include "clang/Tooling/Tooling.h"
-#include "llvm/Support/CommandLine.h"
+#ifndef C2BL_SMALL_ARRAY_H
+#define C2BL_SMALL_ARRAY_H
 
-using namespace clang::tooling;
+#include <assert.h>
+#include <memory.h>
 
-// test run: ./c2bl ../test/testfile.h -- s
+template <typename T, size_t Size = 32>
+struct SmallArray {
+	T *    data = &tmp[0];
+	size_t size;
+	size_t allocated;
+	T      tmp[Size];
 
-int
-main(int argc, const char **argv)
-{
-	llvm::cl::OptionCategory MyToolCategory("c2bl options");
-	CommonOptionsParser      OptionsParser(argc, argv, MyToolCategory);
+	~SmallArray()
+	{
+		if (allocated) free(data);
+	}
 
-	ClangTool Tool(OptionsParser.getCompilations(), OptionsParser.getSourcePathList());
-	return Tool.run(newFrontendActionFactory<clang::ASTPrintAction>().get());
-}
+	void
+	clear()
+	{
+		size = 0;
+	}
+
+	void
+	push(const T &v)
+	{
+		if (!allocated && size == Size) {
+			allocated = size * 2;
+			data      = (T *)malloc(sizeof(T) * allocated);
+			if (!data) abort();
+			memcpy(data, tmp, sizeof(T) * size);
+		} else if (allocated && size == allocated) {
+			allocated *= 2;
+			data = (T *)realloc(data, allocated * sizeof(T));
+			if (!data) abort();
+		}
+
+		data[size++] = v;
+	}
+
+	T &
+	pop()
+	{
+		assert(size - 1 > 0);
+		return data[--size];
+	}
+
+	T &
+	at(const size_t i)
+	{
+		assert(i < size);
+		return data[i];
+	}
+};
+
+#endif
