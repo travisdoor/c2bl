@@ -52,6 +52,25 @@ main :: fn () u32 {
 };
 
 visitor :: fn (cursor: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
-    print("here!!!\n");
+    if cursor.kind == CXCursorKind.StructDecl {
+        print("struct decl\n");
+    } else if cursor.kind == CXCursorKind.EnumDecl {
+        print("enum decl\n");
+    } else if cursor.kind == CXCursorKind.VarDecl {
+        print("var decl\n");
+    } else if cursor.kind == CXCursorKind.FunctionDecl {
+        print("function decl\n");
+    } else if cursor.kind == CXCursorKind.EnumConstantDecl {
+        print("variant decl\n");
+    } else if cursor.kind == CXCursorKind.FieldDecl {
+        print("member decl\n");
+    } else if cursor.kind == CXCursorKind.TypedefDecl {
+        print("typedef decl\n");
+    } else if cursor.kind == CXCursorKind.ParmDecl {
+        print("param decl %\n", cursor.kind);
+    } else {
+        print("Unknown decl %\n", cursor.kind);
+    }
+
     return CXChildVisitResult.Recurse;
 };
