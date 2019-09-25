@@ -45,32 +45,80 @@ main :: fn () u32 {
     }
 
     cursor := clang_getTranslationUnitCursor(tu);
-    print("%\n", cursor);
 
     print("// generated from %\n", test_file);
     return clang_visitChildren(cursor, &visitor, null);
 };
 
 visitor :: fn (cursor: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
+    tmp : string;
+    
     if cursor.kind == CXCursorKind.StructDecl {
         print("struct decl\n");
+
     } else if cursor.kind == CXCursorKind.EnumDecl {
         print("enum decl\n");
+
     } else if cursor.kind == CXCursorKind.VarDecl {
         print("var decl\n");
+
     } else if cursor.kind == CXCursorKind.FunctionDecl {
-        print("function decl\n");
+        get_string(clang_getCursorSpelling(cursor), &tmp);
+        print("% :: fn (", tmp);
+
+        clang_visitChildren(cursor, &visitor, null);
+        print(") ");
+
+        type := clang_getCursorResultType(cursor);
+        type_name := get_type(&type);
+        print("% #extern;\n", type_name);
+
     } else if cursor.kind == CXCursorKind.EnumConstantDecl {
         print("variant decl\n");
+
     } else if cursor.kind == CXCursorKind.FieldDecl {
         print("member decl\n");
+
     } else if cursor.kind == CXCursorKind.TypedefDecl {
         print("typedef decl\n");
+
     } else if cursor.kind == CXCursorKind.ParmDecl {
-        print("param decl %\n", cursor.kind);
+        print("param decl\n");
+
     } else {
         print("Unknown decl %\n", cursor.kind);
     }
 
-    return CXChildVisitResult.Recurse;
+    return CXChildVisitResult.Continue;
+};
+
+get_string :: fn (cxstring: CXString, tmp_out: *string) {
+    tmp_out.ptr = cxstring.data;
+    tmp_out.len = auto strlen(cxstring.data);
+};
+
+get_type :: fn (type: *CXType) string
+{
+    if type.kind == CXTypeKind.Void      { return "";     }
+    if type.kind == CXTypeKind.Bool      { return "bool"; }
+    if type.kind == CXTypeKind.Char_U    { return "u8";   }
+    if type.kind == CXTypeKind.UChar     { return "u8";   }
+    if type.kind == CXTypeKind.Char16    { return "u16";  }
+    if type.kind == CXTypeKind.Char32    { return "u32";  }
+    if type.kind == CXTypeKind.UShort    { return "u16";  }
+    if type.kind == CXTypeKind.UInt      { return "u32";  }
+    if type.kind == CXTypeKind.ULong     { return "u32";  }
+    if type.kind == CXTypeKind.ULongLong { return "u64";  }
+    if type.kind == CXTypeKind.Char_S    { return "s8";   }
+    if type.kind == CXTypeKind.SChar     { return "s8";   }
+    if type.kind == CXTypeKind.WChar     { return "s16";  }
+    if type.kind == CXTypeKind.Short     { return "s16";  }
+    if type.kind == CXTypeKind.Int       { return "s32";  }
+    if type.kind == CXTypeKind.Long      { return "s32";  }
+    if type.kind == CXTypeKind.LongLong  { return "s64";  }
+    if type.kind == CXTypeKind.Float     { return "f32";  }
+    if type.kind == CXTypeKind.Double    { return "f64";  }
+    if type.kind == CXTypeKind.NullPtr   { return "null"; }
+
+    return "<INVALID_TYPE>";
 };

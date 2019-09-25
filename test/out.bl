@@ -1,2 +1,1 @@
-foo :: fn (number) s32 #extern;
-bar :: fn () s32 #extern;
+// generated from test/testfile.h
