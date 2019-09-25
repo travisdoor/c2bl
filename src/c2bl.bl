@@ -30,13 +30,18 @@
 #load "clang.bl"
 
 test_file :=  "test/testfile.h";
+//test_file :=  "/Users/travis/Develop/llvm-project/clang/include/clang-c/Index.h";
 
 main :: fn () u32 {
     idx := clang_createIndex(0, 0);
     defer clang_disposeIndex(idx);
 
+    options := build_TU_flags(
+        CXTranslationUnit_Flags.SkipFunctionBodies,
+    );
+    
     tu : CXTranslationUnit = null;
-    result := clang_parseTranslationUnit2(idx, test_file.ptr, null, 0, null, 0, 0, &tu);
+    result := clang_parseTranslationUnit2(idx, test_file.ptr, null, 0, null, 0, options, &tu);
     defer clang_disposeTranslationUnit(tu);
 
     if result != CXErrorCode.Success {
@@ -51,74 +56,155 @@ main :: fn () u32 {
 };
 
 visitor :: fn (cursor: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
-    tmp : string;
-    
-    if cursor.kind == CXCursorKind.StructDecl {
-        print("struct decl\n");
+    loc := clang_getCursorLocation(cursor);
+    if clang_Location_isFromMainFile(loc) == 0 { 
+        return CXChildVisitResult.Continue;
+    }
 
-    } else if cursor.kind == CXCursorKind.EnumDecl {
-        print("enum decl\n");
-
-    } else if cursor.kind == CXCursorKind.VarDecl {
-        print("var decl\n");
-
-    } else if cursor.kind == CXCursorKind.FunctionDecl {
-        get_string(clang_getCursorSpelling(cursor), &tmp);
-        print("% :: fn (", tmp);
-
-        clang_visitChildren(cursor, &visitor, null);
-        print(") ");
-
-        type := clang_getCursorResultType(cursor);
-        type_name := get_type(&type);
-        print("% #extern;\n", type_name);
-
-    } else if cursor.kind == CXCursorKind.EnumConstantDecl {
-        print("variant decl\n");
-
-    } else if cursor.kind == CXCursorKind.FieldDecl {
-        print("member decl\n");
-
+    if cursor.kind == CXCursorKind.FunctionDecl {
+        emit_fn_proto(cursor);
     } else if cursor.kind == CXCursorKind.TypedefDecl {
-        print("typedef decl\n");
-
-    } else if cursor.kind == CXCursorKind.ParmDecl {
-        print("param decl\n");
-
+        emit_typedef(cursor);
+    } else if cursor.kind == CXCursorKind.EnumDecl {
+        emit_enum(cursor);
+    } else if cursor.kind == CXCursorKind.EnumConstantDecl {
+        emit_variant(cursor);
     } else {
-        print("Unknown decl %\n", cursor.kind);
+        eprint("Unknown node %\n", cursor.kind);
     }
 
     return CXChildVisitResult.Continue;
 };
+
+emit_enum :: fn (cursor: CXCursor) {
+    if !clang_isCursorDefinition(cursor) { return; }
+
+    tmp : string;
+    get_string(clang_getCursorSpelling(cursor), &tmp);
+    if tmp.len == 0 { return; }
+    print("\n% :: enum {\n", tmp);
+    clang_visitChildren(cursor, &visitor, null);
+    print("};\n\n", tmp);
+};
+
+emit_variant :: fn (cursor: CXCursor) {
+    tmp : string;
+    get_string(clang_getCursorSpelling(cursor), &tmp);
+    value :=  clang_getEnumConstantDeclValue(cursor);
+    print("    % :: %,\n", tmp, value);
+};
+
+emit_typedef :: fn (cursor: CXCursor) {
+    if !clang_isCursorDefinition(cursor) { return; }
+
+    tmp : string;
+    get_string(clang_getCursorSpelling(cursor), &tmp);
+    print("% :: ", tmp);
+    t := clang_getTypedefDeclUnderlyingType(cursor);
+    emit_type(t, true);
+    print(";\n", tmp);
+};
+
+emit_fn_proto :: fn (cursor: CXCursor) {
+    tmp : string;
+    get_string(clang_getCursorSpelling(cursor), &tmp);
+    print("% :: fn (", tmp);
+
+    argc : u32 = auto clang_Cursor_getNumArguments(cursor);
+    loop i : u32 = 0; i < argc; i += 1 {
+        emit_arg(clang_Cursor_getArgument(cursor, i), i);
+
+        if i < argc - 1 { print(", "); }
+    }
+        
+
+    print(") ");
+
+    t := clang_getCursorResultType(cursor);
+    emit_type(t, true);
+    print(" #extern;\n", tmp);
+};
+
+emit_arg :: fn (cursor: CXCursor, i: u32) {
+    tmp : string;
+
+    get_string(clang_getCursorSpelling(cursor), &tmp);
+    if tmp.len > 0 {
+        print("%: ", tmp);
+    } else {
+        print("_%: ", i);
+    }
+
+    t := clang_getCursorType(cursor);
+    emit_type(t, true);
+};
+
+emit_type :: fn (t: CXType, ignore_void: bool) {
+    if t.kind == CXTypeKind.Bool       { print("bool"); return; }
+    if t.kind == CXTypeKind.Char_U     { print("u8");   return; }
+    if t.kind == CXTypeKind.UChar      { print("u8");   return; }
+    if t.kind == CXTypeKind.Char16     { print("u16");  return; }
+    if t.kind == CXTypeKind.Char32     { print("u32");  return; }
+    if t.kind == CXTypeKind.UShort     { print("u16");  return; }
+    if t.kind == CXTypeKind.UInt       { print("u32");  return; }
+    if t.kind == CXTypeKind.ULong      { print("u32");  return; }
+    if t.kind == CXTypeKind.ULongLong  { print("u64");  return; }
+    if t.kind == CXTypeKind.Char_S     { print("s8");   return; }
+    if t.kind == CXTypeKind.SChar      { print("s8");   return; }
+    if t.kind == CXTypeKind.WChar      { print("s16");  return; }
+    if t.kind == CXTypeKind.Short      { print("s16");  return; }
+    if t.kind == CXTypeKind.Int        { print("s32");  return; }
+    if t.kind == CXTypeKind.Long       { print("s32");  return; }
+    if t.kind == CXTypeKind.LongLong   { print("s64");  return; }
+    if t.kind == CXTypeKind.Float      { print("f32");  return; }
+    if t.kind == CXTypeKind.Double     { print("f64");  return; }
+    if t.kind == CXTypeKind.NullPtr    { print("null"); return; }
+
+    tmp : string;
+
+    if t.kind == CXTypeKind.Elaborated {
+        //emit_enum(clang_getTypeDeclaration(t));
+        return;
+    }
+
+    if t.kind == CXTypeKind.Typedef {
+        get_string(clang_getTypedefName(t), &tmp);
+        print("%", tmp);
+        return;
+    }
+
+    if t.kind == CXTypeKind.Void {
+        if ignore_void {
+            return;
+        } else {
+            print("u8");
+            return;
+        }
+    }
+
+    if t.kind == CXTypeKind.Pointer {
+        print("*");
+        t = clang_getPointeeType(t);
+        emit_type(t, false);
+        return;
+    }
+
+    eprint("Invalid type %\n", t);
+    print("<INVALID_TYPE>");
+};
+
 
 get_string :: fn (cxstring: CXString, tmp_out: *string) {
     tmp_out.ptr = cxstring.data;
     tmp_out.len = auto strlen(cxstring.data);
 };
 
-get_type :: fn (type: *CXType) string
-{
-    if type.kind == CXTypeKind.Void      { return "";     }
-    if type.kind == CXTypeKind.Bool      { return "bool"; }
-    if type.kind == CXTypeKind.Char_U    { return "u8";   }
-    if type.kind == CXTypeKind.UChar     { return "u8";   }
-    if type.kind == CXTypeKind.Char16    { return "u16";  }
-    if type.kind == CXTypeKind.Char32    { return "u32";  }
-    if type.kind == CXTypeKind.UShort    { return "u16";  }
-    if type.kind == CXTypeKind.UInt      { return "u32";  }
-    if type.kind == CXTypeKind.ULong     { return "u32";  }
-    if type.kind == CXTypeKind.ULongLong { return "u64";  }
-    if type.kind == CXTypeKind.Char_S    { return "s8";   }
-    if type.kind == CXTypeKind.SChar     { return "s8";   }
-    if type.kind == CXTypeKind.WChar     { return "s16";  }
-    if type.kind == CXTypeKind.Short     { return "s16";  }
-    if type.kind == CXTypeKind.Int       { return "s32";  }
-    if type.kind == CXTypeKind.Long      { return "s32";  }
-    if type.kind == CXTypeKind.LongLong  { return "s64";  }
-    if type.kind == CXTypeKind.Float     { return "f32";  }
-    if type.kind == CXTypeKind.Double    { return "f64";  }
-    if type.kind == CXTypeKind.NullPtr   { return "null"; }
+build_TU_flags :: fn (flags: ...CXTranslationUnit_Flags) u32 {
+    result : u32 = 0;
 
-    return "<INVALID_TYPE>";
+    loop i := 0; i < flags.len; i += 1 {
+        result = result | auto flags[i];
+    }
+
+    return result;
 };

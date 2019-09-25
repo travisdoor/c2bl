@@ -1,7 +1,7 @@
 ; ModuleID = 'c2bl'
 source_filename = "c2bl"
 target datalayout = "e-m:o-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-apple-darwin18.7.0"
+target triple = "x86_64-apple-darwin17.7.0"
 
 %TypeInfoInt = type { %TypeInfo, i32, i1 }
 %TypeInfo = type { i32, i64 }
@@ -9,18 +9,13 @@ target triple = "x86_64-apple-darwin18.7.0"
 %string = type { i64, i8* }
 %TypeInfoEnum = type { %TypeInfo, %string, %TypeInfo*, { i64, %TypeInfoEnumVariant* } }
 %TypeInfoString = type { %TypeInfo }
-%_Context = type { i8* (i64)*, void (i8*)* }
-%CXCursor = type { i32, i32, [3 x i8*] }
 %Any = type { %TypeInfo*, i8* }
 %CXUnsavedFile = type { i8*, i8*, i64 }
-%CXType = type { i32, [2 x i8*] }
+%CXCursor = type { i32, i32, [3 x i8*] }
 %CXString = type { i8*, i32 }
-%TypeInfoReal = type { %TypeInfo, i32 }
-%TypeInfoArray = type { %TypeInfo, %string, %TypeInfo*, i64 }
-%TypeInfoStruct = type { %TypeInfo, %string, { i64, %TypeInfoStructMember* }, i1 }
+%CXType = type { i32, [2 x i8*] }
 %TypeInfoStructMember = type { %string, %TypeInfo*, i32, i32 }
 %TypeInfoPtr = type { %TypeInfo, %TypeInfo* }
-%TypeInfoFn = type { %TypeInfo, { i64, %TypeInfo** }, %TypeInfo*, i1 }
 
 @.rtti.258 = private unnamed_addr constant %TypeInfoInt { %TypeInfo { i32 3, i64 4 }, i32 32, i1 true }, align 8
 @.rtti.259 = private unnamed_addr constant [255 x %TypeInfoEnumVariant] [%TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str, i32 0, i32 0) }, i64 1 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.1, i32 0, i32 0) }, i64 2 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.2, i32 0, i32 0) }, i64 3 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.3, i32 0, i32 0) }, i64 4 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.4, i32 0, i32 0) }, i64 5 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.5, i32 0, i32 0) }, i64 6 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.6, i32 0, i32 0) }, i64 7 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.7, i32 0, i32 0) }, i64 8 }, %TypeInfoEnumVariant { %string { i64 7, i8* getelementptr inbounds ([8 x i8], [8 x i8]* @.str.8, i32 0, i32 0) }, i64 9 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.9, i32 0, i32 0) }, i64 10 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.10, i32 0, i32 0) }, i64 11 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.11, i32 0, i32 0) }, i64 12 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.12, i32 0, i32 0) }, i64 13 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.13, i32 0, i32 0) }, i64 14 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.14, i32 0, i32 0) }, i64 15 }, %TypeInfoEnumVariant { %string { i64 22, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str.15, i32 0, i32 0) }, i64 16 }, %TypeInfoEnumVariant { %string { i64 19, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @.str.16, i32 0, i32 0) }, i64 17 }, %TypeInfoEnumVariant { %string { i64 22, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str.17, i32 0, i32 0) }, i64 18 }, %TypeInfoEnumVariant { %string { i64 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str.18, i32 0, i32 0) }, i64 19 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.19, i32 0, i32 0) }, i64 20 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.20, i32 0, i32 0) }, i64 21 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.21, i32 0, i32 0) }, i64 22 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.22, i32 0, i32 0) }, i64 23 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.23, i32 0, i32 0) }, i64 24 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.24, i32 0, i32 0) }, i64 25 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.25, i32 0, i32 0) }, i64 26 }, %TypeInfoEnumVariant { %string { i64 21, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @.str.26, i32 0, i32 0) }, i64 27 }, %TypeInfoEnumVariant { %string { i64 24, i8* getelementptr inbounds ([25 x i8], [25 x i8]* @.str.27, i32 0, i32 0) }, i64 28 }, %TypeInfoEnumVariant { %string { i64 25, i8* getelementptr inbounds ([26 x i8], [26 x i8]* @.str.28, i32 0, i32 0) }, i64 29 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.29, i32 0, i32 0) }, i64 30 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.30, i32 0, i32 0) }, i64 31 }, %TypeInfoEnumVariant { %string { i64 34, i8* getelementptr inbounds ([35 x i8], [35 x i8]* @.str.31, i32 0, i32 0) }, i64 32 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.32, i32 0, i32 0) }, i64 33 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.33, i32 0, i32 0) }, i64 34 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.34, i32 0, i32 0) }, i64 35 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.35, i32 0, i32 0) }, i64 36 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.36, i32 0, i32 0) }, i64 37 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.37, i32 0, i32 0) }, i64 38 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.38, i32 0, i32 0) }, i64 39 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.39, i32 0, i32 0) }, i64 1 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.40, i32 0, i32 0) }, i64 39 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.41, i32 0, i32 0) }, i64 40 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.42, i32 0, i32 0) }, i64 40 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.43, i32 0, i32 0) }, i64 41 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.44, i32 0, i32 0) }, i64 42 }, %TypeInfoEnumVariant { %string { i64 7, i8* getelementptr inbounds ([8 x i8], [8 x i8]* @.str.45, i32 0, i32 0) }, i64 43 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.46, i32 0, i32 0) }, i64 44 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.47, i32 0, i32 0) }, i64 45 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.48, i32 0, i32 0) }, i64 46 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.49, i32 0, i32 0) }, i64 47 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.50, i32 0, i32 0) }, i64 48 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.51, i32 0, i32 0) }, i64 49 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.52, i32 0, i32 0) }, i64 50 }, %TypeInfoEnumVariant { %string { i64 7, i8* getelementptr inbounds ([8 x i8], [8 x i8]* @.str.53, i32 0, i32 0) }, i64 50 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.54, i32 0, i32 0) }, i64 70 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.55, i32 0, i32 0) }, i64 70 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.56, i32 0, i32 0) }, i64 71 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.57, i32 0, i32 0) }, i64 72 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.58, i32 0, i32 0) }, i64 73 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.59, i32 0, i32 0) }, i64 73 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.60, i32 0, i32 0) }, i64 100 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.61, i32 0, i32 0) }, i64 100 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.62, i32 0, i32 0) }, i64 101 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.63, i32 0, i32 0) }, i64 102 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.64, i32 0, i32 0) }, i64 103 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.65, i32 0, i32 0) }, i64 104 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.66, i32 0, i32 0) }, i64 105 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.67, i32 0, i32 0) }, i64 106 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.68, i32 0, i32 0) }, i64 107 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.69, i32 0, i32 0) }, i64 108 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.70, i32 0, i32 0) }, i64 109 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.71, i32 0, i32 0) }, i64 110 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.72, i32 0, i32 0) }, i64 111 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.73, i32 0, i32 0) }, i64 112 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.74, i32 0, i32 0) }, i64 113 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.75, i32 0, i32 0) }, i64 114 }, %TypeInfoEnumVariant { %string { i64 22, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str.76, i32 0, i32 0) }, i64 115 }, %TypeInfoEnumVariant { %string { i64 19, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @.str.77, i32 0, i32 0) }, i64 116 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.78, i32 0, i32 0) }, i64 117 }, %TypeInfoEnumVariant { %string { i64 19, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @.str.79, i32 0, i32 0) }, i64 118 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.80, i32 0, i32 0) }, i64 119 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.81, i32 0, i32 0) }, i64 120 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.82, i32 0, i32 0) }, i64 121 }, %TypeInfoEnumVariant { %string { i64 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str.83, i32 0, i32 0) }, i64 122 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.84, i32 0, i32 0) }, i64 123 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.85, i32 0, i32 0) }, i64 124 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.86, i32 0, i32 0) }, i64 125 }, %TypeInfoEnumVariant { %string { i64 22, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str.87, i32 0, i32 0) }, i64 126 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.88, i32 0, i32 0) }, i64 127 }, %TypeInfoEnumVariant { %string { i64 21, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @.str.89, i32 0, i32 0) }, i64 128 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.90, i32 0, i32 0) }, i64 129 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.91, i32 0, i32 0) }, i64 130 }, %TypeInfoEnumVariant { %string { i64 21, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @.str.92, i32 0, i32 0) }, i64 131 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.93, i32 0, i32 0) }, i64 132 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.94, i32 0, i32 0) }, i64 133 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.95, i32 0, i32 0) }, i64 134 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.96, i32 0, i32 0) }, i64 135 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.97, i32 0, i32 0) }, i64 136 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.98, i32 0, i32 0) }, i64 137 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.99, i32 0, i32 0) }, i64 138 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.100, i32 0, i32 0) }, i64 139 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.101, i32 0, i32 0) }, i64 140 }, %TypeInfoEnumVariant { %string { i64 19, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @.str.102, i32 0, i32 0) }, i64 141 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.103, i32 0, i32 0) }, i64 142 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.104, i32 0, i32 0) }, i64 143 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.105, i32 0, i32 0) }, i64 144 }, %TypeInfoEnumVariant { %string { i64 19, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @.str.106, i32 0, i32 0) }, i64 145 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.107, i32 0, i32 0) }, i64 146 }, %TypeInfoEnumVariant { %string { i64 19, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @.str.108, i32 0, i32 0) }, i64 147 }, %TypeInfoEnumVariant { %string { i64 25, i8* getelementptr inbounds ([26 x i8], [26 x i8]* @.str.109, i32 0, i32 0) }, i64 148 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.110, i32 0, i32 0) }, i64 149 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.111, i32 0, i32 0) }, i64 149 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.112, i32 0, i32 0) }, i64 200 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.113, i32 0, i32 0) }, i64 200 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.114, i32 0, i32 0) }, i64 201 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.115, i32 0, i32 0) }, i64 202 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.116, i32 0, i32 0) }, i64 203 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.117, i32 0, i32 0) }, i64 204 }, %TypeInfoEnumVariant { %string { i64 6, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @.str.118, i32 0, i32 0) }, i64 205 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.119, i32 0, i32 0) }, i64 206 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.120, i32 0, i32 0) }, i64 207 }, %TypeInfoEnumVariant { %string { i64 6, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @.str.121, i32 0, i32 0) }, i64 208 }, %TypeInfoEnumVariant { %string { i64 7, i8* getelementptr inbounds ([8 x i8], [8 x i8]* @.str.122, i32 0, i32 0) }, i64 209 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.123, i32 0, i32 0) }, i64 210 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.124, i32 0, i32 0) }, i64 211 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.125, i32 0, i32 0) }, i64 212 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.126, i32 0, i32 0) }, i64 213 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.127, i32 0, i32 0) }, i64 214 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.128, i32 0, i32 0) }, i64 215 }, %TypeInfoEnumVariant { %string { i64 7, i8* getelementptr inbounds ([8 x i8], [8 x i8]* @.str.129, i32 0, i32 0) }, i64 215 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.130, i32 0, i32 0) }, i64 216 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.131, i32 0, i32 0) }, i64 217 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.132, i32 0, i32 0) }, i64 218 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.133, i32 0, i32 0) }, i64 219 }, %TypeInfoEnumVariant { %string { i64 22, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str.134, i32 0, i32 0) }, i64 220 }, %TypeInfoEnumVariant { %string { i64 23, i8* getelementptr inbounds ([24 x i8], [24 x i8]* @.str.135, i32 0, i32 0) }, i64 221 }, %TypeInfoEnumVariant { %string { i64 21, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @.str.136, i32 0, i32 0) }, i64 222 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.137, i32 0, i32 0) }, i64 223 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.138, i32 0, i32 0) }, i64 224 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.139, i32 0, i32 0) }, i64 225 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.140, i32 0, i32 0) }, i64 226 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.141, i32 0, i32 0) }, i64 227 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.142, i32 0, i32 0) }, i64 228 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.143, i32 0, i32 0) }, i64 229 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.144, i32 0, i32 0) }, i64 230 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.145, i32 0, i32 0) }, i64 231 }, %TypeInfoEnumVariant { %string { i64 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str.146, i32 0, i32 0) }, i64 232 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.147, i32 0, i32 0) }, i64 233 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.148, i32 0, i32 0) }, i64 234 }, %TypeInfoEnumVariant { %string { i64 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str.149, i32 0, i32 0) }, i64 235 }, %TypeInfoEnumVariant { %string { i64 19, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @.str.150, i32 0, i32 0) }, i64 236 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.151, i32 0, i32 0) }, i64 237 }, %TypeInfoEnumVariant { %string { i64 23, i8* getelementptr inbounds ([24 x i8], [24 x i8]* @.str.152, i32 0, i32 0) }, i64 238 }, %TypeInfoEnumVariant { %string { i64 28, i8* getelementptr inbounds ([29 x i8], [29 x i8]* @.str.153, i32 0, i32 0) }, i64 239 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.154, i32 0, i32 0) }, i64 240 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.155, i32 0, i32 0) }, i64 241 }, %TypeInfoEnumVariant { %string { i64 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str.156, i32 0, i32 0) }, i64 242 }, %TypeInfoEnumVariant { %string { i64 21, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @.str.157, i32 0, i32 0) }, i64 243 }, %TypeInfoEnumVariant { %string { i64 19, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @.str.158, i32 0, i32 0) }, i64 244 }, %TypeInfoEnumVariant { %string { i64 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str.159, i32 0, i32 0) }, i64 245 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.160, i32 0, i32 0) }, i64 246 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.161, i32 0, i32 0) }, i64 247 }, %TypeInfoEnumVariant { %string { i64 19, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @.str.162, i32 0, i32 0) }, i64 248 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.163, i32 0, i32 0) }, i64 249 }, %TypeInfoEnumVariant { %string { i64 19, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @.str.164, i32 0, i32 0) }, i64 250 }, %TypeInfoEnumVariant { %string { i64 27, i8* getelementptr inbounds ([28 x i8], [28 x i8]* @.str.165, i32 0, i32 0) }, i64 251 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.166, i32 0, i32 0) }, i64 252 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.167, i32 0, i32 0) }, i64 253 }, %TypeInfoEnumVariant { %string { i64 21, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @.str.168, i32 0, i32 0) }, i64 254 }, %TypeInfoEnumVariant { %string { i64 29, i8* getelementptr inbounds ([30 x i8], [30 x i8]* @.str.169, i32 0, i32 0) }, i64 255 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.170, i32 0, i32 0) }, i64 256 }, %TypeInfoEnumVariant { %string { i64 22, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str.171, i32 0, i32 0) }, i64 257 }, %TypeInfoEnumVariant { %string { i64 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str.172, i32 0, i32 0) }, i64 258 }, %TypeInfoEnumVariant { %string { i64 24, i8* getelementptr inbounds ([25 x i8], [25 x i8]* @.str.173, i32 0, i32 0) }, i64 259 }, %TypeInfoEnumVariant { %string { i64 22, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str.174, i32 0, i32 0) }, i64 260 }, %TypeInfoEnumVariant { %string { i64 27, i8* getelementptr inbounds ([28 x i8], [28 x i8]* @.str.175, i32 0, i32 0) }, i64 261 }, %TypeInfoEnumVariant { %string { i64 26, i8* getelementptr inbounds ([27 x i8], [27 x i8]* @.str.176, i32 0, i32 0) }, i64 262 }, %TypeInfoEnumVariant { %string { i64 26, i8* getelementptr inbounds ([27 x i8], [27 x i8]* @.str.177, i32 0, i32 0) }, i64 263 }, %TypeInfoEnumVariant { %string { i64 29, i8* getelementptr inbounds ([30 x i8], [30 x i8]* @.str.178, i32 0, i32 0) }, i64 264 }, %TypeInfoEnumVariant { %string { i64 24, i8* getelementptr inbounds ([25 x i8], [25 x i8]* @.str.179, i32 0, i32 0) }, i64 265 }, %TypeInfoEnumVariant { %string { i64 33, i8* getelementptr inbounds ([34 x i8], [34 x i8]* @.str.180, i32 0, i32 0) }, i64 266 }, %TypeInfoEnumVariant { %string { i64 37, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @.str.181, i32 0, i32 0) }, i64 267 }, %TypeInfoEnumVariant { %string { i64 26, i8* getelementptr inbounds ([27 x i8], [27 x i8]* @.str.182, i32 0, i32 0) }, i64 268 }, %TypeInfoEnumVariant { %string { i64 33, i8* getelementptr inbounds ([34 x i8], [34 x i8]* @.str.183, i32 0, i32 0) }, i64 269 }, %TypeInfoEnumVariant { %string { i64 22, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str.184, i32 0, i32 0) }, i64 270 }, %TypeInfoEnumVariant { %string { i64 27, i8* getelementptr inbounds ([28 x i8], [28 x i8]* @.str.185, i32 0, i32 0) }, i64 271 }, %TypeInfoEnumVariant { %string { i64 31, i8* getelementptr inbounds ([32 x i8], [32 x i8]* @.str.186, i32 0, i32 0) }, i64 272 }, %TypeInfoEnumVariant { %string { i64 42, i8* getelementptr inbounds ([43 x i8], [43 x i8]* @.str.187, i32 0, i32 0) }, i64 273 }, %TypeInfoEnumVariant { %string { i64 38, i8* getelementptr inbounds ([39 x i8], [39 x i8]* @.str.188, i32 0, i32 0) }, i64 274 }, %TypeInfoEnumVariant { %string { i64 23, i8* getelementptr inbounds ([24 x i8], [24 x i8]* @.str.189, i32 0, i32 0) }, i64 275 }, %TypeInfoEnumVariant { %string { i64 33, i8* getelementptr inbounds ([34 x i8], [34 x i8]* @.str.190, i32 0, i32 0) }, i64 276 }, %TypeInfoEnumVariant { %string { i64 44, i8* getelementptr inbounds ([45 x i8], [45 x i8]* @.str.191, i32 0, i32 0) }, i64 277 }, %TypeInfoEnumVariant { %string { i64 48, i8* getelementptr inbounds ([49 x i8], [49 x i8]* @.str.192, i32 0, i32 0) }, i64 278 }, %TypeInfoEnumVariant { %string { i64 37, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @.str.193, i32 0, i32 0) }, i64 279 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.194, i32 0, i32 0) }, i64 280 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.195, i32 0, i32 0) }, i64 280 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.196, i32 0, i32 0) }, i64 300 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.197, i32 0, i32 0) }, i64 400 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.198, i32 0, i32 0) }, i64 400 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.199, i32 0, i32 0) }, i64 401 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.200, i32 0, i32 0) }, i64 402 }, %TypeInfoEnumVariant { %string { i64 22, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str.201, i32 0, i32 0) }, i64 403 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.202, i32 0, i32 0) }, i64 404 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.203, i32 0, i32 0) }, i64 405 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.204, i32 0, i32 0) }, i64 406 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.205, i32 0, i32 0) }, i64 407 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.206, i32 0, i32 0) }, i64 408 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.207, i32 0, i32 0) }, i64 409 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.208, i32 0, i32 0) }, i64 410 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.209, i32 0, i32 0) }, i64 411 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.210, i32 0, i32 0) }, i64 412 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.211, i32 0, i32 0) }, i64 413 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.212, i32 0, i32 0) }, i64 414 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.213, i32 0, i32 0) }, i64 415 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.214, i32 0, i32 0) }, i64 416 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.215, i32 0, i32 0) }, i64 417 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.216, i32 0, i32 0) }, i64 418 }, %TypeInfoEnumVariant { %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.217, i32 0, i32 0) }, i64 419 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.218, i32 0, i32 0) }, i64 420 }, %TypeInfoEnumVariant { %string { i64 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str.219, i32 0, i32 0) }, i64 421 }, %TypeInfoEnumVariant { %string { i64 21, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @.str.220, i32 0, i32 0) }, i64 422 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.221, i32 0, i32 0) }, i64 423 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.222, i32 0, i32 0) }, i64 424 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.223, i32 0, i32 0) }, i64 425 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.224, i32 0, i32 0) }, i64 426 }, %TypeInfoEnumVariant { %string { i64 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str.225, i32 0, i32 0) }, i64 427 }, %TypeInfoEnumVariant { %string { i64 19, i8* getelementptr inbounds ([20 x i8], [20 x i8]* @.str.226, i32 0, i32 0) }, i64 428 }, %TypeInfoEnumVariant { %string { i64 23, i8* getelementptr inbounds ([24 x i8], [24 x i8]* @.str.227, i32 0, i32 0) }, i64 429 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.228, i32 0, i32 0) }, i64 430 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.229, i32 0, i32 0) }, i64 431 }, %TypeInfoEnumVariant { %string { i64 25, i8* getelementptr inbounds ([26 x i8], [26 x i8]* @.str.230, i32 0, i32 0) }, i64 432 }, %TypeInfoEnumVariant { %string { i64 24, i8* getelementptr inbounds ([25 x i8], [25 x i8]* @.str.231, i32 0, i32 0) }, i64 433 }, %TypeInfoEnumVariant { %string { i64 25, i8* getelementptr inbounds ([26 x i8], [26 x i8]* @.str.232, i32 0, i32 0) }, i64 434 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.233, i32 0, i32 0) }, i64 435 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.234, i32 0, i32 0) }, i64 436 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.235, i32 0, i32 0) }, i64 437 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.236, i32 0, i32 0) }, i64 438 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.237, i32 0, i32 0) }, i64 439 }, %TypeInfoEnumVariant { %string { i64 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str.238, i32 0, i32 0) }, i64 440 }, %TypeInfoEnumVariant { %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.239, i32 0, i32 0) }, i64 441 }, %TypeInfoEnumVariant { %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.240, i32 0, i32 0) }, i64 441 }, %TypeInfoEnumVariant { %string { i64 22, i8* getelementptr inbounds ([23 x i8], [23 x i8]* @.str.241, i32 0, i32 0) }, i64 500 }, %TypeInfoEnumVariant { %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.242, i32 0, i32 0) }, i64 501 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.243, i32 0, i32 0) }, i64 502 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.244, i32 0, i32 0) }, i64 502 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.245, i32 0, i32 0) }, i64 503 }, %TypeInfoEnumVariant { %string { i64 18, i8* getelementptr inbounds ([19 x i8], [19 x i8]* @.str.246, i32 0, i32 0) }, i64 500 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.247, i32 0, i32 0) }, i64 503 }, %TypeInfoEnumVariant { %string { i64 16, i8* getelementptr inbounds ([17 x i8], [17 x i8]* @.str.248, i32 0, i32 0) }, i64 600 }, %TypeInfoEnumVariant { %string { i64 21, i8* getelementptr inbounds ([22 x i8], [22 x i8]* @.str.249, i32 0, i32 0) }, i64 601 }, %TypeInfoEnumVariant { %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.250, i32 0, i32 0) }, i64 602 }, %TypeInfoEnumVariant { %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.251, i32 0, i32 0) }, i64 603 }, %TypeInfoEnumVariant { %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.252, i32 0, i32 0) }, i64 600 }, %TypeInfoEnumVariant { %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.253, i32 0, i32 0) }, i64 603 }, %TypeInfoEnumVariant { %string { i64 17, i8* getelementptr inbounds ([18 x i8], [18 x i8]* @.str.254, i32 0, i32 0) }, i64 700 }], align 8
@@ -299,4675 +294,3991 @@ target triple = "x86_64-apple-darwin18.7.0"
 @.str.267 = private unnamed_addr constant [10 x i8] c"var decl\0A\00", align 1
 @.str.268 = private unnamed_addr constant [10 x i8] c"% :: fn (\00", align 1
 @.str.269 = private unnamed_addr constant [3 x i8] c") \00", align 1
-@.str.270 = private unnamed_addr constant [12 x i8] c"% #extern;\0A\00", align 1
-@.str.271 = private unnamed_addr constant [14 x i8] c"variant decl\0A\00", align 1
-@.str.272 = private unnamed_addr constant [13 x i8] c"member decl\0A\00", align 1
-@.str.273 = private unnamed_addr constant [14 x i8] c"typedef decl\0A\00", align 1
-@.str.274 = private unnamed_addr constant [12 x i8] c"param decl\0A\00", align 1
-@.str.275 = private unnamed_addr constant [16 x i8] c"Unknown decl %\0A\00", align 1
-@.str.276 = private unnamed_addr constant [1 x i8] zeroinitializer, align 1
-@.str.277 = private unnamed_addr constant [5 x i8] c"bool\00", align 1
-@.str.278 = private unnamed_addr constant [3 x i8] c"u8\00", align 1
-@.str.279 = private unnamed_addr constant [4 x i8] c"u16\00", align 1
-@.str.280 = private unnamed_addr constant [4 x i8] c"u32\00", align 1
-@.str.281 = private unnamed_addr constant [4 x i8] c"u64\00", align 1
-@.str.282 = private unnamed_addr constant [3 x i8] c"s8\00", align 1
-@.str.283 = private unnamed_addr constant [4 x i8] c"s16\00", align 1
-@.str.284 = private unnamed_addr constant [4 x i8] c"s32\00", align 1
-@.str.285 = private unnamed_addr constant [4 x i8] c"s64\00", align 1
-@.str.286 = private unnamed_addr constant [4 x i8] c"f32\00", align 1
-@.str.287 = private unnamed_addr constant [4 x i8] c"f64\00", align 1
-@.str.288 = private unnamed_addr constant [5 x i8] c"null\00", align 1
-@.str.289 = private unnamed_addr constant [15 x i8] c"<INVALID_TYPE>\00", align 1
-@.str.290 = private unnamed_addr constant [6 x i8] c"MacOS\00", align 1
-@OS_NAME = private constant %string { i64 5, i8* getelementptr inbounds ([6 x i8], [6 x i8]* @.str.290, i32 0, i32 0) }, align 8
-@OS_STDIN = private constant i32 0, align 4
-@OS_STDOUT = private constant i32 1, align 4
-@OS_STDERR = private constant i32 2, align 4
-@PRINT_MAX_LENGTH = private constant i32 4096, align 4
-@.str.291 = private unnamed_addr constant [7 x i8] c"(null)\00", align 1
-@.str.292 = private unnamed_addr constant [2 x i8] c"-\00", align 1
-@.str.293 = private unnamed_addr constant [3 x i8] c"[]\00", align 1
-@.str.294 = private unnamed_addr constant [2 x i8] c"[\00", align 1
-@.str.295 = private unnamed_addr constant [2 x i8] c"]\00", align 1
-@.str.296 = private unnamed_addr constant [3 x i8] c", \00", align 1
-@.str.297 = private unnamed_addr constant [3 x i8] c" {\00", align 1
-@.str.298 = private unnamed_addr constant [4 x i8] c" = \00", align 1
-@.str.299 = private unnamed_addr constant [2 x i8] c"}\00", align 1
-@.str.300 = private unnamed_addr constant [9 x i8] c"[<null>]\00", align 1
-@.str.301 = private unnamed_addr constant [5 x i8] c"true\00", align 1
-@.str.302 = private unnamed_addr constant [6 x i8] c"false\00", align 1
-@.str.303 = private unnamed_addr constant [2 x i8] c".\00", align 1
-@.str.304 = private unnamed_addr constant [10 x i8] c"<unknown>\00", align 1
-@.str.305 = private unnamed_addr constant [2 x i8] c"s\00", align 1
-@.str.306 = private unnamed_addr constant [2 x i8] c"u\00", align 1
-@.str.307 = private unnamed_addr constant [2 x i8] c"f\00", align 1
-@.str.308 = private unnamed_addr constant [2 x i8] c"*\00", align 1
-@.str.309 = private unnamed_addr constant [9 x i8] c"struct {\00", align 1
-@.str.310 = private unnamed_addr constant [3 x i8] c": \00", align 1
-@.str.311 = private unnamed_addr constant [5 x i8] c"fn (\00", align 1
-@.str.312 = private unnamed_addr constant [6 x i8] c"enum \00", align 1
-@.str.313 = private unnamed_addr constant [5 x i8] c" :: \00", align 1
-@.str.314 = private unnamed_addr constant [7 x i8] c"string\00", align 1
-@.str.315 = private unnamed_addr constant [5 x i8] c"void\00", align 1
-@.str.316 = private unnamed_addr constant [3 x i8] c"0x\00", align 1
-@.str.317 = private unnamed_addr constant [2 x i8] c"0\00", align 1
-@0 = private constant [16 x i8] c"0123456789abcdef", align 1
-@_context = private global %_Context { i8* (i64)* @malloc, void (i8*)* @free }, align 8
-@S8_MIN = private constant i8 -128, align 1
-@S8_MAX = private constant i8 127, align 1
-@S16_MIN = private constant i16 -32768, align 2
-@S16_MAX = private constant i16 32767, align 2
-@S32_MIN = private constant i32 -2147483648, align 4
-@S32_MAX = private constant i32 2147483647, align 4
-@S64_MIN = private constant i64 -9223372036854775808, align 8
-@S64_MAX = private constant i64 9223372036854775807, align 8
-@U8_MIN = private constant i8 0, align 1
-@U8_MAX = private constant i8 -1, align 1
-@U16_MIN = private constant i16 0, align 2
-@U16_MAX = private constant i16 -1, align 2
-@U32_MIN = private constant i32 0, align 4
-@U32_MAX = private constant i32 -1, align 4
-@U64_MIN = private constant i64 0, align 8
-@U64_MAX = private constant i64 -1, align 8
-@PI = private constant double 0x400921FB54442D18, align 8
-@RAND_MAX = private constant i32 2147483647, align 4
+@.str.270 = private unnamed_addr constant [15 x i8] c"<INVALID_TYPE>\00", align 1
+@.str.271 = private unnamed_addr constant [12 x i8] c"% #extern;\0A\00", align 1
+@.str.272 = private unnamed_addr constant [14 x i8] c"variant decl\0A\00", align 1
+@.str.273 = private unnamed_addr constant [13 x i8] c"member decl\0A\00", align 1
+@.str.274 = private unnamed_addr constant [14 x i8] c"typedef decl\0A\00", align 1
+@.str.275 = private unnamed_addr constant [12 x i8] c"param decl\0A\00", align 1
+@.str.276 = private unnamed_addr constant [16 x i8] c"Unknown decl %\0A\00", align 1
+@.str.277 = private unnamed_addr constant [1 x i8] zeroinitializer, align 1
+@.str.278 = private unnamed_addr constant [5 x i8] c"bool\00", align 1
+@.str.279 = private unnamed_addr constant [3 x i8] c"u8\00", align 1
+@.str.280 = private unnamed_addr constant [4 x i8] c"u16\00", align 1
+@.str.281 = private unnamed_addr constant [4 x i8] c"u32\00", align 1
+@.str.282 = private unnamed_addr constant [4 x i8] c"u64\00", align 1
+@.str.283 = private unnamed_addr constant [3 x i8] c"s8\00", align 1
+@.str.284 = private unnamed_addr constant [4 x i8] c"s16\00", align 1
+@.str.285 = private unnamed_addr constant [4 x i8] c"s32\00", align 1
+@.str.286 = private unnamed_addr constant [4 x i8] c"s64\00", align 1
+@.str.287 = private unnamed_addr constant [4 x i8] c"f32\00", align 1
+@.str.288 = private unnamed_addr constant [4 x i8] c"f64\00", align 1
+@.str.289 = private unnamed_addr constant [5 x i8] c"null\00", align 1
+@0 = private unnamed_addr constant [16 x i8] c"0123456789abcdef", align 1
 
 ; Function Attrs: nounwind
 declare void @llvm.debugtrap() #0
 
-; Function Attrs: argmemonly nounwind
-declare void @llvm.memset.p0i8.i64(i8* nocapture writeonly, i8, i64, i1) #1
+; Function Attrs: argmemonly nounwind willreturn
+declare void @llvm.memset.p0i8.i64(i8* nocapture writeonly, i8, i64, i1 immarg) #1
 
-; Function Attrs: argmemonly nounwind
-declare void @llvm.memcpy.p0i8.p0i8.i64(i8* nocapture writeonly, i8* nocapture readonly, i64, i1) #1
-
-define i32 @main() {
+define i32 @main() local_unnamed_addr {
 entry:
-  %.ret.0 = alloca i32, align 4
-  %idx = alloca i8*, align 8
+  %buf.i = alloca [4096 x i8], align 1
   %tu = alloca i8*, align 8
   %result = alloca i32, align 4
-  %cursor = alloca %CXCursor, align 8
   %.vargs.arr.189 = alloca [1 x %Any], align 8
-  %.vargs.190 = alloca { i64, %Any* }, align 8
-  %.any.191 = alloca %Any, align 8
   %.vargs.arr.206 = alloca [1 x %Any], align 8
-  %.vargs.207 = alloca { i64, %Any* }, align 8
-  %.any.208 = alloca %Any, align 8
-  %0 = call i8* @clang_createIndex(i32 0, i32 0)
-  store i8* %0, i8** %idx
-  store i8* null, i8** %tu
-  %1 = load i8*, i8** getelementptr inbounds (%string, %string* @test_file, i32 0, i32 1), align 8
-  %2 = load i8*, i8** %idx, align 8
-  %3 = call i32 @clang_parseTranslationUnit2(i8* %2, i8* %1, i8* null, i32 0, %CXUnsavedFile* null, i32 0, i32 0, i8** %tu)
-  store i32 %3, i32* %result
-  %4 = load i32, i32* %result, align 4
-  %5 = icmp ne i32 %4, 0
-  %6 = alloca %string
-  %7 = alloca { i64, %Any* }
-  %8 = alloca %CXCursor
-  %9 = alloca %string
-  %10 = alloca { i64, %Any* }
-  %11 = alloca %CXCursor
-  br i1 %5, label %if_then, label %if_else
+  %0 = tail call i8* @clang_createIndex(i32 0, i32 0)
+  store i8* null, i8** %tu, align 8
+  %1 = load i8*, i8** getelementptr inbounds (%string, %string* @test_file, i64 0, i32 1), align 8
+  %2 = call i32 @clang_parseTranslationUnit2(i8* %0, i8* %1, i8* null, i32 0, %CXUnsavedFile* null, i32 0, i32 0, i8** nonnull %tu)
+  store i32 %2, i32* %result, align 4
+  %3 = icmp eq i32 %2, 0
+  %4 = alloca %CXCursor, align 8
+  %5 = alloca %CXCursor, align 8
+  br i1 %3, label %entry.if_cont_crit_edge, label %if_then
+
+entry.if_cont_crit_edge:                          ; preds = %entry
+  %.pre = ptrtoint [4096 x i8]* %buf.i to i64
+  br label %if_cont
 
 if_then:                                          ; preds = %entry
-  %12 = getelementptr inbounds %Any, %Any* %.any.191, i32 0, i32 0
-  store %TypeInfo* getelementptr inbounds (%TypeInfoEnum, %TypeInfoEnum* @.rtti.263, i32 0, i32 0), %TypeInfo** %12
-  %13 = getelementptr inbounds %Any, %Any* %.any.191, i32 0, i32 1
-  %14 = bitcast i32* %result to i8*
-  store i8* %14, i8** %13
-  %15 = load %Any, %Any* %.any.191, align 8
-  %16 = getelementptr [1 x %Any], [1 x %Any]* %.vargs.arr.189, i64 0, i64 0
-  store %Any %15, %Any* %16
-  %17 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.190, i32 0, i32 0
-  store i64 1, i64* %17
-  %18 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.190, i32 0, i32 1
-  %19 = bitcast [1 x %Any]* %.vargs.arr.189 to %Any*
-  store %Any* %19, %Any** %18
-  %20 = load { i64, %Any* }, { i64, %Any* }* %.vargs.190
-  store %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.263, i32 0, i32 0) }, %string* %6
-  %21 = bitcast %string* %6 to { i64, i64 }*
-  %22 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %21, i32 0, i32 0
-  %23 = load i64, i64* %22
-  %24 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %21, i32 0, i32 1
-  %25 = load i64, i64* %24
-  store { i64, %Any* } %20, { i64, %Any* }* %7
-  %26 = bitcast { i64, %Any* }* %7 to { i64, i64 }*
-  %27 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %26, i32 0, i32 0
-  %28 = load i64, i64* %27
-  %29 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %26, i32 0, i32 1
-  %30 = load i64, i64* %29
-  %31 = call i32 @eprint(i64 %23, i64 %25, i64 %28, i64 %30)
+  %.repack42 = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.189, i64 0, i64 0, i32 0
+  store %TypeInfo* getelementptr inbounds (%TypeInfoEnum, %TypeInfoEnum* @.rtti.263, i64 0, i32 0), %TypeInfo** %.repack42, align 8
+  %.repack44 = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.189, i64 0, i64 0, i32 1
+  %6 = bitcast i8** %.repack44 to i32**
+  store i32* %result, i32** %6, align 8
+  %7 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 0
+  call void @llvm.lifetime.start.p0i8(i64 4096, i8* nonnull %7)
+  call void @llvm.memset.p0i8.i64(i8* nonnull align 1 %7, i8 0, i64 4096, i1 false)
+  %8 = ptrtoint [4096 x i8]* %buf.i to i64
+  br label %loop_body.i.i
+
+loop_body.i.i:                                    ; preds = %if_cont.i.i, %if_then
+  %indvars.iv91 = phi i64 [ %indvars.iv.next92, %if_cont.i.i ], [ 0, %if_then ]
+  %cur.032.i.i = phi i32 [ %cur.1.i.i, %if_cont.i.i ], [ 0, %if_then ]
+  %argi.031.i.i = phi i32 [ %argi.1.i.i, %if_cont.i.i ], [ 0, %if_then ]
+  %9 = getelementptr inbounds [10 x i8], [10 x i8]* @.str.263, i64 0, i64 %indvars.iv91
+  %10 = load i8, i8* %9, align 1
+  %11 = icmp eq i64 %indvars.iv91, 7
+  br i1 %11, label %if_then.i.i, label %if_else.i.i
+
+if_then.i.i:                                      ; preds = %loop_body.i.i
+  %12 = icmp slt i32 %argi.031.i.i, 1
+  br i1 %12, label %if_then1.i.i, label %if_else2.i.i
+
+if_else.i.i:                                      ; preds = %loop_body.i.i
+  %13 = icmp slt i32 %cur.032.i.i, 4096
+  br i1 %13, label %if_cont.i.i.i, label %if_cont.i.i
+
+if_cont.i.i.i:                                    ; preds = %if_else.i.i
+  %14 = sext i32 %cur.032.i.i to i64
+  %15 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %14
+  store i8 %10, i8* %15, align 1
+  %16 = add i32 %cur.032.i.i, 1
+  br label %if_cont.i.i
+
+if_then1.i.i:                                     ; preds = %if_then.i.i
+  %17 = sext i32 %argi.031.i.i to i64
+  %18 = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.189, i64 0, i64 %17
+  %19 = call i32 @print_any(i64 4096, i64 %8, i32 %cur.032.i.i, %Any* nonnull %18)
+  %20 = add i32 %argi.031.i.i, 1
+  br label %if_cont.i.i
+
+if_else2.i.i:                                     ; preds = %if_then.i.i
+  %21 = sext i32 %cur.032.i.i to i64
+  %22 = icmp slt i32 %cur.032.i.i, 4096
+  br i1 %22, label %if_cont3.i.i.i, label %print_string.exit.i.isplit
+
+if_cont3.i.i.i:                                   ; preds = %if_else2.i.i
+  %23 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %21
+  store i8 40, i8* %23, align 1
+  %24 = add nsw i64 %21, 1
+  %25 = icmp slt i64 %24, 4096
+  br i1 %25, label %if_cont3.i.i.i.1, label %print_string.exit.i.isplit
+
+print_string.exit.i.isplit:                       ; preds = %if_cont3.i.i.i.4, %if_cont3.i.i.i.3, %if_cont3.i.i.i.2, %if_cont3.i.i.i.1, %if_cont3.i.i.i, %if_else2.i.i
+  %.lcssa84.wide = phi i64 [ %21, %if_else2.i.i ], [ %24, %if_cont3.i.i.i ], [ %73, %if_cont3.i.i.i.1 ], [ %76, %if_cont3.i.i.i.2 ], [ %79, %if_cont3.i.i.i.3 ], [ %82, %if_cont3.i.i.i.4 ]
+  %26 = trunc i64 %.lcssa84.wide to i32
+  br label %if_cont.i.i
+
+if_cont.i.i:                                      ; preds = %if_cont3.i.i.i.5, %print_string.exit.i.isplit, %if_else.i.i, %if_cont.i.i.i, %if_then1.i.i
+  %argi.1.i.i = phi i32 [ %20, %if_then1.i.i ], [ %argi.031.i.i, %if_cont.i.i.i ], [ %argi.031.i.i, %if_else.i.i ], [ %argi.031.i.i, %print_string.exit.i.isplit ], [ %argi.031.i.i, %if_cont3.i.i.i.5 ]
+  %cur.1.i.i = phi i32 [ %19, %if_then1.i.i ], [ %16, %if_cont.i.i.i ], [ 0, %if_else.i.i ], [ %26, %print_string.exit.i.isplit ], [ %.pre79, %if_cont3.i.i.i.5 ]
+  %indvars.iv.next92 = add nuw nsw i64 %indvars.iv91, 1
+  %exitcond93 = icmp eq i64 %indvars.iv.next92, 9
+  br i1 %exitcond93, label %eprint.exit, label %loop_body.i.i
+
+eprint.exit:                                      ; preds = %if_cont.i.i
+  %27 = zext i32 %cur.1.i.i to i64
+  %28 = call i32 @write(i32 2, i8* nonnull %7, i64 %27)
+  call void @llvm.lifetime.end.p0i8(i64 4096, i8* nonnull %7)
   call void @abort()
   br label %if_cont
 
-if_else:                                          ; preds = %entry
-  br label %if_cont
+if_cont:                                          ; preds = %entry.if_cont_crit_edge, %eprint.exit
+  %.pre-phi = phi i64 [ %.pre, %entry.if_cont_crit_edge ], [ %8, %eprint.exit ]
+  %29 = load i8*, i8** %tu, align 8
+  call void @clang_getTranslationUnitCursor(%CXCursor* nonnull sret %4, i8* %29)
+  %.elt = getelementptr inbounds %CXCursor, %CXCursor* %4, i64 0, i32 0
+  %.unpack = load i32, i32* %.elt, align 8
+  %.elt1 = getelementptr inbounds %CXCursor, %CXCursor* %4, i64 0, i32 1
+  %.unpack2 = load i32, i32* %.elt1, align 4
+  %.unpack4.elt = getelementptr inbounds %CXCursor, %CXCursor* %4, i64 0, i32 2, i64 0
+  %30 = bitcast i8** %.unpack4.elt to i64*
+  %.unpack4.unpack37 = load i64, i64* %30, align 8
+  %.unpack4.elt5 = getelementptr inbounds %CXCursor, %CXCursor* %4, i64 0, i32 2, i64 1
+  %31 = bitcast i8** %.unpack4.elt5 to i64*
+  %.unpack4.unpack636 = load i64, i64* %31, align 8
+  %.unpack4.elt7 = getelementptr inbounds %CXCursor, %CXCursor* %4, i64 0, i32 2, i64 2
+  %32 = bitcast i8** %.unpack4.elt7 to i64*
+  %.unpack4.unpack835 = load i64, i64* %32, align 8
+  %.repack = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.206, i64 0, i64 0, i32 0
+  store %TypeInfo* getelementptr inbounds (%TypeInfoString, %TypeInfoString* @.rtti.261, i64 0, i32 0), %TypeInfo** %.repack, align 8
+  %.repack14 = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.206, i64 0, i64 0, i32 1
+  store i8* bitcast (%string* @test_file to i8*), i8** %.repack14, align 8
+  %33 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 0
+  call void @llvm.lifetime.start.p0i8(i64 4096, i8* nonnull %33)
+  call void @llvm.memset.p0i8.i64(i8* nonnull align 1 %33, i8 0, i64 4096, i1 false)
+  br label %loop_body.i.i61
 
-exit:                                             ; preds = %if_cont
-  %32 = load i32, i32* %.ret.0, align 4
-  ret i32 %32
+loop_body.i.i61:                                  ; preds = %if_cont.i.i76, %if_cont
+  %indvars.iv = phi i64 [ %indvars.iv.next, %if_cont.i.i76 ], [ 0, %if_cont ]
+  %cur.032.i.i59 = phi i32 [ %cur.1.i.i75, %if_cont.i.i76 ], [ 0, %if_cont ]
+  %argi.031.i.i60 = phi i32 [ %argi.1.i.i74, %if_cont.i.i76 ], [ 0, %if_cont ]
+  %34 = getelementptr inbounds [21 x i8], [21 x i8]* @.str.264, i64 0, i64 %indvars.iv
+  %35 = load i8, i8* %34, align 1
+  %36 = icmp eq i64 %indvars.iv, 18
+  br i1 %36, label %if_then.i.i62, label %if_else.i.i63
 
-if_cont:                                          ; preds = %if_else, %if_then
-  %33 = load i8*, i8** %tu, align 8
-  %34 = load %CXCursor, %CXCursor* %8
-  call void @clang_getTranslationUnitCursor(%CXCursor* sret %8, i8* %33)
-  store %CXCursor %34, %CXCursor* %cursor
-  %35 = getelementptr inbounds %Any, %Any* %.any.208, i32 0, i32 0
-  store %TypeInfo* getelementptr inbounds (%TypeInfoString, %TypeInfoString* @.rtti.261, i32 0, i32 0), %TypeInfo** %35
-  %36 = getelementptr inbounds %Any, %Any* %.any.208, i32 0, i32 1
-  store i8* bitcast (%string* @test_file to i8*), i8** %36
-  %37 = load %Any, %Any* %.any.208, align 8
-  %38 = getelementptr [1 x %Any], [1 x %Any]* %.vargs.arr.206, i64 0, i64 0
-  store %Any %37, %Any* %38
-  %39 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.207, i32 0, i32 0
-  store i64 1, i64* %39
-  %40 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.207, i32 0, i32 1
-  %41 = bitcast [1 x %Any]* %.vargs.arr.206 to %Any*
-  store %Any* %41, %Any** %40
-  %42 = load { i64, %Any* }, { i64, %Any* }* %.vargs.207
-  store %string { i64 20, i8* getelementptr inbounds ([21 x i8], [21 x i8]* @.str.264, i32 0, i32 0) }, %string* %9
-  %43 = bitcast %string* %9 to { i64, i64 }*
-  %44 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %43, i32 0, i32 0
-  %45 = load i64, i64* %44
-  %46 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %43, i32 0, i32 1
-  %47 = load i64, i64* %46
-  store { i64, %Any* } %42, { i64, %Any* }* %10
-  %48 = bitcast { i64, %Any* }* %10 to { i64, i64 }*
-  %49 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %48, i32 0, i32 0
-  %50 = load i64, i64* %49
-  %51 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %48, i32 0, i32 1
-  %52 = load i64, i64* %51
-  %53 = call i32 @print(i64 %45, i64 %47, i64 %50, i64 %52)
-  %54 = load %CXCursor, %CXCursor* %cursor, align 8
-  store %CXCursor %54, %CXCursor* %11
-  %55 = call i32 @clang_visitChildren(%CXCursor* byval %11, i32 (%CXCursor*, %CXCursor*, i8*)* @visitor, i8* null)
-  store i32 %55, i32* %.ret.0, align 4
-  %56 = load i8*, i8** %tu, align 8
-  call void @clang_disposeTranslationUnit(i8* %56)
-  %57 = load i8*, i8** %idx, align 8
-  call void @clang_disposeIndex(i8* %57)
-  br label %exit
+if_then.i.i62:                                    ; preds = %loop_body.i.i61
+  %37 = icmp slt i32 %argi.031.i.i60, 1
+  br i1 %37, label %if_then1.i.i67, label %if_else2.i.i68
+
+if_else.i.i63:                                    ; preds = %loop_body.i.i61
+  %38 = icmp slt i32 %cur.032.i.i59, 4096
+  br i1 %38, label %if_cont.i.i.i64, label %if_cont.i.i76
+
+if_cont.i.i.i64:                                  ; preds = %if_else.i.i63
+  %39 = sext i32 %cur.032.i.i59 to i64
+  %40 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %39
+  store i8 %35, i8* %40, align 1
+  %41 = add i32 %cur.032.i.i59, 1
+  br label %if_cont.i.i76
+
+if_then1.i.i67:                                   ; preds = %if_then.i.i62
+  %42 = sext i32 %argi.031.i.i60 to i64
+  %43 = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.206, i64 0, i64 %42
+  %44 = call i32 @print_any(i64 4096, i64 %.pre-phi, i32 %cur.032.i.i59, %Any* nonnull %43)
+  %45 = add i32 %argi.031.i.i60, 1
+  br label %if_cont.i.i76
+
+if_else2.i.i68:                                   ; preds = %if_then.i.i62
+  %46 = sext i32 %cur.032.i.i59 to i64
+  %47 = icmp slt i32 %cur.032.i.i59, 4096
+  br i1 %47, label %if_cont3.i.i.i71, label %print_string.exit.i.i73split
+
+if_cont3.i.i.i71:                                 ; preds = %if_else2.i.i68
+  %48 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %46
+  store i8 40, i8* %48, align 1
+  %49 = add nsw i64 %46, 1
+  %50 = icmp slt i64 %49, 4096
+  br i1 %50, label %if_cont3.i.i.i71.1, label %print_string.exit.i.i73split
+
+print_string.exit.i.i73split:                     ; preds = %if_cont3.i.i.i71.4, %if_cont3.i.i.i71.3, %if_cont3.i.i.i71.2, %if_cont3.i.i.i71.1, %if_cont3.i.i.i71, %if_else2.i.i68
+  %.lcssa.wide = phi i64 [ %46, %if_else2.i.i68 ], [ %49, %if_cont3.i.i.i71 ], [ %60, %if_cont3.i.i.i71.1 ], [ %63, %if_cont3.i.i.i71.2 ], [ %66, %if_cont3.i.i.i71.3 ], [ %69, %if_cont3.i.i.i71.4 ]
+  %51 = trunc i64 %.lcssa.wide to i32
+  br label %if_cont.i.i76
+
+if_cont.i.i76:                                    ; preds = %if_cont3.i.i.i71.5, %print_string.exit.i.i73split, %if_else.i.i63, %if_cont.i.i.i64, %if_then1.i.i67
+  %argi.1.i.i74 = phi i32 [ %45, %if_then1.i.i67 ], [ %argi.031.i.i60, %if_cont.i.i.i64 ], [ %argi.031.i.i60, %if_else.i.i63 ], [ %argi.031.i.i60, %print_string.exit.i.i73split ], [ %argi.031.i.i60, %if_cont3.i.i.i71.5 ]
+  %cur.1.i.i75 = phi i32 [ %44, %if_then1.i.i67 ], [ %41, %if_cont.i.i.i64 ], [ 0, %if_else.i.i63 ], [ %51, %print_string.exit.i.i73split ], [ %.pre77, %if_cont3.i.i.i71.5 ]
+  %indvars.iv.next = add nuw nsw i64 %indvars.iv, 1
+  %exitcond = icmp eq i64 %indvars.iv.next, 20
+  br i1 %exitcond, label %print.exit, label %loop_body.i.i61
+
+print.exit:                                       ; preds = %if_cont.i.i76
+  %52 = zext i32 %cur.1.i.i75 to i64
+  %53 = call i32 @write(i32 1, i8* nonnull %33, i64 %52)
+  call void @llvm.lifetime.end.p0i8(i64 4096, i8* nonnull %33)
+  %.repack25 = getelementptr inbounds %CXCursor, %CXCursor* %5, i64 0, i32 0
+  store i32 %.unpack, i32* %.repack25, align 8
+  %.repack27 = getelementptr inbounds %CXCursor, %CXCursor* %5, i64 0, i32 1
+  store i32 %.unpack2, i32* %.repack27, align 4
+  %.repack29.repack = getelementptr inbounds %CXCursor, %CXCursor* %5, i64 0, i32 2, i64 0
+  %54 = bitcast i8** %.repack29.repack to i64*
+  store i64 %.unpack4.unpack37, i64* %54, align 8
+  %.repack29.repack31 = getelementptr inbounds %CXCursor, %CXCursor* %5, i64 0, i32 2, i64 1
+  %55 = bitcast i8** %.repack29.repack31 to i64*
+  store i64 %.unpack4.unpack636, i64* %55, align 8
+  %.repack29.repack33 = getelementptr inbounds %CXCursor, %CXCursor* %5, i64 0, i32 2, i64 2
+  %56 = bitcast i8** %.repack29.repack33 to i64*
+  store i64 %.unpack4.unpack835, i64* %56, align 8
+  %57 = call i32 @clang_visitChildren(%CXCursor* nonnull byval(%CXCursor) %5, i32 (%CXCursor*, %CXCursor*, i8*)* nonnull @visitor, i8* null)
+  %58 = load i8*, i8** %tu, align 8
+  call void @clang_disposeTranslationUnit(i8* %58)
+  call void @clang_disposeIndex(i8* %0)
+  ret i32 %57
+
+if_cont3.i.i.i71.1:                               ; preds = %if_cont3.i.i.i71
+  %59 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %49
+  store i8 110, i8* %59, align 1
+  %60 = add nsw i64 %46, 2
+  %61 = icmp slt i64 %60, 4096
+  br i1 %61, label %if_cont3.i.i.i71.2, label %print_string.exit.i.i73split
+
+if_cont3.i.i.i71.2:                               ; preds = %if_cont3.i.i.i71.1
+  %62 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %60
+  store i8 117, i8* %62, align 1
+  %63 = add nsw i64 %46, 3
+  %64 = icmp slt i64 %63, 4096
+  br i1 %64, label %if_cont3.i.i.i71.3, label %print_string.exit.i.i73split
+
+if_cont3.i.i.i71.3:                               ; preds = %if_cont3.i.i.i71.2
+  %65 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %63
+  store i8 108, i8* %65, align 1
+  %66 = add nsw i64 %46, 4
+  %67 = icmp slt i64 %66, 4096
+  br i1 %67, label %if_cont3.i.i.i71.4, label %print_string.exit.i.i73split
+
+if_cont3.i.i.i71.4:                               ; preds = %if_cont3.i.i.i71.3
+  %68 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %66
+  store i8 108, i8* %68, align 1
+  %69 = add nsw i64 %46, 5
+  %70 = icmp slt i64 %69, 4096
+  br i1 %70, label %if_cont3.i.i.i71.5, label %print_string.exit.i.i73split
+
+if_cont3.i.i.i71.5:                               ; preds = %if_cont3.i.i.i71.4
+  %71 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %69
+  store i8 41, i8* %71, align 1
+  %.pre77 = add i32 %cur.032.i.i59, 6
+  br label %if_cont.i.i76
+
+if_cont3.i.i.i.1:                                 ; preds = %if_cont3.i.i.i
+  %72 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %24
+  store i8 110, i8* %72, align 1
+  %73 = add nsw i64 %21, 2
+  %74 = icmp slt i64 %73, 4096
+  br i1 %74, label %if_cont3.i.i.i.2, label %print_string.exit.i.isplit
+
+if_cont3.i.i.i.2:                                 ; preds = %if_cont3.i.i.i.1
+  %75 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %73
+  store i8 117, i8* %75, align 1
+  %76 = add nsw i64 %21, 3
+  %77 = icmp slt i64 %76, 4096
+  br i1 %77, label %if_cont3.i.i.i.3, label %print_string.exit.i.isplit
+
+if_cont3.i.i.i.3:                                 ; preds = %if_cont3.i.i.i.2
+  %78 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %76
+  store i8 108, i8* %78, align 1
+  %79 = add nsw i64 %21, 4
+  %80 = icmp slt i64 %79, 4096
+  br i1 %80, label %if_cont3.i.i.i.4, label %print_string.exit.i.isplit
+
+if_cont3.i.i.i.4:                                 ; preds = %if_cont3.i.i.i.3
+  %81 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %79
+  store i8 108, i8* %81, align 1
+  %82 = add nsw i64 %21, 5
+  %83 = icmp slt i64 %82, 4096
+  br i1 %83, label %if_cont3.i.i.i.5, label %print_string.exit.i.isplit
+
+if_cont3.i.i.i.5:                                 ; preds = %if_cont3.i.i.i.4
+  %84 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf.i, i64 0, i64 %82
+  store i8 41, i8* %84, align 1
+  %.pre79 = add i32 %cur.032.i.i, 6
+  br label %if_cont.i.i
 }
 
-declare i8* @clang_createIndex(i32, i32)
+declare i8* @clang_createIndex(i32, i32) local_unnamed_addr
 
-declare i32 @clang_parseTranslationUnit2(i8*, i8*, i8*, i32, %CXUnsavedFile*, i32, i32, i8**)
+declare i32 @clang_parseTranslationUnit2(i8*, i8*, i8*, i32, %CXUnsavedFile*, i32, i32, i8**) local_unnamed_addr
 
-define i32 @eprint(i64, i64, i64, i64) {
+define i32 @eprint(i64 %0, i64 %1, i64 %2, i64 %3) local_unnamed_addr {
 entry:
-  %.ret.5 = alloca i32, align 4
-  %args = alloca { i64, %Any* }, align 8
-  %format = alloca %string, align 8
   %buf = alloca [4096 x i8], align 1
-  %tmp = alloca { i64, i8* }, align 8
-  %tmp2 = alloca { i64, %Any* }, align 8
-  %w = alloca i32, align 4
-  %4 = bitcast { i64, %Any* }* %args to { i64, i64 }*
-  %5 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 0
-  store i64 %2, i64* %5
-  %6 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 1
-  store i64 %3, i64* %6
-  %7 = bitcast %string* %format to { i64, i64 }*
-  %8 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %7, i32 0, i32 0
-  store i64 %0, i64* %8
-  %9 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %7, i32 0, i32 1
-  store i64 %1, i64* %9
-  %10 = bitcast [4096 x i8]* %buf to i8*
-  call void @llvm.memset.p0i8.i64(i8* %10, i8 0, i64 4096, i1 false)
-  %11 = getelementptr [4096 x i8], [4096 x i8]* %buf, i64 0, i64 0
-  %12 = getelementptr inbounds { i64, i8* }, { i64, i8* }* %tmp, i32 0, i32 0
-  store i64 4096, i64* %12
-  %13 = getelementptr inbounds { i64, i8* }, { i64, i8* }* %tmp, i32 0, i32 1
-  store i8* %11, i8** %13
-  %14 = load { i64, i8* }, { i64, i8* }* %tmp
-  %15 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %args, i32 0, i32 1
-  %16 = load %Any*, %Any** %15, align 8
-  %17 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %args, i32 0, i32 0
-  %18 = load i64, i64* %17, align 8
-  %19 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %tmp2, i32 0, i32 0
-  store i64 %18, i64* %19
-  %20 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %tmp2, i32 0, i32 1
-  store %Any* %16, %Any** %20
-  %21 = load { i64, %Any* }, { i64, %Any* }* %tmp2
-  %22 = load { i64, %Any* }, { i64, %Any* }* %tmp2, align 8
-  %23 = load %string, %string* %format, align 8
-  %24 = alloca { i64, i8* }
-  %25 = load { i64, i8* }, { i64, i8* }* %tmp, align 8
-  store { i64, i8* } %25, { i64, i8* }* %24
-  %26 = bitcast { i64, i8* }* %24 to { i64, i64 }*
-  %27 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %26, i32 0, i32 0
-  %28 = load i64, i64* %27
-  %29 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %26, i32 0, i32 1
-  %30 = alloca %string
-  %31 = load i64, i64* %29
-  store %string %23, %string* %30
-  %32 = bitcast %string* %30 to { i64, i64 }*
-  %33 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %32, i32 0, i32 0
-  %34 = load i64, i64* %33
-  %35 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %32, i32 0, i32 1
-  %36 = alloca { i64, %Any* }
-  %37 = load i64, i64* %35
-  store { i64, %Any* } %22, { i64, %Any* }* %36
-  %38 = bitcast { i64, %Any* }* %36 to { i64, i64 }*
-  %39 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %38, i32 0, i32 0
-  %40 = load i64, i64* %39
-  %41 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %38, i32 0, i32 1
-  %42 = load i64, i64* %41
-  %43 = call i32 @print_impl(i64 %28, i64 %31, i64 %34, i64 %37, i64 %40, i64 %42)
-  store i32 %43, i32* %w
-  %44 = load i32, i32* %w, align 4
-  %45 = zext i32 %44 to i64
-  %46 = getelementptr [4096 x i8], [4096 x i8]* %buf, i64 0, i64 0
-  %47 = call i32 @__os_write(i32 2, i8* %46, i64 %45)
-  %48 = load i32, i32* %w, align 4
-  store i32 %48, i32* %.ret.5, align 4
-  br label %exit
+  %4 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 0
+  call void @llvm.memset.p0i8.i64(i8* nonnull align 1 %4, i8 0, i64 4096, i1 false)
+  %5 = ptrtoint [4096 x i8]* %buf to i64
+  %6 = icmp sgt i64 %0, 0
+  br i1 %6, label %loop_body.lr.ph.i, label %print_impl.exit
 
-exit:                                             ; preds = %entry
-  %49 = load i32, i32* %.ret.5, align 4
-  ret i32 %49
+loop_body.lr.ph.i:                                ; preds = %entry
+  %7 = inttoptr i64 %1 to i8*
+  %8 = inttoptr i64 %3 to %Any*
+  br label %loop_body.i
+
+loop_body.i:                                      ; preds = %if_cont.i, %loop_body.lr.ph.i
+  %9 = phi i64 [ 0, %loop_body.lr.ph.i ], [ %29, %if_cont.i ]
+  %i.033.i = phi i32 [ 0, %loop_body.lr.ph.i ], [ %28, %if_cont.i ]
+  %cur.032.i = phi i32 [ 0, %loop_body.lr.ph.i ], [ %cur.1.i, %if_cont.i ]
+  %argi.031.i = phi i32 [ 0, %loop_body.lr.ph.i ], [ %argi.1.i, %if_cont.i ]
+  %10 = getelementptr inbounds i8, i8* %7, i64 %9
+  %11 = load i8, i8* %10, align 1
+  %12 = icmp eq i8 %11, 37
+  br i1 %12, label %if_then.i, label %if_else.i
+
+if_then.i:                                        ; preds = %loop_body.i
+  %13 = sext i32 %argi.031.i to i64
+  %14 = icmp slt i64 %13, %2
+  br i1 %14, label %if_then1.i, label %if_else2.i
+
+if_else.i:                                        ; preds = %loop_body.i
+  %15 = icmp slt i32 %cur.032.i, 4096
+  br i1 %15, label %if_cont.i.i, label %if_cont.i
+
+if_cont.i.i:                                      ; preds = %if_else.i
+  %16 = sext i32 %cur.032.i to i64
+  %17 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %16
+  store i8 %11, i8* %17, align 1
+  %18 = add i32 %cur.032.i, 1
+  br label %if_cont.i
+
+if_then1.i:                                       ; preds = %if_then.i
+  %19 = getelementptr inbounds %Any, %Any* %8, i64 %13
+  %20 = call i32 @print_any(i64 4096, i64 %5, i32 %cur.032.i, %Any* %19)
+  %21 = add i32 %argi.031.i, 1
+  br label %if_cont.i
+
+if_else2.i:                                       ; preds = %if_then.i
+  %22 = sext i32 %cur.032.i to i64
+  %23 = icmp slt i32 %cur.032.i, 4096
+  br i1 %23, label %if_cont3.i.i, label %print_string.exit.isplit
+
+if_cont3.i.i:                                     ; preds = %if_else2.i
+  %24 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %22
+  store i8 40, i8* %24, align 1
+  %25 = add nsw i64 %22, 1
+  %26 = icmp slt i64 %25, 4096
+  br i1 %26, label %if_cont3.i.i.1, label %print_string.exit.isplit
+
+print_string.exit.isplit:                         ; preds = %if_cont3.i.i.4, %if_cont3.i.i.3, %if_cont3.i.i.2, %if_cont3.i.i.1, %if_cont3.i.i, %if_else2.i
+  %.lcssa.wide = phi i64 [ %22, %if_else2.i ], [ %25, %if_cont3.i.i ], [ %34, %if_cont3.i.i.1 ], [ %37, %if_cont3.i.i.2 ], [ %40, %if_cont3.i.i.3 ], [ %43, %if_cont3.i.i.4 ]
+  %27 = trunc i64 %.lcssa.wide to i32
+  br label %if_cont.i
+
+if_cont.i:                                        ; preds = %if_cont3.i.i.5, %print_string.exit.isplit, %if_else.i, %if_cont.i.i, %if_then1.i
+  %argi.1.i = phi i32 [ %21, %if_then1.i ], [ %argi.031.i, %if_cont.i.i ], [ %argi.031.i, %if_else.i ], [ %argi.031.i, %print_string.exit.isplit ], [ %argi.031.i, %if_cont3.i.i.5 ]
+  %cur.1.i = phi i32 [ %20, %if_then1.i ], [ %18, %if_cont.i.i ], [ 0, %if_else.i ], [ %27, %print_string.exit.isplit ], [ %.pre, %if_cont3.i.i.5 ]
+  %28 = add i32 %i.033.i, 1
+  %29 = sext i32 %28 to i64
+  %30 = icmp slt i64 %29, %0
+  br i1 %30, label %loop_body.i, label %print_impl.exit
+
+print_impl.exit:                                  ; preds = %if_cont.i, %entry
+  %cur.0.lcssa.i = phi i32 [ 0, %entry ], [ %cur.1.i, %if_cont.i ]
+  %31 = zext i32 %cur.0.lcssa.i to i64
+  %32 = call i32 @write(i32 2, i8* nonnull %4, i64 %31)
+  ret i32 %cur.0.lcssa.i
+
+if_cont3.i.i.1:                                   ; preds = %if_cont3.i.i
+  %33 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %25
+  store i8 110, i8* %33, align 1
+  %34 = add nsw i64 %22, 2
+  %35 = icmp slt i64 %34, 4096
+  br i1 %35, label %if_cont3.i.i.2, label %print_string.exit.isplit
+
+if_cont3.i.i.2:                                   ; preds = %if_cont3.i.i.1
+  %36 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %34
+  store i8 117, i8* %36, align 1
+  %37 = add nsw i64 %22, 3
+  %38 = icmp slt i64 %37, 4096
+  br i1 %38, label %if_cont3.i.i.3, label %print_string.exit.isplit
+
+if_cont3.i.i.3:                                   ; preds = %if_cont3.i.i.2
+  %39 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %37
+  store i8 108, i8* %39, align 1
+  %40 = add nsw i64 %22, 4
+  %41 = icmp slt i64 %40, 4096
+  br i1 %41, label %if_cont3.i.i.4, label %print_string.exit.isplit
+
+if_cont3.i.i.4:                                   ; preds = %if_cont3.i.i.3
+  %42 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %40
+  store i8 108, i8* %42, align 1
+  %43 = add nsw i64 %22, 5
+  %44 = icmp slt i64 %43, 4096
+  br i1 %44, label %if_cont3.i.i.5, label %print_string.exit.isplit
+
+if_cont3.i.i.5:                                   ; preds = %if_cont3.i.i.4
+  %45 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %43
+  store i8 41, i8* %45, align 1
+  %.pre = add i32 %cur.032.i, 6
+  br label %if_cont.i
 }
 
-declare void @abort()
+declare void @abort() local_unnamed_addr
 
-declare void @clang_getTranslationUnitCursor(%CXCursor* noalias sret, i8*)
+declare void @clang_getTranslationUnitCursor(%CXCursor* noalias sret, i8*) local_unnamed_addr
 
-define i32 @print(i64, i64, i64, i64) {
+define i32 @print(i64 %0, i64 %1, i64 %2, i64 %3) local_unnamed_addr {
 entry:
-  %.ret.4 = alloca i32, align 4
-  %args = alloca { i64, %Any* }, align 8
-  %format = alloca %string, align 8
   %buf = alloca [4096 x i8], align 1
-  %tmp = alloca { i64, i8* }, align 8
-  %tmp2 = alloca { i64, %Any* }, align 8
-  %w = alloca i32, align 4
-  %4 = bitcast { i64, %Any* }* %args to { i64, i64 }*
-  %5 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 0
-  store i64 %2, i64* %5
-  %6 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 1
-  store i64 %3, i64* %6
-  %7 = bitcast %string* %format to { i64, i64 }*
-  %8 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %7, i32 0, i32 0
-  store i64 %0, i64* %8
-  %9 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %7, i32 0, i32 1
-  store i64 %1, i64* %9
-  %10 = bitcast [4096 x i8]* %buf to i8*
-  call void @llvm.memset.p0i8.i64(i8* %10, i8 0, i64 4096, i1 false)
-  %11 = getelementptr [4096 x i8], [4096 x i8]* %buf, i64 0, i64 0
-  %12 = getelementptr inbounds { i64, i8* }, { i64, i8* }* %tmp, i32 0, i32 0
-  store i64 4096, i64* %12
-  %13 = getelementptr inbounds { i64, i8* }, { i64, i8* }* %tmp, i32 0, i32 1
-  store i8* %11, i8** %13
-  %14 = load { i64, i8* }, { i64, i8* }* %tmp
-  %15 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %args, i32 0, i32 1
-  %16 = load %Any*, %Any** %15, align 8
-  %17 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %args, i32 0, i32 0
-  %18 = load i64, i64* %17, align 8
-  %19 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %tmp2, i32 0, i32 0
-  store i64 %18, i64* %19
-  %20 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %tmp2, i32 0, i32 1
-  store %Any* %16, %Any** %20
-  %21 = load { i64, %Any* }, { i64, %Any* }* %tmp2
-  %22 = load { i64, %Any* }, { i64, %Any* }* %tmp2, align 8
-  %23 = load %string, %string* %format, align 8
-  %24 = alloca { i64, i8* }
-  %25 = load { i64, i8* }, { i64, i8* }* %tmp, align 8
-  store { i64, i8* } %25, { i64, i8* }* %24
-  %26 = bitcast { i64, i8* }* %24 to { i64, i64 }*
-  %27 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %26, i32 0, i32 0
-  %28 = load i64, i64* %27
-  %29 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %26, i32 0, i32 1
-  %30 = alloca %string
-  %31 = load i64, i64* %29
-  store %string %23, %string* %30
-  %32 = bitcast %string* %30 to { i64, i64 }*
-  %33 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %32, i32 0, i32 0
-  %34 = load i64, i64* %33
-  %35 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %32, i32 0, i32 1
-  %36 = alloca { i64, %Any* }
-  %37 = load i64, i64* %35
-  store { i64, %Any* } %22, { i64, %Any* }* %36
-  %38 = bitcast { i64, %Any* }* %36 to { i64, i64 }*
-  %39 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %38, i32 0, i32 0
-  %40 = load i64, i64* %39
-  %41 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %38, i32 0, i32 1
-  %42 = load i64, i64* %41
-  %43 = call i32 @print_impl(i64 %28, i64 %31, i64 %34, i64 %37, i64 %40, i64 %42)
-  store i32 %43, i32* %w
-  %44 = load i32, i32* %w, align 4
-  %45 = zext i32 %44 to i64
-  %46 = getelementptr [4096 x i8], [4096 x i8]* %buf, i64 0, i64 0
-  %47 = call i32 @__os_write(i32 1, i8* %46, i64 %45)
-  %48 = load i32, i32* %w, align 4
-  store i32 %48, i32* %.ret.4, align 4
-  br label %exit
+  %4 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 0
+  call void @llvm.memset.p0i8.i64(i8* nonnull align 1 %4, i8 0, i64 4096, i1 false)
+  %5 = ptrtoint [4096 x i8]* %buf to i64
+  %6 = icmp sgt i64 %0, 0
+  br i1 %6, label %loop_body.lr.ph.i, label %print_impl.exit
 
-exit:                                             ; preds = %entry
-  %49 = load i32, i32* %.ret.4, align 4
-  ret i32 %49
+loop_body.lr.ph.i:                                ; preds = %entry
+  %7 = inttoptr i64 %1 to i8*
+  %8 = inttoptr i64 %3 to %Any*
+  br label %loop_body.i
+
+loop_body.i:                                      ; preds = %if_cont.i, %loop_body.lr.ph.i
+  %9 = phi i64 [ 0, %loop_body.lr.ph.i ], [ %29, %if_cont.i ]
+  %i.033.i = phi i32 [ 0, %loop_body.lr.ph.i ], [ %28, %if_cont.i ]
+  %cur.032.i = phi i32 [ 0, %loop_body.lr.ph.i ], [ %cur.1.i, %if_cont.i ]
+  %argi.031.i = phi i32 [ 0, %loop_body.lr.ph.i ], [ %argi.1.i, %if_cont.i ]
+  %10 = getelementptr inbounds i8, i8* %7, i64 %9
+  %11 = load i8, i8* %10, align 1
+  %12 = icmp eq i8 %11, 37
+  br i1 %12, label %if_then.i, label %if_else.i
+
+if_then.i:                                        ; preds = %loop_body.i
+  %13 = sext i32 %argi.031.i to i64
+  %14 = icmp slt i64 %13, %2
+  br i1 %14, label %if_then1.i, label %if_else2.i
+
+if_else.i:                                        ; preds = %loop_body.i
+  %15 = icmp slt i32 %cur.032.i, 4096
+  br i1 %15, label %if_cont.i.i, label %if_cont.i
+
+if_cont.i.i:                                      ; preds = %if_else.i
+  %16 = sext i32 %cur.032.i to i64
+  %17 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %16
+  store i8 %11, i8* %17, align 1
+  %18 = add i32 %cur.032.i, 1
+  br label %if_cont.i
+
+if_then1.i:                                       ; preds = %if_then.i
+  %19 = getelementptr inbounds %Any, %Any* %8, i64 %13
+  %20 = call i32 @print_any(i64 4096, i64 %5, i32 %cur.032.i, %Any* %19)
+  %21 = add i32 %argi.031.i, 1
+  br label %if_cont.i
+
+if_else2.i:                                       ; preds = %if_then.i
+  %22 = sext i32 %cur.032.i to i64
+  %23 = icmp slt i32 %cur.032.i, 4096
+  br i1 %23, label %if_cont3.i.i, label %print_string.exit.isplit
+
+if_cont3.i.i:                                     ; preds = %if_else2.i
+  %24 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %22
+  store i8 40, i8* %24, align 1
+  %25 = add nsw i64 %22, 1
+  %26 = icmp slt i64 %25, 4096
+  br i1 %26, label %if_cont3.i.i.1, label %print_string.exit.isplit
+
+print_string.exit.isplit:                         ; preds = %if_cont3.i.i.4, %if_cont3.i.i.3, %if_cont3.i.i.2, %if_cont3.i.i.1, %if_cont3.i.i, %if_else2.i
+  %.lcssa.wide = phi i64 [ %22, %if_else2.i ], [ %25, %if_cont3.i.i ], [ %34, %if_cont3.i.i.1 ], [ %37, %if_cont3.i.i.2 ], [ %40, %if_cont3.i.i.3 ], [ %43, %if_cont3.i.i.4 ]
+  %27 = trunc i64 %.lcssa.wide to i32
+  br label %if_cont.i
+
+if_cont.i:                                        ; preds = %if_cont3.i.i.5, %print_string.exit.isplit, %if_else.i, %if_cont.i.i, %if_then1.i
+  %argi.1.i = phi i32 [ %21, %if_then1.i ], [ %argi.031.i, %if_cont.i.i ], [ %argi.031.i, %if_else.i ], [ %argi.031.i, %print_string.exit.isplit ], [ %argi.031.i, %if_cont3.i.i.5 ]
+  %cur.1.i = phi i32 [ %20, %if_then1.i ], [ %18, %if_cont.i.i ], [ 0, %if_else.i ], [ %27, %print_string.exit.isplit ], [ %.pre, %if_cont3.i.i.5 ]
+  %28 = add i32 %i.033.i, 1
+  %29 = sext i32 %28 to i64
+  %30 = icmp slt i64 %29, %0
+  br i1 %30, label %loop_body.i, label %print_impl.exit
+
+print_impl.exit:                                  ; preds = %if_cont.i, %entry
+  %cur.0.lcssa.i = phi i32 [ 0, %entry ], [ %cur.1.i, %if_cont.i ]
+  %31 = zext i32 %cur.0.lcssa.i to i64
+  %32 = call i32 @write(i32 1, i8* nonnull %4, i64 %31)
+  ret i32 %cur.0.lcssa.i
+
+if_cont3.i.i.1:                                   ; preds = %if_cont3.i.i
+  %33 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %25
+  store i8 110, i8* %33, align 1
+  %34 = add nsw i64 %22, 2
+  %35 = icmp slt i64 %34, 4096
+  br i1 %35, label %if_cont3.i.i.2, label %print_string.exit.isplit
+
+if_cont3.i.i.2:                                   ; preds = %if_cont3.i.i.1
+  %36 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %34
+  store i8 117, i8* %36, align 1
+  %37 = add nsw i64 %22, 3
+  %38 = icmp slt i64 %37, 4096
+  br i1 %38, label %if_cont3.i.i.3, label %print_string.exit.isplit
+
+if_cont3.i.i.3:                                   ; preds = %if_cont3.i.i.2
+  %39 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %37
+  store i8 108, i8* %39, align 1
+  %40 = add nsw i64 %22, 4
+  %41 = icmp slt i64 %40, 4096
+  br i1 %41, label %if_cont3.i.i.4, label %print_string.exit.isplit
+
+if_cont3.i.i.4:                                   ; preds = %if_cont3.i.i.3
+  %42 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %40
+  store i8 108, i8* %42, align 1
+  %43 = add nsw i64 %22, 5
+  %44 = icmp slt i64 %43, 4096
+  br i1 %44, label %if_cont3.i.i.5, label %print_string.exit.isplit
+
+if_cont3.i.i.5:                                   ; preds = %if_cont3.i.i.4
+  %45 = getelementptr inbounds [4096 x i8], [4096 x i8]* %buf, i64 0, i64 %43
+  store i8 41, i8* %45, align 1
+  %.pre = add i32 %cur.032.i, 6
+  br label %if_cont.i
 }
 
-declare i32 @clang_visitChildren(%CXCursor* byval, i32 (%CXCursor*, %CXCursor*, i8*)*, i8*)
+declare i32 @clang_visitChildren(%CXCursor* byval(%CXCursor), i32 (%CXCursor*, %CXCursor*, i8*)*, i8*) local_unnamed_addr
 
-define i32 @visitor(%CXCursor* byval, %CXCursor* byval, i8*) {
+define i32 @visitor(%CXCursor* nocapture readonly byval(%CXCursor) %0, %CXCursor* nocapture readnone byval(%CXCursor) %1, i8* nocapture readnone %2) {
 entry:
-  %.ret.1 = alloca i32, align 4
-  %client_data = alloca i8*, align 8
-  %parent = alloca %CXCursor, align 8
   %cursor = alloca %CXCursor, align 8
   %tmp = alloca %string, align 8
-  %type = alloca %CXType, align 8
   %type_name = alloca %string, align 8
-  %.vargs.212 = alloca { i64, %Any* }, align 8
-  %.vargs.213 = alloca { i64, %Any* }, align 8
-  %.vargs.214 = alloca { i64, %Any* }, align 8
   %.vargs.arr.215 = alloca [1 x %Any], align 8
-  %.vargs.216 = alloca { i64, %Any* }, align 8
-  %.any.217 = alloca %Any, align 8
-  %.vargs.223 = alloca { i64, %Any* }, align 8
   %.vargs.arr.224 = alloca [1 x %Any], align 8
-  %.vargs.225 = alloca { i64, %Any* }, align 8
-  %.any.226 = alloca %Any, align 8
-  %.vargs.227 = alloca { i64, %Any* }, align 8
-  %.vargs.228 = alloca { i64, %Any* }, align 8
-  %.vargs.229 = alloca { i64, %Any* }, align 8
-  %.vargs.230 = alloca { i64, %Any* }, align 8
   %.vargs.arr.231 = alloca [1 x %Any], align 8
-  %.vargs.232 = alloca { i64, %Any* }, align 8
-  %.any.233 = alloca %Any, align 8
-  store i8* %2, i8** %client_data
-  %3 = load %CXCursor, %CXCursor* %1
-  store %CXCursor %3, %CXCursor* %parent
-  %4 = load %CXCursor, %CXCursor* %0
-  store %CXCursor %4, %CXCursor* %cursor
-  %5 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i32 0, i32 0
-  %6 = load i32, i32* %5, align 4
-  %7 = icmp eq i32 %6, 2
-  %8 = alloca %string
-  %9 = alloca { i64, %Any* }
-  %10 = alloca %string
-  %11 = alloca { i64, %Any* }
-  %12 = alloca %string
-  %13 = alloca { i64, %Any* }
-  %14 = alloca %CXString
-  %15 = alloca %CXCursor
-  %16 = alloca %CXString
-  %17 = alloca %string
-  %18 = alloca { i64, %Any* }
-  %19 = alloca %CXCursor
-  %20 = alloca %string
-  %21 = alloca { i64, %Any* }
-  %22 = alloca %CXType
-  %23 = alloca %CXCursor
-  %24 = alloca %string
-  %25 = alloca %string
-  %26 = alloca { i64, %Any* }
-  %27 = alloca %string
-  %28 = alloca { i64, %Any* }
-  %29 = alloca %string
-  %30 = alloca { i64, %Any* }
-  %31 = alloca %string
-  %32 = alloca { i64, %Any* }
-  %33 = alloca %string
-  %34 = alloca { i64, %Any* }
-  %35 = alloca %string
-  %36 = alloca { i64, %Any* }
-  br i1 %7, label %if_then, label %if_else
+  %.elt = getelementptr inbounds %CXCursor, %CXCursor* %0, i64 0, i32 0
+  %.unpack = load i32, i32* %.elt, align 8
+  %.elt22 = getelementptr inbounds %CXCursor, %CXCursor* %0, i64 0, i32 1
+  %.unpack23 = load i32, i32* %.elt22, align 4
+  %.unpack25.elt = getelementptr inbounds %CXCursor, %CXCursor* %0, i64 0, i32 2, i64 0
+  %3 = bitcast i8** %.unpack25.elt to i64*
+  %.unpack25.unpack42 = load i64, i64* %3, align 8
+  %.unpack25.elt26 = getelementptr inbounds %CXCursor, %CXCursor* %0, i64 0, i32 2, i64 1
+  %4 = bitcast i8** %.unpack25.elt26 to i64*
+  %.unpack25.unpack2741 = load i64, i64* %4, align 8
+  %.unpack25.elt28 = getelementptr inbounds %CXCursor, %CXCursor* %0, i64 0, i32 2, i64 2
+  %5 = bitcast i8** %.unpack25.elt28 to i64*
+  %.unpack25.unpack2940 = load i64, i64* %5, align 8
+  %cursor.repack = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i64 0, i32 0
+  store i32 %.unpack, i32* %cursor.repack, align 8
+  %cursor.repack32 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i64 0, i32 1
+  store i32 %.unpack23, i32* %cursor.repack32, align 4
+  %cursor.repack34.repack = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i64 0, i32 2, i64 0
+  %6 = bitcast i8** %cursor.repack34.repack to i64*
+  store i64 %.unpack25.unpack42, i64* %6, align 8
+  %cursor.repack34.repack36 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i64 0, i32 2, i64 1
+  %7 = bitcast i8** %cursor.repack34.repack36 to i64*
+  store i64 %.unpack25.unpack2741, i64* %7, align 8
+  %cursor.repack34.repack38 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i64 0, i32 2, i64 2
+  %8 = bitcast i8** %cursor.repack34.repack38 to i64*
+  store i64 %.unpack25.unpack2940, i64* %8, align 8
+  %9 = alloca %CXCursor, align 8
+  %10 = alloca %CXCursor, align 8
+  switch i32 %.unpack, label %if_else20 [
+    i32 2, label %if_then
+    i32 5, label %if_then1
+    i32 9, label %if_then4
+    i32 8, label %if_then7
+    i32 7, label %if_then10
+    i32 6, label %if_then13
+    i32 20, label %if_then16
+    i32 10, label %if_then19
+  ]
 
 if_then:                                          ; preds = %entry
-  %37 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.212, i32 0, i32 0
-  store i64 0, i64* %37
-  %38 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.212, i32 0, i32 1
-  store %Any* null, %Any** %38
-  %39 = load { i64, %Any* }, { i64, %Any* }* %.vargs.212
-  store %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.265, i32 0, i32 0) }, %string* %8
-  %40 = bitcast %string* %8 to { i64, i64 }*
-  %41 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %40, i32 0, i32 0
-  %42 = load i64, i64* %41
-  %43 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %40, i32 0, i32 1
-  %44 = load i64, i64* %43
-  store { i64, %Any* } %39, { i64, %Any* }* %9
-  %45 = bitcast { i64, %Any* }* %9 to { i64, i64 }*
-  %46 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %45, i32 0, i32 0
-  %47 = load i64, i64* %46
-  %48 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %45, i32 0, i32 1
-  %49 = load i64, i64* %48
-  %50 = call i32 @print(i64 %42, i64 %44, i64 %47, i64 %49)
+  %11 = tail call i32 @print(i64 12, i64 ptrtoint ([13 x i8]* @.str.265 to i64), i64 0, i64 0)
   br label %if_cont
 
-if_else:                                          ; preds = %entry
-  %51 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i32 0, i32 0
-  %52 = load i32, i32* %51, align 4
-  %53 = icmp eq i32 %52, 5
-  br i1 %53, label %if_then1, label %if_else2
+if_cont:                                          ; preds = %if_then19, %if_else20, %if_then16, %if_then13, %if_then10, %if_then7, %if_then4, %if_then1, %if_then
+  ret i32 1
 
-exit:                                             ; preds = %if_cont
-  %54 = load i32, i32* %.ret.1, align 4
-  ret i32 %54
-
-if_cont:                                          ; preds = %if_cont3, %if_then
-  store i32 1, i32* %.ret.1, align 4
-  br label %exit
-
-if_then1:                                         ; preds = %if_else
-  %55 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.213, i32 0, i32 0
-  store i64 0, i64* %55
-  %56 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.213, i32 0, i32 1
-  store %Any* null, %Any** %56
-  %57 = load { i64, %Any* }, { i64, %Any* }* %.vargs.213
-  store %string { i64 10, i8* getelementptr inbounds ([11 x i8], [11 x i8]* @.str.266, i32 0, i32 0) }, %string* %10
-  %58 = bitcast %string* %10 to { i64, i64 }*
-  %59 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %58, i32 0, i32 0
-  %60 = load i64, i64* %59
-  %61 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %58, i32 0, i32 1
-  %62 = load i64, i64* %61
-  store { i64, %Any* } %57, { i64, %Any* }* %11
-  %63 = bitcast { i64, %Any* }* %11 to { i64, i64 }*
-  %64 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %63, i32 0, i32 0
-  %65 = load i64, i64* %64
-  %66 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %63, i32 0, i32 1
-  %67 = load i64, i64* %66
-  %68 = call i32 @print(i64 %60, i64 %62, i64 %65, i64 %67)
-  br label %if_cont3
-
-if_else2:                                         ; preds = %if_else
-  %69 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i32 0, i32 0
-  %70 = load i32, i32* %69, align 4
-  %71 = icmp eq i32 %70, 9
-  br i1 %71, label %if_then4, label %if_else5
-
-if_cont3:                                         ; preds = %if_cont6, %if_then1
+if_then1:                                         ; preds = %entry
+  %12 = tail call i32 @print(i64 10, i64 ptrtoint ([11 x i8]* @.str.266 to i64), i64 0, i64 0)
   br label %if_cont
 
-if_then4:                                         ; preds = %if_else2
-  %72 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.214, i32 0, i32 0
-  store i64 0, i64* %72
-  %73 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.214, i32 0, i32 1
-  store %Any* null, %Any** %73
-  %74 = load { i64, %Any* }, { i64, %Any* }* %.vargs.214
-  store %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.267, i32 0, i32 0) }, %string* %12
-  %75 = bitcast %string* %12 to { i64, i64 }*
-  %76 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %75, i32 0, i32 0
-  %77 = load i64, i64* %76
-  %78 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %75, i32 0, i32 1
-  %79 = load i64, i64* %78
-  store { i64, %Any* } %74, { i64, %Any* }* %13
-  %80 = bitcast { i64, %Any* }* %13 to { i64, i64 }*
-  %81 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %80, i32 0, i32 0
-  %82 = load i64, i64* %81
-  %83 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %80, i32 0, i32 1
-  %84 = load i64, i64* %83
-  %85 = call i32 @print(i64 %77, i64 %79, i64 %82, i64 %84)
-  br label %if_cont6
+if_then4:                                         ; preds = %entry
+  %13 = tail call i32 @print(i64 9, i64 ptrtoint ([10 x i8]* @.str.267 to i64), i64 0, i64 0)
+  br label %if_cont
 
-if_else5:                                         ; preds = %if_else2
-  %86 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i32 0, i32 0
-  %87 = load i32, i32* %86, align 4
-  %88 = icmp eq i32 %87, 8
-  br i1 %88, label %if_then7, label %if_else8
+if_then7:                                         ; preds = %entry
+  %.repack103 = getelementptr inbounds %CXCursor, %CXCursor* %9, i64 0, i32 0
+  store i32 8, i32* %.repack103, align 8
+  %.repack105 = getelementptr inbounds %CXCursor, %CXCursor* %9, i64 0, i32 1
+  store i32 %.unpack23, i32* %.repack105, align 4
+  %.repack107.repack = getelementptr inbounds %CXCursor, %CXCursor* %9, i64 0, i32 2, i64 0
+  %14 = bitcast i8** %.repack107.repack to i64*
+  store i64 %.unpack25.unpack42, i64* %14, align 8
+  %.repack107.repack109 = getelementptr inbounds %CXCursor, %CXCursor* %9, i64 0, i32 2, i64 1
+  %15 = bitcast i8** %.repack107.repack109 to i64*
+  store i64 %.unpack25.unpack2741, i64* %15, align 8
+  %.repack107.repack111 = getelementptr inbounds %CXCursor, %CXCursor* %9, i64 0, i32 2, i64 2
+  %16 = bitcast i8** %.repack107.repack111 to i64*
+  store i64 %.unpack25.unpack2940, i64* %16, align 8
+  %17 = tail call %CXString @clang_getCursorSpelling(%CXCursor* nonnull byval(%CXCursor) %9)
+  %.fca.0.extract = extractvalue %CXString %17, 0
+  %18 = ptrtoint i8* %.fca.0.extract to i64
+  %19 = getelementptr inbounds %string, %string* %tmp, i64 0, i32 1
+  %20 = bitcast i8** %19 to i64*
+  store i64 %18, i64* %20, align 8
+  %21 = tail call i64 @strlen(i8* %.fca.0.extract) #0
+  %22 = getelementptr inbounds %string, %string* %tmp, i64 0, i32 0
+  store i64 %21, i64* %22, align 8
+  %.repack120 = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.215, i64 0, i64 0, i32 0
+  store %TypeInfo* getelementptr inbounds (%TypeInfoString, %TypeInfoString* @.rtti.261, i64 0, i32 0), %TypeInfo** %.repack120, align 8
+  %.repack122 = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.215, i64 0, i64 0, i32 1
+  %23 = bitcast i8** %.repack122 to %string**
+  store %string* %tmp, %string** %23, align 8
+  %.cast134 = ptrtoint [1 x %Any]* %.vargs.arr.215 to i64
+  %24 = call i32 @print(i64 9, i64 ptrtoint ([10 x i8]* @.str.268 to i64), i64 1, i64 %.cast134)
+  %.unpack136 = load i32, i32* %cursor.repack, align 8
+  %.unpack138 = load i32, i32* %cursor.repack32, align 4
+  %.unpack140.unpack158 = load i64, i64* %6, align 8
+  %.unpack140.unpack142157 = load i64, i64* %7, align 8
+  %.unpack140.unpack144156 = load i64, i64* %8, align 8
+  %.repack146 = getelementptr inbounds %CXCursor, %CXCursor* %10, i64 0, i32 0
+  store i32 %.unpack136, i32* %.repack146, align 8
+  %.repack148 = getelementptr inbounds %CXCursor, %CXCursor* %10, i64 0, i32 1
+  store i32 %.unpack138, i32* %.repack148, align 4
+  %.repack150.repack = getelementptr inbounds %CXCursor, %CXCursor* %10, i64 0, i32 2, i64 0
+  %25 = bitcast i8** %.repack150.repack to i64*
+  store i64 %.unpack140.unpack158, i64* %25, align 8
+  %.repack150.repack152 = getelementptr inbounds %CXCursor, %CXCursor* %10, i64 0, i32 2, i64 1
+  %26 = bitcast i8** %.repack150.repack152 to i64*
+  store i64 %.unpack140.unpack142157, i64* %26, align 8
+  %.repack150.repack154 = getelementptr inbounds %CXCursor, %CXCursor* %10, i64 0, i32 2, i64 2
+  %27 = bitcast i8** %.repack150.repack154 to i64*
+  store i64 %.unpack140.unpack144156, i64* %27, align 8
+  %28 = call i32 @clang_visitChildren(%CXCursor* nonnull byval(%CXCursor) %10, i32 (%CXCursor*, %CXCursor*, i8*)* nonnull @visitor, i8* null)
+  %29 = call i32 @print(i64 2, i64 ptrtoint ([3 x i8]* @.str.269 to i64), i64 0, i64 0)
+  %type_name.repack = getelementptr inbounds %string, %string* %type_name, i64 0, i32 0
+  store i64 14, i64* %type_name.repack, align 8
+  %type_name.repack167 = getelementptr inbounds %string, %string* %type_name, i64 0, i32 1
+  store i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.270, i64 0, i64 0), i8** %type_name.repack167, align 8
+  %.repack172 = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.224, i64 0, i64 0, i32 0
+  store %TypeInfo* getelementptr inbounds (%TypeInfoString, %TypeInfoString* @.rtti.261, i64 0, i32 0), %TypeInfo** %.repack172, align 8
+  %.repack174 = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.224, i64 0, i64 0, i32 1
+  %30 = bitcast i8** %.repack174 to %string**
+  store %string* %type_name, %string** %30, align 8
+  %.cast186 = ptrtoint [1 x %Any]* %.vargs.arr.224 to i64
+  %31 = call i32 @print(i64 11, i64 ptrtoint ([12 x i8]* @.str.271 to i64), i64 1, i64 %.cast186)
+  br label %if_cont
 
-if_cont6:                                         ; preds = %if_cont9, %if_then4
-  br label %if_cont3
+if_then10:                                        ; preds = %entry
+  %32 = tail call i32 @print(i64 13, i64 ptrtoint ([14 x i8]* @.str.272 to i64), i64 0, i64 0)
+  br label %if_cont
 
-if_then7:                                         ; preds = %if_else5
-  %89 = load %CXCursor, %CXCursor* %cursor, align 8
-  %90 = load %CXString, %CXString* %14
-  store %CXCursor %89, %CXCursor* %15
-  call void @clang_getCursorSpelling(%CXString* sret %14, %CXCursor* byval %15)
-  store %CXString %90, %CXString* %16
-  %91 = bitcast %CXString* %16 to { i64, i32 }*
-  %92 = getelementptr inbounds { i64, i32 }, { i64, i32 }* %91, i32 0, i32 0
-  %93 = load i64, i64* %92
-  %94 = getelementptr inbounds { i64, i32 }, { i64, i32 }* %91, i32 0, i32 1
-  %95 = load i32, i32* %94
-  call void @get_string(i64 %93, i32 %95, %string* %tmp)
-  %96 = getelementptr inbounds %Any, %Any* %.any.217, i32 0, i32 0
-  store %TypeInfo* getelementptr inbounds (%TypeInfoString, %TypeInfoString* @.rtti.261, i32 0, i32 0), %TypeInfo** %96
-  %97 = getelementptr inbounds %Any, %Any* %.any.217, i32 0, i32 1
-  %98 = bitcast %string* %tmp to i8*
-  store i8* %98, i8** %97
-  %99 = load %Any, %Any* %.any.217, align 8
-  %100 = getelementptr [1 x %Any], [1 x %Any]* %.vargs.arr.215, i64 0, i64 0
-  store %Any %99, %Any* %100
-  %101 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.216, i32 0, i32 0
-  store i64 1, i64* %101
-  %102 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.216, i32 0, i32 1
-  %103 = bitcast [1 x %Any]* %.vargs.arr.215 to %Any*
-  store %Any* %103, %Any** %102
-  %104 = load { i64, %Any* }, { i64, %Any* }* %.vargs.216
-  store %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.268, i32 0, i32 0) }, %string* %17
-  %105 = bitcast %string* %17 to { i64, i64 }*
-  %106 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %105, i32 0, i32 0
-  %107 = load i64, i64* %106
-  %108 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %105, i32 0, i32 1
-  %109 = load i64, i64* %108
-  store { i64, %Any* } %104, { i64, %Any* }* %18
-  %110 = bitcast { i64, %Any* }* %18 to { i64, i64 }*
-  %111 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %110, i32 0, i32 0
-  %112 = load i64, i64* %111
-  %113 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %110, i32 0, i32 1
-  %114 = load i64, i64* %113
-  %115 = call i32 @print(i64 %107, i64 %109, i64 %112, i64 %114)
-  %116 = load %CXCursor, %CXCursor* %cursor, align 8
-  store %CXCursor %116, %CXCursor* %19
-  %117 = call i32 @clang_visitChildren(%CXCursor* byval %19, i32 (%CXCursor*, %CXCursor*, i8*)* @visitor, i8* null)
-  %118 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.223, i32 0, i32 0
-  store i64 0, i64* %118
-  %119 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.223, i32 0, i32 1
-  store %Any* null, %Any** %119
-  %120 = load { i64, %Any* }, { i64, %Any* }* %.vargs.223
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.269, i32 0, i32 0) }, %string* %20
-  %121 = bitcast %string* %20 to { i64, i64 }*
-  %122 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %121, i32 0, i32 0
-  %123 = load i64, i64* %122
-  %124 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %121, i32 0, i32 1
-  %125 = load i64, i64* %124
-  store { i64, %Any* } %120, { i64, %Any* }* %21
-  %126 = bitcast { i64, %Any* }* %21 to { i64, i64 }*
-  %127 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %126, i32 0, i32 0
-  %128 = load i64, i64* %127
-  %129 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %126, i32 0, i32 1
-  %130 = load i64, i64* %129
-  %131 = call i32 @print(i64 %123, i64 %125, i64 %128, i64 %130)
-  %132 = load %CXCursor, %CXCursor* %cursor, align 8
-  %133 = load %CXType, %CXType* %22
-  store %CXCursor %132, %CXCursor* %23
-  call void @clang_getCursorResultType(%CXType* sret %22, %CXCursor* byval %23)
-  store %CXType %133, %CXType* %type
-  %134 = load %string, %string* %24
-  call void @get_type(%string* sret %24, %CXType* %type)
-  store %string %134, %string* %type_name
-  %135 = getelementptr inbounds %Any, %Any* %.any.226, i32 0, i32 0
-  store %TypeInfo* getelementptr inbounds (%TypeInfoString, %TypeInfoString* @.rtti.261, i32 0, i32 0), %TypeInfo** %135
-  %136 = getelementptr inbounds %Any, %Any* %.any.226, i32 0, i32 1
-  %137 = bitcast %string* %type_name to i8*
-  store i8* %137, i8** %136
-  %138 = load %Any, %Any* %.any.226, align 8
-  %139 = getelementptr [1 x %Any], [1 x %Any]* %.vargs.arr.224, i64 0, i64 0
-  store %Any %138, %Any* %139
-  %140 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.225, i32 0, i32 0
-  store i64 1, i64* %140
-  %141 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.225, i32 0, i32 1
-  %142 = bitcast [1 x %Any]* %.vargs.arr.224 to %Any*
-  store %Any* %142, %Any** %141
-  %143 = load { i64, %Any* }, { i64, %Any* }* %.vargs.225
-  store %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.270, i32 0, i32 0) }, %string* %25
-  %144 = bitcast %string* %25 to { i64, i64 }*
-  %145 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %144, i32 0, i32 0
-  %146 = load i64, i64* %145
-  %147 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %144, i32 0, i32 1
-  %148 = load i64, i64* %147
-  store { i64, %Any* } %143, { i64, %Any* }* %26
-  %149 = bitcast { i64, %Any* }* %26 to { i64, i64 }*
-  %150 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %149, i32 0, i32 0
-  %151 = load i64, i64* %150
-  %152 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %149, i32 0, i32 1
-  %153 = load i64, i64* %152
-  %154 = call i32 @print(i64 %146, i64 %148, i64 %151, i64 %153)
-  br label %if_cont9
+if_then13:                                        ; preds = %entry
+  %33 = tail call i32 @print(i64 12, i64 ptrtoint ([13 x i8]* @.str.273 to i64), i64 0, i64 0)
+  br label %if_cont
 
-if_else8:                                         ; preds = %if_else5
-  %155 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i32 0, i32 0
-  %156 = load i32, i32* %155, align 4
-  %157 = icmp eq i32 %156, 7
-  br i1 %157, label %if_then10, label %if_else11
+if_then16:                                        ; preds = %entry
+  %34 = tail call i32 @print(i64 13, i64 ptrtoint ([14 x i8]* @.str.274 to i64), i64 0, i64 0)
+  br label %if_cont
 
-if_cont9:                                         ; preds = %if_cont12, %if_then7
-  br label %if_cont6
+if_then19:                                        ; preds = %entry
+  %35 = tail call i32 @print(i64 11, i64 ptrtoint ([12 x i8]* @.str.275 to i64), i64 0, i64 0)
+  br label %if_cont
 
-if_then10:                                        ; preds = %if_else8
-  %158 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.227, i32 0, i32 0
-  store i64 0, i64* %158
-  %159 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.227, i32 0, i32 1
-  store %Any* null, %Any** %159
-  %160 = load { i64, %Any* }, { i64, %Any* }* %.vargs.227
-  store %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.271, i32 0, i32 0) }, %string* %27
-  %161 = bitcast %string* %27 to { i64, i64 }*
-  %162 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %161, i32 0, i32 0
-  %163 = load i64, i64* %162
-  %164 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %161, i32 0, i32 1
-  %165 = load i64, i64* %164
-  store { i64, %Any* } %160, { i64, %Any* }* %28
-  %166 = bitcast { i64, %Any* }* %28 to { i64, i64 }*
-  %167 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %166, i32 0, i32 0
-  %168 = load i64, i64* %167
-  %169 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %166, i32 0, i32 1
-  %170 = load i64, i64* %169
-  %171 = call i32 @print(i64 %163, i64 %165, i64 %168, i64 %170)
-  br label %if_cont12
-
-if_else11:                                        ; preds = %if_else8
-  %172 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i32 0, i32 0
-  %173 = load i32, i32* %172, align 4
-  %174 = icmp eq i32 %173, 6
-  br i1 %174, label %if_then13, label %if_else14
-
-if_cont12:                                        ; preds = %if_cont15, %if_then10
-  br label %if_cont9
-
-if_then13:                                        ; preds = %if_else11
-  %175 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.228, i32 0, i32 0
-  store i64 0, i64* %175
-  %176 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.228, i32 0, i32 1
-  store %Any* null, %Any** %176
-  %177 = load { i64, %Any* }, { i64, %Any* }* %.vargs.228
-  store %string { i64 12, i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.272, i32 0, i32 0) }, %string* %29
-  %178 = bitcast %string* %29 to { i64, i64 }*
-  %179 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %178, i32 0, i32 0
-  %180 = load i64, i64* %179
-  %181 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %178, i32 0, i32 1
-  %182 = load i64, i64* %181
-  store { i64, %Any* } %177, { i64, %Any* }* %30
-  %183 = bitcast { i64, %Any* }* %30 to { i64, i64 }*
-  %184 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %183, i32 0, i32 0
-  %185 = load i64, i64* %184
-  %186 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %183, i32 0, i32 1
-  %187 = load i64, i64* %186
-  %188 = call i32 @print(i64 %180, i64 %182, i64 %185, i64 %187)
-  br label %if_cont15
-
-if_else14:                                        ; preds = %if_else11
-  %189 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i32 0, i32 0
-  %190 = load i32, i32* %189, align 4
-  %191 = icmp eq i32 %190, 20
-  br i1 %191, label %if_then16, label %if_else17
-
-if_cont15:                                        ; preds = %if_cont18, %if_then13
-  br label %if_cont12
-
-if_then16:                                        ; preds = %if_else14
-  %192 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.229, i32 0, i32 0
-  store i64 0, i64* %192
-  %193 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.229, i32 0, i32 1
-  store %Any* null, %Any** %193
-  %194 = load { i64, %Any* }, { i64, %Any* }* %.vargs.229
-  store %string { i64 13, i8* getelementptr inbounds ([14 x i8], [14 x i8]* @.str.273, i32 0, i32 0) }, %string* %31
-  %195 = bitcast %string* %31 to { i64, i64 }*
-  %196 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %195, i32 0, i32 0
-  %197 = load i64, i64* %196
-  %198 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %195, i32 0, i32 1
-  %199 = load i64, i64* %198
-  store { i64, %Any* } %194, { i64, %Any* }* %32
-  %200 = bitcast { i64, %Any* }* %32 to { i64, i64 }*
-  %201 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %200, i32 0, i32 0
-  %202 = load i64, i64* %201
-  %203 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %200, i32 0, i32 1
-  %204 = load i64, i64* %203
-  %205 = call i32 @print(i64 %197, i64 %199, i64 %202, i64 %204)
-  br label %if_cont18
-
-if_else17:                                        ; preds = %if_else14
-  %206 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i32 0, i32 0
-  %207 = load i32, i32* %206, align 4
-  %208 = icmp eq i32 %207, 10
-  br i1 %208, label %if_then19, label %if_else20
-
-if_cont18:                                        ; preds = %if_cont21, %if_then16
-  br label %if_cont15
-
-if_then19:                                        ; preds = %if_else17
-  %209 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.230, i32 0, i32 0
-  store i64 0, i64* %209
-  %210 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.230, i32 0, i32 1
-  store %Any* null, %Any** %210
-  %211 = load { i64, %Any* }, { i64, %Any* }* %.vargs.230
-  store %string { i64 11, i8* getelementptr inbounds ([12 x i8], [12 x i8]* @.str.274, i32 0, i32 0) }, %string* %33
-  %212 = bitcast %string* %33 to { i64, i64 }*
-  %213 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %212, i32 0, i32 0
-  %214 = load i64, i64* %213
-  %215 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %212, i32 0, i32 1
-  %216 = load i64, i64* %215
-  store { i64, %Any* } %211, { i64, %Any* }* %34
-  %217 = bitcast { i64, %Any* }* %34 to { i64, i64 }*
-  %218 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %217, i32 0, i32 0
-  %219 = load i64, i64* %218
-  %220 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %217, i32 0, i32 1
-  %221 = load i64, i64* %220
-  %222 = call i32 @print(i64 %214, i64 %216, i64 %219, i64 %221)
-  br label %if_cont21
-
-if_else20:                                        ; preds = %if_else17
-  %223 = getelementptr inbounds %CXCursor, %CXCursor* %cursor, i32 0, i32 0
-  %224 = getelementptr inbounds %Any, %Any* %.any.233, i32 0, i32 0
-  store %TypeInfo* getelementptr inbounds (%TypeInfoEnum, %TypeInfoEnum* @.rtti.260, i32 0, i32 0), %TypeInfo** %224
-  %225 = getelementptr inbounds %Any, %Any* %.any.233, i32 0, i32 1
-  %226 = bitcast i32* %223 to i8*
-  store i8* %226, i8** %225
-  %227 = load %Any, %Any* %.any.233, align 8
-  %228 = getelementptr [1 x %Any], [1 x %Any]* %.vargs.arr.231, i64 0, i64 0
-  store %Any %227, %Any* %228
-  %229 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.232, i32 0, i32 0
-  store i64 1, i64* %229
-  %230 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %.vargs.232, i32 0, i32 1
-  %231 = bitcast [1 x %Any]* %.vargs.arr.231 to %Any*
-  store %Any* %231, %Any** %230
-  %232 = load { i64, %Any* }, { i64, %Any* }* %.vargs.232
-  store %string { i64 15, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.275, i32 0, i32 0) }, %string* %35
-  %233 = bitcast %string* %35 to { i64, i64 }*
-  %234 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %233, i32 0, i32 0
-  %235 = load i64, i64* %234
-  %236 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %233, i32 0, i32 1
-  %237 = load i64, i64* %236
-  store { i64, %Any* } %232, { i64, %Any* }* %36
-  %238 = bitcast { i64, %Any* }* %36 to { i64, i64 }*
-  %239 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %238, i32 0, i32 0
-  %240 = load i64, i64* %239
-  %241 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %238, i32 0, i32 1
-  %242 = load i64, i64* %241
-  %243 = call i32 @print(i64 %235, i64 %237, i64 %240, i64 %242)
-  br label %if_cont21
-
-if_cont21:                                        ; preds = %if_else20, %if_then19
-  br label %if_cont18
+if_else20:                                        ; preds = %entry
+  %.repack = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.231, i64 0, i64 0, i32 0
+  store %TypeInfo* getelementptr inbounds (%TypeInfoEnum, %TypeInfoEnum* @.rtti.260, i64 0, i32 0), %TypeInfo** %.repack, align 8
+  %.repack48 = getelementptr inbounds [1 x %Any], [1 x %Any]* %.vargs.arr.231, i64 0, i64 0, i32 1
+  %36 = bitcast i8** %.repack48 to %CXCursor**
+  store %CXCursor* %cursor, %CXCursor** %36, align 8
+  %.cast = ptrtoint [1 x %Any]* %.vargs.arr.231 to i64
+  %37 = call i32 @print(i64 15, i64 ptrtoint ([16 x i8]* @.str.276 to i64), i64 1, i64 %.cast)
+  br label %if_cont
 }
 
-declare void @clang_disposeTranslationUnit(i8*)
+declare void @clang_disposeTranslationUnit(i8*) local_unnamed_addr
 
-declare void @clang_disposeIndex(i8*)
+declare void @clang_disposeIndex(i8*) local_unnamed_addr
 
-declare void @clang_getCursorSpelling(%CXString* noalias sret, %CXCursor* byval)
+declare %CXString @clang_getCursorSpelling(%CXCursor* byval(%CXCursor)) local_unnamed_addr
 
-define void @get_string(i64, i32, %string*) {
+; Function Attrs: nofree nounwind
+define void @get_string(i64 %0, i32 %1, %string* nocapture %2) local_unnamed_addr #2 {
 entry:
-  %tmp_out = alloca %string*, align 8
-  %cxstring = alloca %CXString, align 8
-  store %string* %2, %string** %tmp_out
-  %3 = bitcast %CXString* %cxstring to { i64, i32 }*
-  %4 = getelementptr inbounds { i64, i32 }, { i64, i32 }* %3, i32 0, i32 0
-  store i64 %0, i64* %4
-  %5 = getelementptr inbounds { i64, i32 }, { i64, i32 }* %3, i32 0, i32 1
-  store i32 %1, i32* %5
-  %6 = getelementptr inbounds %CXString, %CXString* %cxstring, i32 0, i32 0
-  %7 = load i8*, i8** %6, align 8
-  %8 = load %string*, %string** %tmp_out, align 8
-  %9 = getelementptr inbounds %string, %string* %8, i32 0, i32 1
-  store i8* %7, i8** %9, align 8
-  %10 = getelementptr inbounds %CXString, %CXString* %cxstring, i32 0, i32 0
-  %11 = load i8*, i8** %10, align 8
-  %12 = call i64 @strlen(i8* %11)
-  %13 = load %string*, %string** %tmp_out, align 8
-  %14 = getelementptr inbounds %string, %string* %13, i32 0, i32 0
-  store i64 %12, i64* %14, align 8
-  br label %exit
-
-exit:                                             ; preds = %entry
+  %3 = getelementptr inbounds %string, %string* %2, i64 0, i32 1
+  %4 = bitcast i8** %3 to i64*
+  store i64 %0, i64* %4, align 8
+  %5 = inttoptr i64 %0 to i8*
+  %6 = tail call i64 @strlen(i8* %5)
+  %7 = getelementptr inbounds %string, %string* %2, i64 0, i32 0
+  store i64 %6, i64* %7, align 8
   ret void
 }
 
-declare void @clang_getCursorResultType(%CXType* noalias sret, %CXCursor* byval)
+; Function Attrs: argmemonly nofree nounwind readonly
+declare i64 @strlen(i8* nocapture) local_unnamed_addr #3
 
-define void @get_type(%string* noalias sret, %CXType*) {
+; Function Attrs: norecurse nounwind readonly
+define %string @get_type(%CXType* nocapture readonly %0) local_unnamed_addr #4 {
 entry:
-  %.ret.2 = alloca %string, align 8
-  %type = alloca %CXType*, align 8
-  store %CXType* %1, %CXType** %type
-  %2 = load %CXType*, %CXType** %type, align 8
-  %3 = getelementptr inbounds %CXType, %CXType* %2, i32 0, i32 0
-  %4 = load i32, i32* %3, align 4
-  %5 = icmp eq i32 %4, 2
-  br i1 %5, label %if_then, label %if_else
+  %1 = getelementptr inbounds %CXType, %CXType* %0, i64 0, i32 0
+  %2 = load i32, i32* %1, align 4
+  switch i32 %2, label %if_cont54 [
+    i32 2, label %exit
+    i32 3, label %exit.fold.split
+    i32 4, label %exit.fold.split58
+    i32 5, label %exit.fold.split59
+    i32 6, label %exit.fold.split60
+    i32 7, label %exit.fold.split61
+    i32 8, label %exit.fold.split62
+    i32 9, label %exit.fold.split63
+    i32 10, label %exit.fold.split64
+    i32 11, label %exit.fold.split65
+    i32 13, label %exit.fold.split66
+    i32 14, label %exit.fold.split67
+    i32 15, label %exit.fold.split68
+    i32 16, label %exit.fold.split69
+    i32 17, label %exit.fold.split70
+    i32 18, label %exit.fold.split71
+    i32 19, label %exit.fold.split72
+    i32 21, label %exit.fold.split73
+    i32 22, label %exit.fold.split74
+  ]
 
-if_then:                                          ; preds = %entry
-  store %string { i64 0, i8* getelementptr inbounds ([1 x i8], [1 x i8]* @.str.276, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split:                                  ; preds = %entry
   br label %exit
 
-if_else:                                          ; preds = %entry
-  br label %if_cont
-
-exit:                                             ; preds = %if_cont57, %if_then55, %if_then52, %if_then49, %if_then46, %if_then43, %if_then40, %if_then37, %if_then34, %if_then31, %if_then28, %if_then25, %if_then22, %if_then19, %if_then16, %if_then13, %if_then10, %if_then7, %if_then4, %if_then1, %if_then
-  %6 = load %string, %string* %.ret.2, align 8
-  store %string %6, %string* %0
-  ret void
-
-if_cont:                                          ; preds = %if_else
-  %7 = load %CXType*, %CXType** %type, align 8
-  %8 = getelementptr inbounds %CXType, %CXType* %7, i32 0, i32 0
-  %9 = load i32, i32* %8, align 4
-  %10 = icmp eq i32 %9, 3
-  br i1 %10, label %if_then1, label %if_else2
-
-if_then1:                                         ; preds = %if_cont
-  store %string { i64 4, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.277, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split58:                                ; preds = %entry
   br label %exit
 
-if_else2:                                         ; preds = %if_cont
-  br label %if_cont3
-
-if_cont3:                                         ; preds = %if_else2
-  %11 = load %CXType*, %CXType** %type, align 8
-  %12 = getelementptr inbounds %CXType, %CXType* %11, i32 0, i32 0
-  %13 = load i32, i32* %12, align 4
-  %14 = icmp eq i32 %13, 4
-  br i1 %14, label %if_then4, label %if_else5
-
-if_then4:                                         ; preds = %if_cont3
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.278, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split59:                                ; preds = %entry
   br label %exit
 
-if_else5:                                         ; preds = %if_cont3
-  br label %if_cont6
-
-if_cont6:                                         ; preds = %if_else5
-  %15 = load %CXType*, %CXType** %type, align 8
-  %16 = getelementptr inbounds %CXType, %CXType* %15, i32 0, i32 0
-  %17 = load i32, i32* %16, align 4
-  %18 = icmp eq i32 %17, 5
-  br i1 %18, label %if_then7, label %if_else8
-
-if_then7:                                         ; preds = %if_cont6
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.278, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split60:                                ; preds = %entry
   br label %exit
 
-if_else8:                                         ; preds = %if_cont6
-  br label %if_cont9
-
-if_cont9:                                         ; preds = %if_else8
-  %19 = load %CXType*, %CXType** %type, align 8
-  %20 = getelementptr inbounds %CXType, %CXType* %19, i32 0, i32 0
-  %21 = load i32, i32* %20, align 4
-  %22 = icmp eq i32 %21, 6
-  br i1 %22, label %if_then10, label %if_else11
-
-if_then10:                                        ; preds = %if_cont9
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.279, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split61:                                ; preds = %entry
   br label %exit
 
-if_else11:                                        ; preds = %if_cont9
-  br label %if_cont12
-
-if_cont12:                                        ; preds = %if_else11
-  %23 = load %CXType*, %CXType** %type, align 8
-  %24 = getelementptr inbounds %CXType, %CXType* %23, i32 0, i32 0
-  %25 = load i32, i32* %24, align 4
-  %26 = icmp eq i32 %25, 7
-  br i1 %26, label %if_then13, label %if_else14
-
-if_then13:                                        ; preds = %if_cont12
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.280, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split62:                                ; preds = %entry
   br label %exit
 
-if_else14:                                        ; preds = %if_cont12
-  br label %if_cont15
-
-if_cont15:                                        ; preds = %if_else14
-  %27 = load %CXType*, %CXType** %type, align 8
-  %28 = getelementptr inbounds %CXType, %CXType* %27, i32 0, i32 0
-  %29 = load i32, i32* %28, align 4
-  %30 = icmp eq i32 %29, 8
-  br i1 %30, label %if_then16, label %if_else17
-
-if_then16:                                        ; preds = %if_cont15
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.279, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split63:                                ; preds = %entry
   br label %exit
 
-if_else17:                                        ; preds = %if_cont15
-  br label %if_cont18
-
-if_cont18:                                        ; preds = %if_else17
-  %31 = load %CXType*, %CXType** %type, align 8
-  %32 = getelementptr inbounds %CXType, %CXType* %31, i32 0, i32 0
-  %33 = load i32, i32* %32, align 4
-  %34 = icmp eq i32 %33, 9
-  br i1 %34, label %if_then19, label %if_else20
-
-if_then19:                                        ; preds = %if_cont18
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.280, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split64:                                ; preds = %entry
   br label %exit
 
-if_else20:                                        ; preds = %if_cont18
-  br label %if_cont21
-
-if_cont21:                                        ; preds = %if_else20
-  %35 = load %CXType*, %CXType** %type, align 8
-  %36 = getelementptr inbounds %CXType, %CXType* %35, i32 0, i32 0
-  %37 = load i32, i32* %36, align 4
-  %38 = icmp eq i32 %37, 10
-  br i1 %38, label %if_then22, label %if_else23
-
-if_then22:                                        ; preds = %if_cont21
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.280, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split65:                                ; preds = %entry
   br label %exit
 
-if_else23:                                        ; preds = %if_cont21
-  br label %if_cont24
-
-if_cont24:                                        ; preds = %if_else23
-  %39 = load %CXType*, %CXType** %type, align 8
-  %40 = getelementptr inbounds %CXType, %CXType* %39, i32 0, i32 0
-  %41 = load i32, i32* %40, align 4
-  %42 = icmp eq i32 %41, 11
-  br i1 %42, label %if_then25, label %if_else26
-
-if_then25:                                        ; preds = %if_cont24
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.281, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split66:                                ; preds = %entry
   br label %exit
 
-if_else26:                                        ; preds = %if_cont24
-  br label %if_cont27
-
-if_cont27:                                        ; preds = %if_else26
-  %43 = load %CXType*, %CXType** %type, align 8
-  %44 = getelementptr inbounds %CXType, %CXType* %43, i32 0, i32 0
-  %45 = load i32, i32* %44, align 4
-  %46 = icmp eq i32 %45, 13
-  br i1 %46, label %if_then28, label %if_else29
-
-if_then28:                                        ; preds = %if_cont27
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.282, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split67:                                ; preds = %entry
   br label %exit
 
-if_else29:                                        ; preds = %if_cont27
-  br label %if_cont30
-
-if_cont30:                                        ; preds = %if_else29
-  %47 = load %CXType*, %CXType** %type, align 8
-  %48 = getelementptr inbounds %CXType, %CXType* %47, i32 0, i32 0
-  %49 = load i32, i32* %48, align 4
-  %50 = icmp eq i32 %49, 14
-  br i1 %50, label %if_then31, label %if_else32
-
-if_then31:                                        ; preds = %if_cont30
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.282, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split68:                                ; preds = %entry
   br label %exit
 
-if_else32:                                        ; preds = %if_cont30
-  br label %if_cont33
-
-if_cont33:                                        ; preds = %if_else32
-  %51 = load %CXType*, %CXType** %type, align 8
-  %52 = getelementptr inbounds %CXType, %CXType* %51, i32 0, i32 0
-  %53 = load i32, i32* %52, align 4
-  %54 = icmp eq i32 %53, 15
-  br i1 %54, label %if_then34, label %if_else35
-
-if_then34:                                        ; preds = %if_cont33
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.283, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split69:                                ; preds = %entry
   br label %exit
 
-if_else35:                                        ; preds = %if_cont33
-  br label %if_cont36
-
-if_cont36:                                        ; preds = %if_else35
-  %55 = load %CXType*, %CXType** %type, align 8
-  %56 = getelementptr inbounds %CXType, %CXType* %55, i32 0, i32 0
-  %57 = load i32, i32* %56, align 4
-  %58 = icmp eq i32 %57, 16
-  br i1 %58, label %if_then37, label %if_else38
-
-if_then37:                                        ; preds = %if_cont36
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.283, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split70:                                ; preds = %entry
   br label %exit
 
-if_else38:                                        ; preds = %if_cont36
-  br label %if_cont39
-
-if_cont39:                                        ; preds = %if_else38
-  %59 = load %CXType*, %CXType** %type, align 8
-  %60 = getelementptr inbounds %CXType, %CXType* %59, i32 0, i32 0
-  %61 = load i32, i32* %60, align 4
-  %62 = icmp eq i32 %61, 17
-  br i1 %62, label %if_then40, label %if_else41
-
-if_then40:                                        ; preds = %if_cont39
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.284, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split71:                                ; preds = %entry
   br label %exit
 
-if_else41:                                        ; preds = %if_cont39
-  br label %if_cont42
-
-if_cont42:                                        ; preds = %if_else41
-  %63 = load %CXType*, %CXType** %type, align 8
-  %64 = getelementptr inbounds %CXType, %CXType* %63, i32 0, i32 0
-  %65 = load i32, i32* %64, align 4
-  %66 = icmp eq i32 %65, 18
-  br i1 %66, label %if_then43, label %if_else44
-
-if_then43:                                        ; preds = %if_cont42
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.284, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split72:                                ; preds = %entry
   br label %exit
 
-if_else44:                                        ; preds = %if_cont42
-  br label %if_cont45
-
-if_cont45:                                        ; preds = %if_else44
-  %67 = load %CXType*, %CXType** %type, align 8
-  %68 = getelementptr inbounds %CXType, %CXType* %67, i32 0, i32 0
-  %69 = load i32, i32* %68, align 4
-  %70 = icmp eq i32 %69, 19
-  br i1 %70, label %if_then46, label %if_else47
-
-if_then46:                                        ; preds = %if_cont45
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.285, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split73:                                ; preds = %entry
   br label %exit
 
-if_else47:                                        ; preds = %if_cont45
-  br label %if_cont48
-
-if_cont48:                                        ; preds = %if_else47
-  %71 = load %CXType*, %CXType** %type, align 8
-  %72 = getelementptr inbounds %CXType, %CXType* %71, i32 0, i32 0
-  %73 = load i32, i32* %72, align 4
-  %74 = icmp eq i32 %73, 21
-  br i1 %74, label %if_then49, label %if_else50
-
-if_then49:                                        ; preds = %if_cont48
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.286, i32 0, i32 0) }, %string* %.ret.2, align 8
+exit.fold.split74:                                ; preds = %entry
   br label %exit
 
-if_else50:                                        ; preds = %if_cont48
-  br label %if_cont51
+exit:                                             ; preds = %entry, %exit.fold.split74, %exit.fold.split73, %exit.fold.split72, %exit.fold.split71, %exit.fold.split70, %exit.fold.split69, %exit.fold.split68, %exit.fold.split67, %exit.fold.split66, %exit.fold.split65, %exit.fold.split64, %exit.fold.split63, %exit.fold.split62, %exit.fold.split61, %exit.fold.split60, %exit.fold.split59, %exit.fold.split58, %exit.fold.split
+  %.ret.2.0 = phi %string [ { i64 0, i8* getelementptr inbounds ([1 x i8], [1 x i8]* @.str.277, i32 0, i32 0) }, %entry ], [ { i64 4, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.278, i32 0, i32 0) }, %exit.fold.split ], [ { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.279, i32 0, i32 0) }, %exit.fold.split58 ], [ { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.279, i32 0, i32 0) }, %exit.fold.split59 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.280, i32 0, i32 0) }, %exit.fold.split60 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.281, i32 0, i32 0) }, %exit.fold.split61 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.280, i32 0, i32 0) }, %exit.fold.split62 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.281, i32 0, i32 0) }, %exit.fold.split63 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.281, i32 0, i32 0) }, %exit.fold.split64 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.282, i32 0, i32 0) }, %exit.fold.split65 ], [ { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.283, i32 0, i32 0) }, %exit.fold.split66 ], [ { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.283, i32 0, i32 0) }, %exit.fold.split67 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.284, i32 0, i32 0) }, %exit.fold.split68 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.284, i32 0, i32 0) }, %exit.fold.split69 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.285, i32 0, i32 0) }, %exit.fold.split70 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.285, i32 0, i32 0) }, %exit.fold.split71 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.286, i32 0, i32 0) }, %exit.fold.split72 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.287, i32 0, i32 0) }, %exit.fold.split73 ], [ { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.288, i32 0, i32 0) }, %exit.fold.split74 ]
+  ret %string %.ret.2.0
 
-if_cont51:                                        ; preds = %if_else50
-  %75 = load %CXType*, %CXType** %type, align 8
-  %76 = getelementptr inbounds %CXType, %CXType* %75, i32 0, i32 0
-  %77 = load i32, i32* %76, align 4
-  %78 = icmp eq i32 %77, 22
-  br i1 %78, label %if_then52, label %if_else53
-
-if_then52:                                        ; preds = %if_cont51
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.287, i32 0, i32 0) }, %string* %.ret.2, align 8
-  br label %exit
-
-if_else53:                                        ; preds = %if_cont51
-  br label %if_cont54
-
-if_cont54:                                        ; preds = %if_else53
-  %79 = load %CXType*, %CXType** %type, align 8
-  %80 = getelementptr inbounds %CXType, %CXType* %79, i32 0, i32 0
-  %81 = load i32, i32* %80, align 4
-  %82 = icmp eq i32 %81, 24
-  br i1 %82, label %if_then55, label %if_else56
-
-if_then55:                                        ; preds = %if_cont54
-  store %string { i64 4, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.288, i32 0, i32 0) }, %string* %.ret.2, align 8
-  br label %exit
-
-if_else56:                                        ; preds = %if_cont54
-  br label %if_cont57
-
-if_cont57:                                        ; preds = %if_else56
-  store %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.289, i32 0, i32 0) }, %string* %.ret.2, align 8
-  br label %exit
+if_cont54:                                        ; preds = %entry
+  %3 = icmp eq i32 %2, 24
+  %spec.select = select i1 %3, %string { i64 4, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.289, i32 0, i32 0) }, %string { i64 14, i8* getelementptr inbounds ([15 x i8], [15 x i8]* @.str.270, i32 0, i32 0) }
+  ret %string %spec.select
 }
 
-declare i64 @strlen(i8*)
+; Function Attrs: nofree
+declare i32 @write(i32, i8* nocapture readonly, i64) local_unnamed_addr #5
 
-declare i32 @write(i32, i8*, i64)
-
-define i32 @__os_write(i32, i8*, i64) {
+; Function Attrs: nofree
+define i32 @__os_write(i32 %0, i8* nocapture readonly %1, i64 %2) local_unnamed_addr #5 {
 entry:
-  %.ret.3 = alloca i32, align 4
-  %count = alloca i64, align 8
-  %buf = alloca i8*, align 8
-  %fd = alloca i32, align 4
-  store i64 %2, i64* %count
-  store i8* %1, i8** %buf
-  store i32 %0, i32* %fd
-  %3 = load i64, i64* %count, align 8
-  %4 = load i8*, i8** %buf, align 8
-  %5 = load i32, i32* %fd, align 4
-  %6 = call i32 @write(i32 %5, i8* %4, i64 %3)
-  store i32 %6, i32* %.ret.3, align 4
-  br label %exit
-
-exit:                                             ; preds = %entry
-  %7 = load i32, i32* %.ret.3, align 4
-  ret i32 %7
+  %3 = tail call i32 @write(i32 %0, i8* %1, i64 %2)
+  ret i32 %3
 }
 
-define i32 @print_impl(i64, i64, i64, i64, i64, i64) {
+; Function Attrs: nofree
+define i32 @print_impl(i64 %0, i64 %1, i64 %2, i64 %3, i64 %4, i64 %5) local_unnamed_addr #5 {
 entry:
-  %.ret.7 = alloca i32, align 4
-  %args = alloca { i64, %Any* }, align 8
-  %format = alloca %string, align 8
-  %buf = alloca { i64, i8* }, align 8
-  %cur = alloca i32, align 4
-  %argi = alloca i32, align 4
-  %i = alloca i32, align 4
-  %c = alloca i8, align 1
-  %6 = bitcast { i64, %Any* }* %args to { i64, i64 }*
-  %7 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %6, i32 0, i32 0
-  store i64 %4, i64* %7
-  %8 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %6, i32 0, i32 1
-  store i64 %5, i64* %8
-  %9 = bitcast %string* %format to { i64, i64 }*
-  %10 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %9, i32 0, i32 0
-  store i64 %2, i64* %10
-  %11 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %9, i32 0, i32 1
-  store i64 %3, i64* %11
-  %12 = bitcast { i64, i8* }* %buf to { i64, i64 }*
-  %13 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %12, i32 0, i32 0
-  store i64 %0, i64* %13
-  %14 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %12, i32 0, i32 1
-  store i64 %1, i64* %14
-  store i32 0, i32* %cur
-  store i32 0, i32* %argi
-  store i32 0, i32* %i
-  %15 = alloca { i64, i8* }
-  %16 = alloca { i64, i8* }
-  %17 = alloca { i64, i8* }
-  %18 = alloca %string
-  br label %loop_decide
+  %6 = icmp sgt i64 %2, 0
+  br i1 %6, label %loop_body.lr.ph, label %loop_continue
 
-loop_decide:                                      ; preds = %loop_increment, %entry
-  %19 = getelementptr inbounds %string, %string* %format, i32 0, i32 0
-  %20 = load i64, i64* %19, align 8
-  %21 = load i32, i32* %i, align 4
-  %22 = sext i32 %21 to i64
-  %23 = icmp slt i64 %22, %20
-  br i1 %23, label %loop_body, label %loop_continue
+loop_body.lr.ph:                                  ; preds = %entry
+  %7 = inttoptr i64 %3 to i8*
+  %8 = inttoptr i64 %5 to %Any*
+  %9 = inttoptr i64 %1 to i8*
+  br label %loop_body
 
-exit:                                             ; preds = %loop_continue
-  %24 = load i32, i32* %.ret.7, align 4
-  ret i32 %24
+loop_body:                                        ; preds = %loop_body.lr.ph, %if_cont
+  %10 = phi i64 [ 0, %loop_body.lr.ph ], [ %30, %if_cont ]
+  %i.033 = phi i32 [ 0, %loop_body.lr.ph ], [ %29, %if_cont ]
+  %cur.032 = phi i32 [ 0, %loop_body.lr.ph ], [ %cur.1, %if_cont ]
+  %argi.031 = phi i32 [ 0, %loop_body.lr.ph ], [ %argi.1, %if_cont ]
+  %11 = getelementptr inbounds i8, i8* %7, i64 %10
+  %12 = load i8, i8* %11, align 1
+  %13 = icmp eq i8 %12, 37
+  br i1 %13, label %if_then, label %if_else
 
-loop_increment:                                   ; preds = %if_cont
-  %25 = load i32, i32* %i, align 4
-  %26 = add i32 %25, 1
-  store i32 %26, i32* %i, align 4
-  br label %loop_decide
-
-loop_body:                                        ; preds = %loop_decide
-  %27 = load i32, i32* %i, align 4
-  %28 = sext i32 %27 to i64
-  %29 = getelementptr inbounds %string, %string* %format, i32 0, i32 1
-  %30 = load i8*, i8** %29
-  %31 = getelementptr inbounds i8, i8* %30, i64 %28
-  %32 = load i8, i8* %31, align 1
-  store i8 %32, i8* %c
-  %33 = load i8, i8* %c, align 1
-  %34 = icmp eq i8 %33, 37
-  br i1 %34, label %if_then, label %if_else
-
-loop_continue:                                    ; preds = %loop_decide
-  %35 = load i32, i32* %cur, align 4
-  store i32 %35, i32* %.ret.7, align 4
-  br label %exit
+loop_continue:                                    ; preds = %if_cont, %entry
+  %cur.0.lcssa = phi i32 [ 0, %entry ], [ %cur.1, %if_cont ]
+  ret i32 %cur.0.lcssa
 
 if_then:                                          ; preds = %loop_body
-  %36 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %args, i32 0, i32 0
-  %37 = load i64, i64* %36, align 8
-  %38 = load i32, i32* %argi, align 4
-  %39 = sext i32 %38 to i64
-  %40 = icmp slt i64 %39, %37
-  br i1 %40, label %if_then1, label %if_else2
+  %14 = sext i32 %argi.031 to i64
+  %15 = icmp slt i64 %14, %4
+  br i1 %15, label %if_then1, label %loop_body.i
 
 if_else:                                          ; preds = %loop_body
-  %41 = load i8, i8* %c, align 1
-  %42 = load i32, i32* %cur, align 4
-  %43 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %43, { i64, i8* }* %15
-  %44 = bitcast { i64, i8* }* %15 to { i64, i64 }*
-  %45 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %44, i32 0, i32 0
-  %46 = load i64, i64* %45
-  %47 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %44, i32 0, i32 1
-  %48 = load i64, i64* %47
-  %49 = call i32 @print_char(i64 %46, i64 %48, i32 %42, i8 %41)
-  store i32 %49, i32* %cur, align 4
+  %16 = sext i32 %cur.032 to i64
+  %17 = icmp slt i64 %16, %0
+  br i1 %17, label %if_cont.i, label %if_cont
+
+if_cont.i:                                        ; preds = %if_else
+  %18 = getelementptr inbounds i8, i8* %9, i64 %16
+  store i8 %12, i8* %18, align 1
+  %19 = add i32 %cur.032, 1
   br label %if_cont
 
 if_then1:                                         ; preds = %if_then
-  %50 = load i32, i32* %argi, align 4
-  %51 = sext i32 %50 to i64
-  %52 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %args, i32 0, i32 1
-  %53 = load %Any*, %Any** %52
-  %54 = getelementptr inbounds %Any, %Any* %53, i64 %51
-  %55 = load i32, i32* %cur, align 4
-  %56 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %56, { i64, i8* }* %16
-  %57 = bitcast { i64, i8* }* %16 to { i64, i64 }*
-  %58 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %57, i32 0, i32 0
-  %59 = load i64, i64* %58
-  %60 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %57, i32 0, i32 1
-  %61 = load i64, i64* %60
-  %62 = call i32 @print_any(i64 %59, i64 %61, i32 %55, %Any* %54)
-  store i32 %62, i32* %cur, align 4
-  %63 = load i32, i32* %argi, align 4
-  %64 = add i32 %63, 1
-  store i32 %64, i32* %argi, align 4
-  br label %if_cont3
+  %20 = getelementptr inbounds %Any, %Any* %8, i64 %14
+  %21 = tail call i32 @print_any(i64 %0, i64 %1, i32 %cur.032, %Any* %20)
+  %22 = add i32 %argi.031, 1
+  br label %if_cont
 
-if_else2:                                         ; preds = %if_then
-  %65 = load i32, i32* %cur, align 4
-  %66 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %66, { i64, i8* }* %17
-  %67 = bitcast { i64, i8* }* %17 to { i64, i64 }*
-  %68 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %67, i32 0, i32 0
-  %69 = load i64, i64* %68
-  %70 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %67, i32 0, i32 1
-  %71 = load i64, i64* %70
-  store %string { i64 6, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @.str.291, i32 0, i32 0) }, %string* %18
-  %72 = bitcast %string* %18 to { i64, i64 }*
-  %73 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %72, i32 0, i32 0
-  %74 = load i64, i64* %73
-  %75 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %72, i32 0, i32 1
-  %76 = load i64, i64* %75
-  %77 = call i32 @print_string(i64 %69, i64 %71, i32 %65, i64 %74, i64 %76)
-  store i32 %77, i32* %cur, align 4
-  br label %if_cont3
+loop_body.i:                                      ; preds = %if_then
+  %23 = sext i32 %cur.032 to i64
+  %24 = icmp slt i64 %23, %0
+  br i1 %24, label %if_cont3.i, label %if_cont
 
-if_cont:                                          ; preds = %if_cont3, %if_else
-  br label %loop_increment
+if_cont3.i:                                       ; preds = %loop_body.i
+  %25 = getelementptr inbounds i8, i8* %9, i64 %23
+  store i8 40, i8* %25, align 1
+  %26 = add i32 %cur.032, 1
+  %27 = sext i32 %26 to i64
+  %28 = icmp slt i64 %27, %0
+  br i1 %28, label %if_cont3.i.1, label %if_cont
 
-if_cont3:                                         ; preds = %if_else2, %if_then1
+if_cont:                                          ; preds = %if_cont3.i.5, %if_cont3.i.4, %if_cont3.i.3, %if_cont3.i.2, %if_cont3.i.1, %if_cont3.i, %loop_body.i, %if_cont.i, %if_else, %if_then1
+  %argi.1 = phi i32 [ %22, %if_then1 ], [ %argi.031, %if_else ], [ %argi.031, %if_cont.i ], [ %argi.031, %loop_body.i ], [ %argi.031, %if_cont3.i ], [ %argi.031, %if_cont3.i.1 ], [ %argi.031, %if_cont3.i.2 ], [ %argi.031, %if_cont3.i.3 ], [ %argi.031, %if_cont3.i.4 ], [ %argi.031, %if_cont3.i.5 ]
+  %cur.1 = phi i32 [ %21, %if_then1 ], [ 0, %if_else ], [ %19, %if_cont.i ], [ %cur.032, %loop_body.i ], [ %26, %if_cont3.i ], [ %33, %if_cont3.i.1 ], [ %37, %if_cont3.i.2 ], [ %41, %if_cont3.i.3 ], [ %45, %if_cont3.i.4 ], [ %.pre, %if_cont3.i.5 ]
+  %29 = add i32 %i.033, 1
+  %30 = sext i32 %29 to i64
+  %31 = icmp slt i64 %30, %2
+  br i1 %31, label %loop_body, label %loop_continue
+
+if_cont3.i.1:                                     ; preds = %if_cont3.i
+  %32 = getelementptr inbounds i8, i8* %9, i64 %27
+  store i8 110, i8* %32, align 1
+  %33 = add i32 %cur.032, 2
+  %34 = sext i32 %33 to i64
+  %35 = icmp slt i64 %34, %0
+  br i1 %35, label %if_cont3.i.2, label %if_cont
+
+if_cont3.i.2:                                     ; preds = %if_cont3.i.1
+  %36 = getelementptr inbounds i8, i8* %9, i64 %34
+  store i8 117, i8* %36, align 1
+  %37 = add i32 %cur.032, 3
+  %38 = sext i32 %37 to i64
+  %39 = icmp slt i64 %38, %0
+  br i1 %39, label %if_cont3.i.3, label %if_cont
+
+if_cont3.i.3:                                     ; preds = %if_cont3.i.2
+  %40 = getelementptr inbounds i8, i8* %9, i64 %38
+  store i8 108, i8* %40, align 1
+  %41 = add i32 %cur.032, 4
+  %42 = sext i32 %41 to i64
+  %43 = icmp slt i64 %42, %0
+  br i1 %43, label %if_cont3.i.4, label %if_cont
+
+if_cont3.i.4:                                     ; preds = %if_cont3.i.3
+  %44 = getelementptr inbounds i8, i8* %9, i64 %42
+  store i8 108, i8* %44, align 1
+  %45 = add i32 %cur.032, 5
+  %46 = sext i32 %45 to i64
+  %47 = icmp slt i64 %46, %0
+  br i1 %47, label %if_cont3.i.5, label %if_cont
+
+if_cont3.i.5:                                     ; preds = %if_cont3.i.4
+  %48 = getelementptr inbounds i8, i8* %9, i64 %46
+  store i8 41, i8* %48, align 1
+  %.pre = add i32 %cur.032, 6
   br label %if_cont
 }
 
-define i32 @bprint(i64, i64, i64, i64, i64, i64) {
+; Function Attrs: nofree
+define i32 @bprint(i64 %0, i64 %1, i64 %2, i64 %3, i64 %4, i64 %5) local_unnamed_addr #5 {
 entry:
-  %.ret.6 = alloca i32, align 4
-  %args = alloca { i64, %Any* }, align 8
-  %format = alloca %string, align 8
-  %buf = alloca { i64, i8* }, align 8
-  %tmp = alloca { i64, %Any* }, align 8
-  %6 = bitcast { i64, %Any* }* %args to { i64, i64 }*
-  %7 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %6, i32 0, i32 0
-  store i64 %4, i64* %7
-  %8 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %6, i32 0, i32 1
-  store i64 %5, i64* %8
-  %9 = bitcast %string* %format to { i64, i64 }*
-  %10 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %9, i32 0, i32 0
-  store i64 %2, i64* %10
-  %11 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %9, i32 0, i32 1
-  store i64 %3, i64* %11
-  %12 = bitcast { i64, i8* }* %buf to { i64, i64 }*
-  %13 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %12, i32 0, i32 0
-  store i64 %0, i64* %13
-  %14 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %12, i32 0, i32 1
-  store i64 %1, i64* %14
-  %15 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %args, i32 0, i32 1
-  %16 = load %Any*, %Any** %15, align 8
-  %17 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %args, i32 0, i32 0
-  %18 = load i64, i64* %17, align 8
-  %19 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %tmp, i32 0, i32 0
-  store i64 %18, i64* %19
-  %20 = getelementptr inbounds { i64, %Any* }, { i64, %Any* }* %tmp, i32 0, i32 1
-  store %Any* %16, %Any** %20
-  %21 = load { i64, %Any* }, { i64, %Any* }* %tmp
-  %22 = load { i64, %Any* }, { i64, %Any* }* %tmp, align 8
-  %23 = load %string, %string* %format, align 8
-  %24 = alloca { i64, i8* }
-  %25 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %25, { i64, i8* }* %24
-  %26 = bitcast { i64, i8* }* %24 to { i64, i64 }*
-  %27 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %26, i32 0, i32 0
-  %28 = load i64, i64* %27
-  %29 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %26, i32 0, i32 1
-  %30 = alloca %string
-  %31 = load i64, i64* %29
-  store %string %23, %string* %30
-  %32 = bitcast %string* %30 to { i64, i64 }*
-  %33 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %32, i32 0, i32 0
-  %34 = load i64, i64* %33
-  %35 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %32, i32 0, i32 1
-  %36 = alloca { i64, %Any* }
-  %37 = load i64, i64* %35
-  store { i64, %Any* } %22, { i64, %Any* }* %36
-  %38 = bitcast { i64, %Any* }* %36 to { i64, i64 }*
-  %39 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %38, i32 0, i32 0
-  %40 = load i64, i64* %39
-  %41 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %38, i32 0, i32 1
-  %42 = load i64, i64* %41
-  %43 = call i32 @print_impl(i64 %28, i64 %31, i64 %34, i64 %37, i64 %40, i64 %42)
-  store i32 %43, i32* %.ret.6, align 4
-  br label %exit
+  %6 = icmp sgt i64 %2, 0
+  br i1 %6, label %loop_body.lr.ph.i, label %print_impl.exit
 
-exit:                                             ; preds = %entry
-  %44 = load i32, i32* %.ret.6, align 4
-  ret i32 %44
+loop_body.lr.ph.i:                                ; preds = %entry
+  %7 = inttoptr i64 %3 to i8*
+  %8 = inttoptr i64 %5 to %Any*
+  %9 = inttoptr i64 %1 to i8*
+  br label %loop_body.i
+
+loop_body.i:                                      ; preds = %if_cont.i, %loop_body.lr.ph.i
+  %10 = phi i64 [ 0, %loop_body.lr.ph.i ], [ %30, %if_cont.i ]
+  %i.033.i = phi i32 [ 0, %loop_body.lr.ph.i ], [ %29, %if_cont.i ]
+  %cur.032.i = phi i32 [ 0, %loop_body.lr.ph.i ], [ %cur.1.i, %if_cont.i ]
+  %argi.031.i = phi i32 [ 0, %loop_body.lr.ph.i ], [ %argi.1.i, %if_cont.i ]
+  %11 = getelementptr inbounds i8, i8* %7, i64 %10
+  %12 = load i8, i8* %11, align 1
+  %13 = icmp eq i8 %12, 37
+  br i1 %13, label %if_then.i, label %if_else.i
+
+if_then.i:                                        ; preds = %loop_body.i
+  %14 = sext i32 %argi.031.i to i64
+  %15 = icmp slt i64 %14, %4
+  br i1 %15, label %if_then1.i, label %loop_body.i.i
+
+if_else.i:                                        ; preds = %loop_body.i
+  %16 = sext i32 %cur.032.i to i64
+  %17 = icmp slt i64 %16, %0
+  br i1 %17, label %if_cont.i.i, label %if_cont.i
+
+if_cont.i.i:                                      ; preds = %if_else.i
+  %18 = getelementptr inbounds i8, i8* %9, i64 %16
+  store i8 %12, i8* %18, align 1
+  %19 = add i32 %cur.032.i, 1
+  br label %if_cont.i
+
+if_then1.i:                                       ; preds = %if_then.i
+  %20 = getelementptr inbounds %Any, %Any* %8, i64 %14
+  %21 = tail call i32 @print_any(i64 %0, i64 %1, i32 %cur.032.i, %Any* %20)
+  %22 = add i32 %argi.031.i, 1
+  br label %if_cont.i
+
+loop_body.i.i:                                    ; preds = %if_then.i
+  %23 = sext i32 %cur.032.i to i64
+  %24 = icmp slt i64 %23, %0
+  br i1 %24, label %if_cont3.i.i, label %if_cont.i
+
+if_cont3.i.i:                                     ; preds = %loop_body.i.i
+  %25 = getelementptr inbounds i8, i8* %9, i64 %23
+  store i8 40, i8* %25, align 1
+  %26 = add i32 %cur.032.i, 1
+  %27 = sext i32 %26 to i64
+  %28 = icmp slt i64 %27, %0
+  br i1 %28, label %if_cont3.i.i.1, label %if_cont.i
+
+if_cont.i:                                        ; preds = %if_cont3.i.i.5, %if_cont3.i.i.4, %if_cont3.i.i.3, %if_cont3.i.i.2, %if_cont3.i.i.1, %if_cont3.i.i, %loop_body.i.i, %if_else.i, %if_cont.i.i, %if_then1.i
+  %argi.1.i = phi i32 [ %22, %if_then1.i ], [ %argi.031.i, %if_cont.i.i ], [ %argi.031.i, %if_else.i ], [ %argi.031.i, %loop_body.i.i ], [ %argi.031.i, %if_cont3.i.i ], [ %argi.031.i, %if_cont3.i.i.1 ], [ %argi.031.i, %if_cont3.i.i.2 ], [ %argi.031.i, %if_cont3.i.i.3 ], [ %argi.031.i, %if_cont3.i.i.4 ], [ %argi.031.i, %if_cont3.i.i.5 ]
+  %cur.1.i = phi i32 [ %21, %if_then1.i ], [ %19, %if_cont.i.i ], [ 0, %if_else.i ], [ %cur.032.i, %loop_body.i.i ], [ %26, %if_cont3.i.i ], [ %33, %if_cont3.i.i.1 ], [ %37, %if_cont3.i.i.2 ], [ %41, %if_cont3.i.i.3 ], [ %45, %if_cont3.i.i.4 ], [ %.pre, %if_cont3.i.i.5 ]
+  %29 = add i32 %i.033.i, 1
+  %30 = sext i32 %29 to i64
+  %31 = icmp slt i64 %30, %2
+  br i1 %31, label %loop_body.i, label %print_impl.exit
+
+print_impl.exit:                                  ; preds = %if_cont.i, %entry
+  %cur.0.lcssa.i = phi i32 [ 0, %entry ], [ %cur.1.i, %if_cont.i ]
+  ret i32 %cur.0.lcssa.i
+
+if_cont3.i.i.1:                                   ; preds = %if_cont3.i.i
+  %32 = getelementptr inbounds i8, i8* %9, i64 %27
+  store i8 110, i8* %32, align 1
+  %33 = add i32 %cur.032.i, 2
+  %34 = sext i32 %33 to i64
+  %35 = icmp slt i64 %34, %0
+  br i1 %35, label %if_cont3.i.i.2, label %if_cont.i
+
+if_cont3.i.i.2:                                   ; preds = %if_cont3.i.i.1
+  %36 = getelementptr inbounds i8, i8* %9, i64 %34
+  store i8 117, i8* %36, align 1
+  %37 = add i32 %cur.032.i, 3
+  %38 = sext i32 %37 to i64
+  %39 = icmp slt i64 %38, %0
+  br i1 %39, label %if_cont3.i.i.3, label %if_cont.i
+
+if_cont3.i.i.3:                                   ; preds = %if_cont3.i.i.2
+  %40 = getelementptr inbounds i8, i8* %9, i64 %38
+  store i8 108, i8* %40, align 1
+  %41 = add i32 %cur.032.i, 4
+  %42 = sext i32 %41 to i64
+  %43 = icmp slt i64 %42, %0
+  br i1 %43, label %if_cont3.i.i.4, label %if_cont.i
+
+if_cont3.i.i.4:                                   ; preds = %if_cont3.i.i.3
+  %44 = getelementptr inbounds i8, i8* %9, i64 %42
+  store i8 108, i8* %44, align 1
+  %45 = add i32 %cur.032.i, 5
+  %46 = sext i32 %45 to i64
+  %47 = icmp slt i64 %46, %0
+  br i1 %47, label %if_cont3.i.i.5, label %if_cont.i
+
+if_cont3.i.i.5:                                   ; preds = %if_cont3.i.i.4
+  %48 = getelementptr inbounds i8, i8* %9, i64 %46
+  store i8 41, i8* %48, align 1
+  %.pre = add i32 %cur.032.i, 6
+  br label %if_cont.i
 }
 
-define i32 @print_char(i64, i64, i32, i8) {
+; Function Attrs: nofree norecurse nounwind writeonly
+define i32 @print_char(i64 %0, i64 %1, i32 %2, i8 %3) local_unnamed_addr #6 {
 entry:
-  %.ret.11 = alloca i32, align 4
-  %c = alloca i8, align 1
-  %cur = alloca i32, align 4
-  %buf = alloca { i64, i8* }, align 8
-  store i8 %3, i8* %c
-  store i32 %2, i32* %cur
-  %4 = bitcast { i64, i8* }* %buf to { i64, i64 }*
-  %5 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 0
-  store i64 %0, i64* %5
-  %6 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 1
-  store i64 %1, i64* %6
-  %7 = getelementptr inbounds { i64, i8* }, { i64, i8* }* %buf, i32 0, i32 0
-  %8 = load i64, i64* %7, align 8
-  %9 = load i32, i32* %cur, align 4
-  %10 = sext i32 %9 to i64
-  %11 = icmp sge i64 %10, %8
-  br i1 %11, label %if_then, label %if_else
+  %4 = sext i32 %2 to i64
+  %5 = icmp slt i64 %4, %0
+  br i1 %5, label %if_cont, label %exit
 
-if_then:                                          ; preds = %entry
-  store i32 0, i32* %.ret.11, align 4
-  br label %exit
+exit:                                             ; preds = %entry, %if_cont
+  %.ret.11.0 = phi i32 [ %8, %if_cont ], [ 0, %entry ]
+  ret i32 %.ret.11.0
 
-if_else:                                          ; preds = %entry
-  br label %if_cont
-
-exit:                                             ; preds = %if_cont, %if_then
-  %12 = load i32, i32* %.ret.11, align 4
-  ret i32 %12
-
-if_cont:                                          ; preds = %if_else
-  %13 = load i8, i8* %c, align 1
-  %14 = load i32, i32* %cur, align 4
-  %15 = sext i32 %14 to i64
-  %16 = getelementptr inbounds { i64, i8* }, { i64, i8* }* %buf, i32 0, i32 1
-  %17 = load i8*, i8** %16
-  %18 = getelementptr inbounds i8, i8* %17, i64 %15
-  store i8 %13, i8* %18, align 1
-  %19 = load i32, i32* %cur, align 4
-  %20 = add i32 %19, 1
-  store i32 %20, i32* %.ret.11, align 4
+if_cont:                                          ; preds = %entry
+  %6 = inttoptr i64 %1 to i8*
+  %7 = getelementptr inbounds i8, i8* %6, i64 %4
+  store i8 %3, i8* %7, align 1
+  %8 = add i32 %2, 1
   br label %exit
 }
 
-define i32 @print_any(i64, i64, i32, %Any*) {
+; Function Attrs: nofree
+define i32 @print_any(i64 %0, i64 %1, i32 %2, %Any* nocapture readonly %3) local_unnamed_addr #5 {
 entry:
-  %.ret.8 = alloca i32, align 4
-  %any = alloca %Any*, align 8
-  %cur = alloca i32, align 4
-  %buf = alloca { i64, i8* }, align 8
-  %info = alloca %TypeInfoInt*, align 8
-  %int = alloca i64, align 8
-  %int1 = alloca i64, align 8
-  %info2 = alloca %TypeInfoReal*, align 8
-  %real = alloca double, align 8
-  %str = alloca %string, align 8
-  %info3 = alloca %TypeInfoArray*, align 8
-  %elem_size = alloca i64, align 8
   %tmp = alloca %Any, align 8
-  %i = alloca i64, align 8
-  %info4 = alloca %TypeInfoStruct*, align 8
   %tmp5 = alloca %Any, align 8
-  %i6 = alloca i32, align 4
-  %member = alloca %TypeInfoStructMember, align 8
-  %len = alloca i64, align 8
-  %ptr = alloca i8*, align 8
-  %elem_type = alloca %TypeInfo*, align 8
-  %elem_size7 = alloca i64, align 8
-  %i8 = alloca i64, align 8
-  %ptr9 = alloca i64, align 8
-  %b = alloca i1, align 1
-  %info10 = alloca %TypeInfoEnum*, align 8
-  %info_base_type = alloca %TypeInfoInt*, align 8
-  %value = alloca i64, align 8
-  %i11 = alloca i32, align 4
-  store %Any* %3, %Any** %any
-  store i32 %2, i32* %cur
-  %4 = bitcast { i64, i8* }* %buf to { i64, i64 }*
-  %5 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 0
-  store i64 %0, i64* %5
-  %6 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 1
-  store i64 %1, i64* %6
-  %7 = load %Any*, %Any** %any, align 8
-  %8 = getelementptr inbounds %Any, %Any* %7, i32 0, i32 0
-  %9 = load %TypeInfo*, %TypeInfo** %8, align 8
-  %10 = getelementptr inbounds %TypeInfo, %TypeInfo* %9, i32 0, i32 0
-  %11 = load i32, i32* %10, align 4
-  %12 = icmp eq i32 %11, 3
-  %13 = alloca { i64, i8* }
-  %14 = alloca { i64, i8* }
-  %15 = alloca %string
-  %16 = alloca { i64, i8* }
-  %17 = alloca { i64, i8* }
-  %18 = alloca %string
-  %19 = alloca { i64, i8* }
-  %20 = alloca { i64, i8* }
-  %21 = alloca %string
-  %22 = alloca { i64, i8* }
-  %23 = alloca %string
-  %24 = alloca { i64, i8* }
-  %25 = alloca %string
-  %26 = alloca { i64, i8* }
-  %27 = alloca { i64, i8* }
-  %28 = alloca %string
-  %29 = alloca { i64, i8* }
-  %30 = alloca %string
-  %31 = alloca { i64, i8* }
-  %32 = alloca %string
-  %33 = alloca { i64, i8* }
-  %34 = alloca %string
-  %35 = alloca { i64, i8* }
-  %36 = alloca %string
-  %37 = alloca { i64, i8* }
-  %38 = alloca %string
-  %39 = alloca { i64, i8* }
-  %40 = alloca { i64, i8* }
-  %41 = alloca %string
-  %42 = alloca { i64, i8* }
-  %43 = alloca %string
-  %44 = alloca { i64, i8* }
-  %45 = alloca %string
-  %46 = alloca { i64, i8* }
-  %47 = alloca %string
-  %48 = alloca { i64, i8* }
-  %49 = alloca %string
-  %50 = alloca { i64, i8* }
-  %51 = alloca %string
-  %52 = alloca { i64, i8* }
-  %53 = alloca { i64, i8* }
-  %54 = alloca %string
-  %55 = alloca { i64, i8* }
-  %56 = alloca %string
-  %57 = alloca { i64, i8* }
-  %58 = alloca { i64, i8* }
-  %59 = alloca %string
-  %60 = alloca { i64, i8* }
-  %61 = alloca %string
-  %62 = alloca { i64, i8* }
-  %63 = alloca %string
-  %64 = alloca { i64, i8* }
-  %65 = alloca %string
-  %66 = alloca { i64, i8* }
-  %67 = alloca %string
-  %68 = alloca { i64, i8* }
-  %69 = alloca %string
-  %70 = alloca { i64, i8* }
-  %71 = alloca { i64, i8* }
-  %72 = alloca { i64, i8* }
-  %73 = alloca %string
-  br i1 %12, label %if_then, label %if_else
+  %4 = getelementptr inbounds %Any, %Any* %3, i64 0, i32 0
+  %5 = load %TypeInfo*, %TypeInfo** %4, align 8
+  %6 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 0, i32 0
+  %7 = load i32, i32* %6, align 4
+  switch i32 %7, label %if_else81 [
+    i32 3, label %if_then
+    i32 4, label %if_then14
+    i32 12, label %if_then22
+    i32 8, label %if_then26
+    i32 9, label %if_then31
+    i32 6, label %if_then40
+    i32 7, label %if_then69
+    i32 10, label %if_then75
+    i32 1, label %if_then80
+  ]
 
 if_then:                                          ; preds = %entry
-  %74 = load %Any*, %Any** %any, align 8
-  %75 = getelementptr inbounds %Any, %Any* %74, i32 0, i32 0
-  %76 = load %TypeInfo*, %TypeInfo** %75, align 8
-  %77 = bitcast %TypeInfo* %76 to %TypeInfoInt*
-  store %TypeInfoInt* %77, %TypeInfoInt** %info
-  %78 = load %TypeInfoInt*, %TypeInfoInt** %info, align 8
-  %79 = getelementptr inbounds %TypeInfoInt, %TypeInfoInt* %78, i32 0, i32 2
-  %80 = load i1, i1* %79, align 1
-  br i1 %80, label %if_then12, label %if_else13
+  %8 = bitcast %TypeInfo* %5 to %TypeInfoInt*
+  %9 = getelementptr inbounds %TypeInfoInt, %TypeInfoInt* %8, i64 0, i32 2
+  %10 = load i1, i1* %9, align 1
+  %11 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 1, i32 0
+  %12 = load i32, i32* %11, align 4
+  %13 = getelementptr inbounds %Any, %Any* %3, i64 0, i32 1
+  %14 = load i8*, i8** %13, align 8
+  %15 = add i32 %12, -8
+  %16 = lshr i32 %15, 3
+  %17 = shl i32 %15, 29
+  %18 = or i32 %16, %17
+  br i1 %10, label %if_then12, label %if_else13
 
-if_else:                                          ; preds = %entry
-  %81 = load %Any*, %Any** %any, align 8
-  %82 = getelementptr inbounds %Any, %Any* %81, i32 0, i32 0
-  %83 = load %TypeInfo*, %TypeInfo** %82, align 8
-  %84 = getelementptr inbounds %TypeInfo, %TypeInfo* %83, i32 0, i32 0
-  %85 = load i32, i32* %84, align 4
-  %86 = icmp eq i32 %85, 4
-  br i1 %86, label %if_then14, label %if_else15
-
-exit:                                             ; preds = %if_else81, %if_then80, %if_cont91, %if_then86, %if_else74, %if_then73, %if_cont72, %if_then67, %if_cont60, %if_then54, %if_then45, %loop_continue49, %loop_continue, %if_then29, %if_then22, %if_cont25, %if_cont19, %if_else13, %if_cont
-  %87 = load i32, i32* %.ret.8, align 4
-  ret i32 %87
+exit:                                             ; preds = %if_cont3.i.i765, %loop_body.i.i764, %if_cont3.i567.8, %if_cont3.i567.7, %if_cont3.i567.6, %if_cont3.i567.5, %if_cont3.i567.4, %if_cont3.i567.3, %if_cont3.i567.2, %if_cont3.i567.1, %if_cont3.i567, %if_else81, %if_cont3.i591.4, %if_cont3.i591.3, %if_cont3.i591.2, %if_cont3.i591.1, %if_cont3.i591, %loop_body.i588, %if_cont3.i600.3, %if_cont3.i600.2, %if_cont3.i600.1, %if_cont3.i600, %loop_body.i597, %if_cont3.i623.3, %if_cont3.i623.2, %if_cont3.i623.1, %if_cont3.i623, %loop_body.i620, %if_cont3.i650, %loop_body.i647, %if_cont3.i668.7, %if_cont3.i668.6, %if_cont3.i668.5, %if_cont3.i668.4, %if_cont3.i668.3, %if_cont3.i668.2, %if_cont3.i668.1, %if_cont3.i668, %loop_body.i665, %if_cont3.i686, %loop_body.i683, %if_cont3.i722.1, %if_cont3.i722, %if_then45, %if_cont3.i760, %loop_body.i757, %if_cont3.i798.1, %if_cont3.i798, %if_then29, %if_cont3.i.i811, %if_then.i808, %if_cont3.i.i, %if_then.i550, %if_cont6.i780, %if_cont6.i615, %if_cont7.i, %if_cont6.i, %if_cont6.i826, %loop_continue.i640, %print_string.exit, %loop_continue.i843, %if_then22, %if_then80
+  %.ret.8.0 = phi i32 [ %403, %if_then80 ], [ %106, %loop_continue.i843 ], [ %2, %if_then22 ], [ %446, %loop_continue.i640 ], [ %.pre-phi905, %print_string.exit ], [ %cur.1.i825, %if_cont6.i826 ], [ %cur.1.i, %if_cont6.i ], [ %cur.2.i, %if_cont7.i ], [ %cur.1.i614, %if_cont6.i615 ], [ %cur.1.i779, %if_cont6.i780 ], [ %.pre864, %if_cont3.i.i ], [ %2, %if_then.i550 ], [ %.pre860, %if_cont3.i.i811 ], [ %cur.0851, %if_then.i808 ], [ %.pre868, %if_cont3.i798.1 ], [ %2, %if_then29 ], [ %148, %if_cont3.i798 ], [ %.pre872, %if_cont3.i760 ], [ %cur.2.lcssa, %loop_body.i757 ], [ %.pre876, %if_cont3.i722.1 ], [ %2, %if_then45 ], [ %253, %if_cont3.i722 ], [ %.pre892, %if_cont3.i686 ], [ %cur.4.lcssa, %loop_body.i683 ], [ %.pre878, %if_cont3.i668.7 ], [ %2, %loop_body.i665 ], [ %306, %if_cont3.i668 ], [ %507, %if_cont3.i668.1 ], [ %511, %if_cont3.i668.2 ], [ %515, %if_cont3.i668.3 ], [ %519, %if_cont3.i668.4 ], [ %523, %if_cont3.i668.5 ], [ %527, %if_cont3.i668.6 ], [ %.pre882, %if_cont3.i650 ], [ %cur.7, %loop_body.i647 ], [ %.pre894, %if_cont3.i623.3 ], [ %2, %loop_body.i620 ], [ %339, %if_cont3.i623 ], [ %540, %if_cont3.i623.1 ], [ %544, %if_cont3.i623.2 ], [ %.pre900, %if_cont3.i600.3 ], [ %2, %loop_body.i597 ], [ %364, %if_cont3.i600 ], [ %550, %if_cont3.i600.1 ], [ %554, %if_cont3.i600.2 ], [ %.pre902, %if_cont3.i591.4 ], [ %2, %loop_body.i588 ], [ %368, %if_cont3.i591 ], [ %559, %if_cont3.i591.1 ], [ %563, %if_cont3.i591.2 ], [ %567, %if_cont3.i591.3 ], [ %.pre858, %if_cont3.i567.8 ], [ %2, %if_else81 ], [ %408, %if_cont3.i567 ], [ %475, %if_cont3.i567.1 ], [ %479, %if_cont3.i567.2 ], [ %483, %if_cont3.i567.3 ], [ %487, %if_cont3.i567.4 ], [ %491, %if_cont3.i567.5 ], [ %495, %if_cont3.i567.6 ], [ %499, %if_cont3.i567.7 ], [ %.pre908, %if_cont3.i.i765 ], [ %cur.9, %loop_body.i.i764 ]
+  ret i32 %.ret.8.0
 
 if_then12:                                        ; preds = %if_then
-  %88 = load %TypeInfoInt*, %TypeInfoInt** %info, align 8
-  %89 = getelementptr inbounds %TypeInfoInt, %TypeInfoInt* %88, i32 0, i32 1
-  %90 = load i32, i32* %89, align 4
-  %91 = load %Any*, %Any** %any, align 8
-  %92 = getelementptr inbounds %Any, %Any* %91, i32 0, i32 1
-  %93 = load i8*, i8** %92, align 8
-  %94 = call i64 @s64_from_u8_ptr(i8* %93, i32 %90)
-  store i64 %94, i64* %int
-  %95 = load i64, i64* %int, align 8
-  %96 = icmp slt i64 %95, 0
-  br i1 %96, label %if_then16, label %if_else17
+  switch i32 %18, label %if_then.i808 [
+    i32 7, label %if_then.i
+    i32 3, label %if_then1.i
+    i32 1, label %if_then4.i
+    i32 0, label %if_then7.i
+  ]
+
+if_then.i:                                        ; preds = %if_then12
+  %19 = bitcast i8* %14 to i64*
+  %20 = load i64, i64* %19, align 8
+  br label %s64_from_u8_ptr.exit
+
+if_then1.i:                                       ; preds = %if_then12
+  %21 = bitcast i8* %14 to i32*
+  %22 = load i32, i32* %21, align 4
+  %23 = sext i32 %22 to i64
+  br label %s64_from_u8_ptr.exit
+
+if_then4.i:                                       ; preds = %if_then12
+  %24 = bitcast i8* %14 to i16*
+  %25 = load i16, i16* %24, align 2
+  %26 = sext i16 %25 to i64
+  br label %s64_from_u8_ptr.exit
+
+if_then7.i:                                       ; preds = %if_then12
+  %27 = load i8, i8* %14, align 1
+  %28 = sext i8 %27 to i64
+  br label %s64_from_u8_ptr.exit
+
+s64_from_u8_ptr.exit:                             ; preds = %if_then.i, %if_then1.i, %if_then4.i, %if_then7.i
+  %.ret.15.0.i = phi i64 [ %20, %if_then.i ], [ %23, %if_then1.i ], [ %26, %if_then4.i ], [ %28, %if_then7.i ]
+  %29 = icmp slt i64 %.ret.15.0.i, 0
+  br i1 %29, label %if_then16, label %if_cont19
 
 if_else13:                                        ; preds = %if_then
-  %97 = load %TypeInfoInt*, %TypeInfoInt** %info, align 8
-  %98 = getelementptr inbounds %TypeInfoInt, %TypeInfoInt* %97, i32 0, i32 1
-  %99 = load i32, i32* %98, align 4
-  %100 = load %Any*, %Any** %any, align 8
-  %101 = getelementptr inbounds %Any, %Any* %100, i32 0, i32 1
-  %102 = load i8*, i8** %101, align 8
-  %103 = call i64 @u64_from_u8_ptr(i8* %102, i32 %99)
-  store i64 %103, i64* %int1
-  %104 = load i64, i64* %int1, align 8
-  %105 = load i32, i32* %cur, align 4
-  %106 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %106, { i64, i8* }* %13
-  %107 = bitcast { i64, i8* }* %13 to { i64, i64 }*
-  %108 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %107, i32 0, i32 0
-  %109 = load i64, i64* %108
-  %110 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %107, i32 0, i32 1
-  %111 = load i64, i64* %110
-  %112 = call i32 @print_u64(i64 %109, i64 %111, i32 %105, i64 %104)
-  store i32 %112, i32* %.ret.8, align 4
+  switch i32 %18, label %if_then.i550 [
+    i32 7, label %if_then.i546
+    i32 3, label %if_then1.i547
+    i32 1, label %if_then4.i548
+    i32 0, label %if_then7.i549
+  ]
+
+if_then.i546:                                     ; preds = %if_else13
+  %30 = bitcast i8* %14 to i64*
+  %31 = load i64, i64* %30, align 8
+  br label %u64_from_u8_ptr.exit
+
+if_then1.i547:                                    ; preds = %if_else13
+  %32 = bitcast i8* %14 to i32*
+  %33 = load i32, i32* %32, align 4
+  %34 = zext i32 %33 to i64
+  br label %u64_from_u8_ptr.exit
+
+if_then4.i548:                                    ; preds = %if_else13
+  %35 = bitcast i8* %14 to i16*
+  %36 = load i16, i16* %35, align 2
+  %37 = zext i16 %36 to i64
+  br label %u64_from_u8_ptr.exit
+
+if_then7.i549:                                    ; preds = %if_else13
+  %38 = load i8, i8* %14, align 1
+  %39 = zext i8 %38 to i64
+  br label %u64_from_u8_ptr.exit
+
+u64_from_u8_ptr.exit:                             ; preds = %if_then.i546, %if_then1.i547, %if_then4.i548, %if_then7.i549
+  %.ret.16.0.i = phi i64 [ %31, %if_then.i546 ], [ %34, %if_then1.i547 ], [ %37, %if_then4.i548 ], [ %39, %if_then7.i549 ]
+  %40 = icmp eq i64 %.ret.16.0.i, 0
+  br i1 %40, label %if_then.i550, label %loop_body.i.preheader
+
+loop_body.i.preheader:                            ; preds = %u64_from_u8_ptr.exit
+  %41 = inttoptr i64 %1 to i8*
+  br label %loop_body.i
+
+if_then.i550:                                     ; preds = %if_else13, %u64_from_u8_ptr.exit
+  %42 = sext i32 %2 to i64
+  %43 = icmp slt i64 %42, %0
+  br i1 %43, label %if_cont3.i.i, label %exit
+
+if_cont3.i.i:                                     ; preds = %if_then.i550
+  %44 = inttoptr i64 %1 to i8*
+  %45 = getelementptr inbounds i8, i8* %44, i64 %42
+  store i8 48, i8* %45, align 1
+  %.pre864 = add i32 %2, 1
   br label %exit
 
-if_then14:                                        ; preds = %if_else
-  %113 = load %Any*, %Any** %any, align 8
-  %114 = getelementptr inbounds %Any, %Any* %113, i32 0, i32 0
-  %115 = load %TypeInfo*, %TypeInfo** %114, align 8
-  %116 = bitcast %TypeInfo* %115 to %TypeInfoReal*
-  store %TypeInfoReal* %116, %TypeInfoReal** %info2
-  %117 = load %TypeInfoReal*, %TypeInfoReal** %info2, align 8
-  %118 = getelementptr inbounds %TypeInfoReal, %TypeInfoReal* %117, i32 0, i32 1
-  %119 = load i32, i32* %118, align 4
-  %120 = load %Any*, %Any** %any, align 8
-  %121 = getelementptr inbounds %Any, %Any* %120, i32 0, i32 1
-  %122 = load i8*, i8** %121, align 8
-  %123 = call double @f64_from_u8_ptr(i8* %122, i32 %119)
-  store double %123, double* %real
-  %124 = load double, double* %real, align 8
-  %125 = fcmp olt double %124, 0.000000e+00
-  br i1 %125, label %if_then20, label %if_else21
+loop_body.i:                                      ; preds = %loop_body.i.preheader, %if_cont6.i
+  %v.027.i = phi i64 [ %46, %if_cont6.i ], [ %.ret.16.0.i, %loop_body.i.preheader ]
+  %cur.026.i = phi i32 [ %cur.1.i, %if_cont6.i ], [ %2, %loop_body.i.preheader ]
+  %hit_non_zero.025.i = phi i1 [ %hit_non_zero.0..i, %if_cont6.i ], [ false, %loop_body.i.preheader ]
+  %div.024.i = phi i64 [ %47, %if_cont6.i ], [ -8446744073709551616, %loop_body.i.preheader ]
+  %46 = urem i64 %v.027.i, %div.024.i
+  %47 = udiv i64 %div.024.i, 10
+  %48 = icmp ule i64 %div.024.i, %v.027.i
+  %hit_non_zero.0..i = or i1 %hit_non_zero.025.i, %48
+  br i1 %hit_non_zero.0..i, label %if_then4.i551, label %if_cont6.i
 
-if_else15:                                        ; preds = %if_else
-  %126 = load %Any*, %Any** %any, align 8
-  %127 = getelementptr inbounds %Any, %Any* %126, i32 0, i32 0
-  %128 = load %TypeInfo*, %TypeInfo** %127, align 8
-  %129 = getelementptr inbounds %TypeInfo, %TypeInfo* %128, i32 0, i32 0
-  %130 = load i32, i32* %129, align 4
-  %131 = icmp eq i32 %130, 12
-  br i1 %131, label %if_then22, label %if_else23
+if_then4.i551:                                    ; preds = %loop_body.i
+  %49 = sext i32 %cur.026.i to i64
+  %50 = icmp slt i64 %49, %0
+  br i1 %50, label %if_cont.i.i, label %if_cont6.i
 
-if_cont:                                          ; preds = %if_cont24, %if_cont18
-  %132 = load i32, i32* %cur, align 4
-  store i32 %132, i32* %.ret.8, align 4
+if_cont.i.i:                                      ; preds = %if_then4.i551
+  %51 = udiv i64 %v.027.i, %div.024.i
+  %52 = trunc i64 %51 to i8
+  %53 = add i8 %52, 48
+  %54 = getelementptr inbounds i8, i8* %41, i64 %49
+  store i8 %53, i8* %54, align 1
+  %55 = add i32 %cur.026.i, 1
+  br label %if_cont6.i
+
+if_cont6.i:                                       ; preds = %if_then4.i551, %if_cont.i.i, %loop_body.i
+  %cur.1.i = phi i32 [ %cur.026.i, %loop_body.i ], [ %55, %if_cont.i.i ], [ 0, %if_then4.i551 ]
+  %56 = icmp ult i64 %div.024.i, 10
+  br i1 %56, label %exit, label %loop_body.i
+
+if_then14:                                        ; preds = %entry
+  %57 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 1, i32 0
+  %58 = load i32, i32* %57, align 4
+  %59 = getelementptr inbounds %Any, %Any* %3, i64 0, i32 1
+  %60 = load i8*, i8** %59, align 8
+  switch i32 %58, label %if_cont25 [
+    i32 64, label %if_then.i552
+    i32 32, label %if_then1.i553
+  ]
+
+if_then.i552:                                     ; preds = %if_then14
+  %61 = bitcast i8* %60 to double*
+  %62 = load double, double* %61, align 8
+  br label %f64_from_u8_ptr.exit
+
+if_then1.i553:                                    ; preds = %if_then14
+  %63 = bitcast i8* %60 to float*
+  %64 = load float, float* %63, align 4
+  %65 = fpext float %64 to double
+  br label %f64_from_u8_ptr.exit
+
+f64_from_u8_ptr.exit:                             ; preds = %if_then.i552, %if_then1.i553
+  %.ret.17.0.i = phi double [ %62, %if_then.i552 ], [ %65, %if_then1.i553 ]
+  %66 = fcmp olt double %.ret.17.0.i, 0.000000e+00
+  br i1 %66, label %if_then20, label %if_cont25
+
+if_then16:                                        ; preds = %s64_from_u8_ptr.exit
+  %67 = sext i32 %2 to i64
+  %68 = icmp slt i64 %67, %0
+  br i1 %68, label %if_cont3.i576, label %if_cont19.thread
+
+if_cont3.i576:                                    ; preds = %if_then16
+  %69 = inttoptr i64 %1 to i8*
+  %70 = getelementptr inbounds i8, i8* %69, i64 %67
+  store i8 45, i8* %70, align 1
+  %.pre862 = add i32 %2, 1
+  br label %if_cont19.thread
+
+if_cont19.thread:                                 ; preds = %if_cont3.i576, %if_then16
+  %.pre-phi863 = phi i32 [ %.pre862, %if_cont3.i576 ], [ %2, %if_then16 ]
+  %71 = sub i64 0, %.ret.15.0.i
+  br label %loop_body.i820.preheader
+
+if_cont19:                                        ; preds = %s64_from_u8_ptr.exit
+  %int.0 = phi i64 [ %.ret.15.0.i, %s64_from_u8_ptr.exit ]
+  %cur.0 = phi i32 [ %2, %s64_from_u8_ptr.exit ]
+  %72 = icmp eq i64 %int.0, 0
+  br i1 %72, label %if_then.i808, label %loop_body.i820.preheader
+
+loop_body.i820.preheader:                         ; preds = %if_cont19.thread, %if_cont19
+  %cur.01031 = phi i32 [ %.pre-phi863, %if_cont19.thread ], [ %cur.0, %if_cont19 ]
+  %int.01030 = phi i64 [ %71, %if_cont19.thread ], [ %int.0, %if_cont19 ]
+  %73 = inttoptr i64 %1 to i8*
+  br label %loop_body.i820
+
+if_then.i808:                                     ; preds = %if_then12, %if_cont19
+  %cur.0851 = phi i32 [ %cur.0, %if_cont19 ], [ %2, %if_then12 ]
+  %74 = sext i32 %cur.0851 to i64
+  %75 = icmp slt i64 %74, %0
+  br i1 %75, label %if_cont3.i.i811, label %exit
+
+if_cont3.i.i811:                                  ; preds = %if_then.i808
+  %76 = inttoptr i64 %1 to i8*
+  %77 = getelementptr inbounds i8, i8* %76, i64 %74
+  store i8 48, i8* %77, align 1
+  %.pre860 = add i32 %cur.0851, 1
   br label %exit
 
-if_then16:                                        ; preds = %if_then12
-  %133 = load i32, i32* %cur, align 4
-  %134 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %134, { i64, i8* }* %14
-  %135 = bitcast { i64, i8* }* %14 to { i64, i64 }*
-  %136 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %135, i32 0, i32 0
-  %137 = load i64, i64* %136
-  %138 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %135, i32 0, i32 1
-  %139 = load i64, i64* %138
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.292, i32 0, i32 0) }, %string* %15
-  %140 = bitcast %string* %15 to { i64, i64 }*
-  %141 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %140, i32 0, i32 0
-  %142 = load i64, i64* %141
-  %143 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %140, i32 0, i32 1
-  %144 = load i64, i64* %143
-  %145 = call i32 @print_string(i64 %137, i64 %139, i32 %133, i64 %142, i64 %144)
-  store i32 %145, i32* %cur, align 4
-  %146 = load i64, i64* %int, align 8
-  %147 = sub i64 0, %146
-  store i64 %147, i64* %int, align 8
-  br label %if_cont19
+loop_body.i820:                                   ; preds = %loop_body.i820.preheader, %if_cont6.i826
+  %v.027.i815 = phi i64 [ %78, %if_cont6.i826 ], [ %int.01030, %loop_body.i820.preheader ]
+  %cur.026.i816 = phi i32 [ %cur.1.i825, %if_cont6.i826 ], [ %cur.01031, %loop_body.i820.preheader ]
+  %hit_non_zero.025.i817 = phi i1 [ %hit_non_zero.0..i819, %if_cont6.i826 ], [ false, %loop_body.i820.preheader ]
+  %div.024.i818 = phi i64 [ %79, %if_cont6.i826 ], [ -8446744073709551616, %loop_body.i820.preheader ]
+  %78 = urem i64 %v.027.i815, %div.024.i818
+  %79 = udiv i64 %div.024.i818, 10
+  %80 = icmp ule i64 %div.024.i818, %v.027.i815
+  %hit_non_zero.0..i819 = or i1 %hit_non_zero.025.i817, %80
+  br i1 %hit_non_zero.0..i819, label %if_then4.i821, label %if_cont6.i826
 
-if_else17:                                        ; preds = %if_then12
-  br label %if_cont19
+if_then4.i821:                                    ; preds = %loop_body.i820
+  %81 = sext i32 %cur.026.i816 to i64
+  %82 = icmp slt i64 %81, %0
+  br i1 %82, label %if_cont.i.i822, label %if_cont6.i826
 
-if_cont18:                                        ; No predecessors!
-  br label %if_cont
+if_cont.i.i822:                                   ; preds = %if_then4.i821
+  %83 = udiv i64 %v.027.i815, %div.024.i818
+  %84 = trunc i64 %83 to i8
+  %85 = add i8 %84, 48
+  %86 = getelementptr inbounds i8, i8* %73, i64 %81
+  store i8 %85, i8* %86, align 1
+  %87 = add i32 %cur.026.i816, 1
+  br label %if_cont6.i826
 
-if_cont19:                                        ; preds = %if_else17, %if_then16
-  %148 = load i64, i64* %int, align 8
-  %149 = load i32, i32* %cur, align 4
-  %150 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %150, { i64, i8* }* %16
-  %151 = bitcast { i64, i8* }* %16 to { i64, i64 }*
-  %152 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %151, i32 0, i32 0
-  %153 = load i64, i64* %152
-  %154 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %151, i32 0, i32 1
-  %155 = load i64, i64* %154
-  %156 = call i32 @print_u64(i64 %153, i64 %155, i32 %149, i64 %148)
-  store i32 %156, i32* %.ret.8, align 4
-  br label %exit
+if_cont6.i826:                                    ; preds = %if_then4.i821, %if_cont.i.i822, %loop_body.i820
+  %cur.1.i825 = phi i32 [ %cur.026.i816, %loop_body.i820 ], [ %87, %if_cont.i.i822 ], [ 0, %if_then4.i821 ]
+  %88 = icmp ult i64 %div.024.i818, 10
+  br i1 %88, label %exit, label %loop_body.i820
 
-if_then20:                                        ; preds = %if_then14
-  %157 = load i32, i32* %cur, align 4
-  %158 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %158, { i64, i8* }* %17
-  %159 = bitcast { i64, i8* }* %17 to { i64, i64 }*
-  %160 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %159, i32 0, i32 0
-  %161 = load i64, i64* %160
-  %162 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %159, i32 0, i32 1
-  %163 = load i64, i64* %162
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.292, i32 0, i32 0) }, %string* %18
-  %164 = bitcast %string* %18 to { i64, i64 }*
-  %165 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %164, i32 0, i32 0
-  %166 = load i64, i64* %165
-  %167 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %164, i32 0, i32 1
-  %168 = load i64, i64* %167
-  %169 = call i32 @print_string(i64 %161, i64 %163, i32 %157, i64 %166, i64 %168)
-  store i32 %169, i32* %cur, align 4
-  %170 = load double, double* %real, align 8
-  %171 = fsub double -0.000000e+00, %170
-  store double %171, double* %real, align 8
+if_then20:                                        ; preds = %f64_from_u8_ptr.exit
+  %89 = sext i32 %2 to i64
+  %90 = icmp slt i64 %89, %0
+  br i1 %90, label %if_cont3.i835, label %print_string.exit836
+
+if_cont3.i835:                                    ; preds = %if_then20
+  %91 = inttoptr i64 %1 to i8*
+  %92 = getelementptr inbounds i8, i8* %91, i64 %89
+  store i8 45, i8* %92, align 1
+  %.pre866 = add i32 %2, 1
+  br label %print_string.exit836
+
+print_string.exit836:                             ; preds = %if_then20, %if_cont3.i835
+  %.pre-phi867 = phi i32 [ %.pre866, %if_cont3.i835 ], [ %2, %if_then20 ]
+  %93 = fsub double -0.000000e+00, %.ret.17.0.i
   br label %if_cont25
 
-if_else21:                                        ; preds = %if_then14
-  br label %if_cont25
+if_then22:                                        ; preds = %entry
+  %94 = getelementptr inbounds %Any, %Any* %3, i64 0, i32 1
+  %95 = bitcast i8** %94 to %string**
+  %96 = load %string*, %string** %95, align 8
+  %.elt396 = getelementptr inbounds %string, %string* %96, i64 0, i32 0
+  %.unpack397 = load i64, i64* %.elt396, align 8
+  %.elt398 = getelementptr inbounds %string, %string* %96, i64 0, i32 1
+  %97 = bitcast i8** %.elt398 to i64*
+  %.unpack399411 = load i64, i64* %97, align 8
+  %98 = inttoptr i64 %.unpack399411 to i8*
+  %99 = icmp eq i64 %.unpack399411, 0
+  br i1 %99, label %exit, label %loop_decide.preheader.i837
 
-if_then22:                                        ; preds = %if_else15
-  %172 = load %Any*, %Any** %any, align 8
-  %173 = getelementptr inbounds %Any, %Any* %172, i32 0, i32 1
-  %174 = load i8*, i8** %173, align 8
-  %175 = bitcast i8* %174 to %string*
-  %176 = load %string, %string* %175, align 8
-  store %string %176, %string* %str
-  %177 = load %string, %string* %str, align 8
-  %178 = load i32, i32* %cur, align 4
-  %179 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %179, { i64, i8* }* %20
-  %180 = bitcast { i64, i8* }* %20 to { i64, i64 }*
-  %181 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %180, i32 0, i32 0
-  %182 = load i64, i64* %181
-  %183 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %180, i32 0, i32 1
-  %184 = load i64, i64* %183
-  store %string %177, %string* %21
-  %185 = bitcast %string* %21 to { i64, i64 }*
-  %186 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %185, i32 0, i32 0
-  %187 = load i64, i64* %186
-  %188 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %185, i32 0, i32 1
-  %189 = load i64, i64* %188
-  %190 = call i32 @print_string(i64 %182, i64 %184, i32 %178, i64 %187, i64 %189)
-  store i32 %190, i32* %.ret.8, align 4
+loop_decide.preheader.i837:                       ; preds = %if_then22
+  %100 = icmp sgt i64 %.unpack397, 0
+  br i1 %100, label %loop_body.lr.ph.i838, label %loop_continue.i843
+
+loop_body.lr.ph.i838:                             ; preds = %loop_decide.preheader.i837
+  %101 = inttoptr i64 %1 to i8*
+  br label %loop_body.i841
+
+loop_body.i841:                                   ; preds = %if_cont3.i844, %loop_body.lr.ph.i838
+  %102 = phi i64 [ 0, %loop_body.lr.ph.i838 ], [ %111, %if_cont3.i844 ]
+  %i.05.i840 = phi i32 [ 0, %loop_body.lr.ph.i838 ], [ %110, %if_cont3.i844 ]
+  %103 = add i32 %i.05.i840, %2
+  %104 = sext i32 %103 to i64
+  %105 = icmp slt i64 %104, %0
+  br i1 %105, label %if_cont3.i844, label %loop_continue.i843
+
+loop_continue.i843:                               ; preds = %if_cont3.i844, %loop_body.i841, %loop_decide.preheader.i837
+  %i.0.lcssa.i842 = phi i32 [ 0, %loop_decide.preheader.i837 ], [ %110, %if_cont3.i844 ], [ %i.05.i840, %loop_body.i841 ]
+  %106 = add i32 %i.0.lcssa.i842, %2
   br label %exit
 
-if_else23:                                        ; preds = %if_else15
-  %191 = load %Any*, %Any** %any, align 8
-  %192 = getelementptr inbounds %Any, %Any* %191, i32 0, i32 0
-  %193 = load %TypeInfo*, %TypeInfo** %192, align 8
-  %194 = getelementptr inbounds %TypeInfo, %TypeInfo* %193, i32 0, i32 0
-  %195 = load i32, i32* %194, align 4
-  %196 = icmp eq i32 %195, 8
-  br i1 %196, label %if_then26, label %if_else27
+if_cont3.i844:                                    ; preds = %loop_body.i841
+  %107 = getelementptr inbounds i8, i8* %98, i64 %102
+  %108 = load i8, i8* %107, align 1
+  %109 = getelementptr inbounds i8, i8* %101, i64 %104
+  store i8 %108, i8* %109, align 1
+  %110 = add i32 %i.05.i840, 1
+  %111 = sext i32 %110 to i64
+  %112 = icmp sgt i64 %.unpack397, %111
+  br i1 %112, label %loop_body.i841, label %loop_continue.i843
 
-if_cont24:                                        ; preds = %if_cont28
-  br label %if_cont
+if_cont25:                                        ; preds = %if_then14, %f64_from_u8_ptr.exit, %print_string.exit836
+  %real.0 = phi double [ %93, %print_string.exit836 ], [ %.ret.17.0.i, %f64_from_u8_ptr.exit ], [ 0.000000e+00, %if_then14 ]
+  %cur.1 = phi i32 [ %.pre-phi867, %print_string.exit836 ], [ %2, %f64_from_u8_ptr.exit ], [ %2, %if_then14 ]
+  %113 = tail call double @log10(double %real.0)
+  %114 = fptosi double %113 to i32
+  %115 = icmp sgt i32 %114, 0
+  %..i = select i1 %115, i32 %114, i32 0
+  %116 = inttoptr i64 %1 to i8*
+  br label %loop_body.i800
 
-if_cont25:                                        ; preds = %if_else21, %if_then20
-  %197 = load double, double* %real, align 8
-  %198 = load i32, i32* %cur, align 4
-  %199 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %199, { i64, i8* }* %19
-  %200 = bitcast { i64, i8* }* %19 to { i64, i64 }*
-  %201 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %200, i32 0, i32 0
-  %202 = load i64, i64* %201
-  %203 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %200, i32 0, i32 1
-  %204 = load i64, i64* %203
-  %205 = call i32 @print_f64(i64 %202, i64 %204, i32 %198, double %197)
-  store i32 %205, i32* %.ret.8, align 4
-  br label %exit
+loop_body.i800:                                   ; preds = %if_cont7.i, %if_cont25
+  %m.127.i = phi i32 [ %..i, %if_cont25 ], [ %137, %if_cont7.i ]
+  %v.026.i = phi double [ %real.0, %if_cont25 ], [ %v.1.i, %if_cont7.i ]
+  %cur.025.i = phi i32 [ %cur.1, %if_cont25 ], [ %cur.2.i, %if_cont7.i ]
+  %117 = sitofp i32 %m.127.i to double
+  %118 = tail call double @pow(double 1.000000e+01, double %117)
+  %119 = fcmp ogt double %118, 0.000000e+00
+  br i1 %119, label %if_then1.i801, label %if_cont3.i807
 
-if_then26:                                        ; preds = %if_else23
-  %206 = load %Any*, %Any** %any, align 8
-  %207 = getelementptr inbounds %Any, %Any* %206, i32 0, i32 0
-  %208 = load %TypeInfo*, %TypeInfo** %207, align 8
-  %209 = bitcast %TypeInfo* %208 to %TypeInfoArray*
-  store %TypeInfoArray* %209, %TypeInfoArray** %info3
-  %210 = load %TypeInfoArray*, %TypeInfoArray** %info3, align 8
-  %211 = getelementptr inbounds %TypeInfoArray, %TypeInfoArray* %210, i32 0, i32 3
-  %212 = load i64, i64* %211, align 8
-  %213 = icmp eq i64 %212, 0
-  br i1 %213, label %if_then29, label %if_else30
+if_then1.i801:                                    ; preds = %loop_body.i800
+  %120 = fdiv double %v.026.i, %118
+  %121 = tail call double @llvm.floor.f64(double %120)
+  %122 = fptoui double %121 to i8
+  %123 = uitofp i8 %122 to double
+  %124 = fmul double %118, %123
+  %125 = fsub double %v.026.i, %124
+  %126 = sext i32 %cur.025.i to i64
+  %127 = icmp slt i64 %126, %0
+  br i1 %127, label %if_cont.i.i802, label %if_cont3.i807
 
-if_else27:                                        ; preds = %if_else23
-  %214 = load %Any*, %Any** %any, align 8
-  %215 = getelementptr inbounds %Any, %Any* %214, i32 0, i32 0
-  %216 = load %TypeInfo*, %TypeInfo** %215, align 8
-  %217 = getelementptr inbounds %TypeInfo, %TypeInfo* %216, i32 0, i32 0
-  %218 = load i32, i32* %217, align 4
-  %219 = icmp eq i32 %218, 9
-  br i1 %219, label %if_then31, label %if_else32
+if_cont.i.i802:                                   ; preds = %if_then1.i801
+  %128 = add i8 %122, 48
+  %129 = getelementptr inbounds i8, i8* %116, i64 %126
+  store i8 %128, i8* %129, align 1
+  %130 = add i32 %cur.025.i, 1
+  br label %if_cont3.i807
 
-if_cont28:                                        ; preds = %if_cont33
-  br label %if_cont24
+if_cont3.i807:                                    ; preds = %if_then1.i801, %if_cont.i.i802, %loop_body.i800
+  %cur.1.i806 = phi i32 [ %cur.025.i, %loop_body.i800 ], [ %130, %if_cont.i.i802 ], [ 0, %if_then1.i801 ]
+  %v.1.i = phi double [ %v.026.i, %loop_body.i800 ], [ %125, %if_cont.i.i802 ], [ %125, %if_then1.i801 ]
+  %131 = icmp eq i32 %m.127.i, 0
+  %132 = fcmp ogt double %v.1.i, 0.000000e+00
+  %spec.select.i = and i1 %131, %132
+  br i1 %spec.select.i, label %if_then6.i, label %if_cont7.i
+
+if_then6.i:                                       ; preds = %if_cont3.i807
+  %133 = sext i32 %cur.1.i806 to i64
+  %134 = icmp slt i64 %133, %0
+  br i1 %134, label %if_cont.i29.i, label %if_cont7.i
+
+if_cont.i29.i:                                    ; preds = %if_then6.i
+  %135 = getelementptr inbounds i8, i8* %116, i64 %133
+  store i8 46, i8* %135, align 1
+  %136 = add i32 %cur.1.i806, 1
+  br label %if_cont7.i
+
+if_cont7.i:                                       ; preds = %if_then6.i, %if_cont.i29.i, %if_cont3.i807
+  %cur.2.i = phi i32 [ %cur.1.i806, %if_cont3.i807 ], [ %136, %if_cont.i29.i ], [ 0, %if_then6.i ]
+  %137 = add i32 %m.127.i, -1
+  %138 = fcmp ogt double %v.1.i, 0x3EB0C6F7A0B5ED8D
+  %139 = icmp sgt i32 %137, -1
+  %140 = or i1 %138, %139
+  br i1 %140, label %loop_body.i800, label %exit
+
+if_then26:                                        ; preds = %entry
+  %141 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 2, i32 1
+  %142 = load i64, i64* %141, align 8
+  %143 = icmp eq i64 %142, 0
+  br i1 %143, label %if_then29, label %if_cont34
 
 if_then29:                                        ; preds = %if_then26
-  %220 = load i32, i32* %cur, align 4
-  %221 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %221, { i64, i8* }* %22
-  %222 = bitcast { i64, i8* }* %22 to { i64, i64 }*
-  %223 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %222, i32 0, i32 0
-  %224 = load i64, i64* %223
-  %225 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %222, i32 0, i32 1
-  %226 = load i64, i64* %225
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.293, i32 0, i32 0) }, %string* %23
-  %227 = bitcast %string* %23 to { i64, i64 }*
-  %228 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %227, i32 0, i32 0
-  %229 = load i64, i64* %228
-  %230 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %227, i32 0, i32 1
-  %231 = load i64, i64* %230
-  %232 = call i32 @print_string(i64 %224, i64 %226, i32 %220, i64 %229, i64 %231)
-  store i32 %232, i32* %.ret.8, align 4
+  %144 = inttoptr i64 %1 to i8*
+  %145 = sext i32 %2 to i64
+  %146 = icmp slt i64 %145, %0
+  br i1 %146, label %if_cont3.i798, label %exit
+
+if_cont3.i798:                                    ; preds = %if_then29
+  %147 = getelementptr inbounds i8, i8* %144, i64 %145
+  store i8 91, i8* %147, align 1
+  %148 = add i32 %2, 1
+  %149 = sext i32 %148 to i64
+  %150 = icmp slt i64 %149, %0
+  br i1 %150, label %if_cont3.i798.1, label %exit
+
+if_then31:                                        ; preds = %entry
+  %151 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 3
+  %152 = bitcast %TypeInfo* %151 to i1*
+  %153 = load i1, i1* %152, align 1
+  br i1 %153, label %if_cont44, label %if_then38
+
+if_cont34:                                        ; preds = %if_then26
+  %154 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 2
+  %155 = bitcast %TypeInfo* %154 to %TypeInfo**
+  %156 = load %TypeInfo*, %TypeInfo** %155, align 8
+  %157 = getelementptr inbounds %TypeInfo, %TypeInfo* %156, i64 0, i32 1
+  %158 = load i64, i64* %157, align 8
+  %.cast = ptrtoint %TypeInfo* %156 to i64
+  %159 = bitcast %Any* %tmp to i64*
+  store i64 %.cast, i64* %159, align 8
+  %160 = inttoptr i64 %1 to i8*
+  %161 = sext i32 %2 to i64
+  %162 = icmp slt i64 %161, %0
+  br i1 %162, label %if_cont3.i789, label %print_string.exit790
+
+if_cont3.i789:                                    ; preds = %if_cont34
+  %163 = getelementptr inbounds i8, i8* %160, i64 %161
+  store i8 91, i8* %163, align 1
+  %.pre870 = add i32 %2, 1
+  br label %print_string.exit790
+
+print_string.exit790:                             ; preds = %if_cont34, %if_cont3.i789
+  %.pre-phi871 = phi i32 [ %.pre870, %if_cont3.i789 ], [ %2, %if_cont34 ]
+  %164 = load i64, i64* %141, align 8
+  %165 = icmp eq i64 %164, 0
+  br i1 %165, label %loop_body.i757, label %loop_body.lr.ph
+
+loop_body.lr.ph:                                  ; preds = %print_string.exit790
+  %166 = getelementptr inbounds %Any, %Any* %3, i64 0, i32 1
+  %167 = bitcast i8** %166 to i64*
+  %168 = getelementptr inbounds %Any, %Any* %tmp, i64 0, i32 1
+  br label %loop_body
+
+loop_body:                                        ; preds = %loop_body.lr.ph, %if_cont37
+  %cur.2519 = phi i32 [ %.pre-phi871, %loop_body.lr.ph ], [ %cur.3, %if_cont37 ]
+  %i.0518 = phi i64 [ 0, %loop_body.lr.ph ], [ %187, %if_cont37 ]
+  %169 = mul i64 %i.0518, %158
+  %170 = load i64, i64* %167, align 8
+  %171 = add i64 %170, %169
+  %172 = inttoptr i64 %171 to i8*
+  store i8* %172, i8** %168, align 8
+  %173 = call i32 @print_any(i64 %0, i64 %1, i32 %cur.2519, %Any* nonnull %tmp)
+  %174 = load i64, i64* %141, align 8
+  %175 = add i64 %174, -1
+  %176 = icmp ult i64 %i.0518, %175
+  br i1 %176, label %loop_body.i748, label %if_cont37
+
+loop_body.i757:                                   ; preds = %print_string.exit790, %if_cont37
+  %cur.2.lcssa = phi i32 [ %.pre-phi871, %print_string.exit790 ], [ %cur.3, %if_cont37 ]
+  %177 = sext i32 %cur.2.lcssa to i64
+  %178 = icmp slt i64 %177, %0
+  br i1 %178, label %if_cont3.i760, label %exit
+
+if_cont3.i760:                                    ; preds = %loop_body.i757
+  %179 = getelementptr inbounds i8, i8* %160, i64 %177
+  store i8 93, i8* %179, align 1
+  %.pre872 = add i32 %cur.2.lcssa, 1
   br label %exit
 
-if_else30:                                        ; preds = %if_then26
-  br label %if_cont34
+loop_body.i748:                                   ; preds = %loop_body
+  %180 = sext i32 %173 to i64
+  %181 = icmp slt i64 %180, %0
+  br i1 %181, label %if_cont3.i751, label %print_string.exit752
 
-if_then31:                                        ; preds = %if_else27
-  %233 = load %Any*, %Any** %any, align 8
-  %234 = getelementptr inbounds %Any, %Any* %233, i32 0, i32 0
-  %235 = load %TypeInfo*, %TypeInfo** %234, align 8
-  %236 = bitcast %TypeInfo* %235 to %TypeInfoStruct*
-  store %TypeInfoStruct* %236, %TypeInfoStruct** %info4
-  %237 = load %TypeInfoStruct*, %TypeInfoStruct** %info4, align 8
-  %238 = getelementptr inbounds %TypeInfoStruct, %TypeInfoStruct* %237, i32 0, i32 3
-  %239 = load i1, i1* %238, align 1
-  %240 = xor i1 %239, true
-  br i1 %240, label %if_then38, label %if_else39
+if_cont3.i751:                                    ; preds = %loop_body.i748
+  %182 = getelementptr inbounds i8, i8* %160, i64 %180
+  store i8 44, i8* %182, align 1
+  %183 = add i32 %173, 1
+  %184 = sext i32 %183 to i64
+  %185 = icmp slt i64 %184, %0
+  br i1 %185, label %if_cont3.i751.1, label %print_string.exit752
 
-if_else32:                                        ; preds = %if_else27
-  %241 = load %Any*, %Any** %any, align 8
-  %242 = getelementptr inbounds %Any, %Any* %241, i32 0, i32 0
-  %243 = load %TypeInfo*, %TypeInfo** %242, align 8
-  %244 = getelementptr inbounds %TypeInfo, %TypeInfo* %243, i32 0, i32 0
-  %245 = load i32, i32* %244, align 4
-  %246 = icmp eq i32 %245, 6
-  br i1 %246, label %if_then40, label %if_else41
-
-if_cont33:                                        ; preds = %if_cont42
-  br label %if_cont28
-
-if_cont34:                                        ; preds = %if_else30
-  %247 = load %TypeInfoArray*, %TypeInfoArray** %info3, align 8
-  %248 = getelementptr inbounds %TypeInfoArray, %TypeInfoArray* %247, i32 0, i32 2
-  %249 = load %TypeInfo*, %TypeInfo** %248, align 8
-  %250 = getelementptr inbounds %TypeInfo, %TypeInfo* %249, i32 0, i32 1
-  %251 = load i64, i64* %250, align 8
-  store i64 %251, i64* %elem_size
-  %252 = load %TypeInfoArray*, %TypeInfoArray** %info3, align 8
-  %253 = getelementptr inbounds %TypeInfoArray, %TypeInfoArray* %252, i32 0, i32 2
-  %254 = load %TypeInfo*, %TypeInfo** %253, align 8
-  %255 = getelementptr inbounds %Any, %Any* %tmp, i32 0, i32 0
-  store %TypeInfo* %254, %TypeInfo** %255, align 8
-  %256 = load i32, i32* %cur, align 4
-  %257 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %257, { i64, i8* }* %24
-  %258 = bitcast { i64, i8* }* %24 to { i64, i64 }*
-  %259 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %258, i32 0, i32 0
-  %260 = load i64, i64* %259
-  %261 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %258, i32 0, i32 1
-  %262 = load i64, i64* %261
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.294, i32 0, i32 0) }, %string* %25
-  %263 = bitcast %string* %25 to { i64, i64 }*
-  %264 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %263, i32 0, i32 0
-  %265 = load i64, i64* %264
-  %266 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %263, i32 0, i32 1
-  %267 = load i64, i64* %266
-  %268 = call i32 @print_string(i64 %260, i64 %262, i32 %256, i64 %265, i64 %267)
-  store i32 %268, i32* %cur, align 4
-  store i64 0, i64* %i
-  br label %loop_decide
-
-loop_decide:                                      ; preds = %loop_increment, %if_cont34
-  %269 = load %TypeInfoArray*, %TypeInfoArray** %info3, align 8
-  %270 = getelementptr inbounds %TypeInfoArray, %TypeInfoArray* %269, i32 0, i32 3
-  %271 = load i64, i64* %270, align 8
-  %272 = load i64, i64* %i, align 8
-  %273 = icmp ult i64 %272, %271
-  br i1 %273, label %loop_body, label %loop_continue
-
-loop_increment:                                   ; preds = %if_cont37
-  %274 = load i64, i64* %i, align 8
-  %275 = add i64 %274, 1
-  store i64 %275, i64* %i, align 8
-  br label %loop_decide
-
-loop_body:                                        ; preds = %loop_decide
-  %276 = load i64, i64* %elem_size, align 8
-  %277 = load i64, i64* %i, align 8
-  %278 = mul i64 %277, %276
-  %279 = load %Any*, %Any** %any, align 8
-  %280 = getelementptr inbounds %Any, %Any* %279, i32 0, i32 1
-  %281 = load i8*, i8** %280, align 8
-  %282 = ptrtoint i8* %281 to i64
-  %283 = add i64 %282, %278
-  %284 = inttoptr i64 %283 to i8*
-  %285 = getelementptr inbounds %Any, %Any* %tmp, i32 0, i32 1
-  store i8* %284, i8** %285, align 8
-  %286 = load i32, i32* %cur, align 4
-  %287 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %287, { i64, i8* }* %26
-  %288 = bitcast { i64, i8* }* %26 to { i64, i64 }*
-  %289 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %288, i32 0, i32 0
-  %290 = load i64, i64* %289
-  %291 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %288, i32 0, i32 1
-  %292 = load i64, i64* %291
-  %293 = call i32 @print_any(i64 %290, i64 %292, i32 %286, %Any* %tmp)
-  store i32 %293, i32* %cur, align 4
-  %294 = load %TypeInfoArray*, %TypeInfoArray** %info3, align 8
-  %295 = getelementptr inbounds %TypeInfoArray, %TypeInfoArray* %294, i32 0, i32 3
-  %296 = load i64, i64* %295, align 8
-  %297 = sub i64 %296, 1
-  %298 = load i64, i64* %i, align 8
-  %299 = icmp ult i64 %298, %297
-  br i1 %299, label %if_then35, label %if_else36
-
-loop_continue:                                    ; preds = %loop_decide
-  %300 = load i32, i32* %cur, align 4
-  %301 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %301, { i64, i8* }* %27
-  %302 = bitcast { i64, i8* }* %27 to { i64, i64 }*
-  %303 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %302, i32 0, i32 0
-  %304 = load i64, i64* %303
-  %305 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %302, i32 0, i32 1
-  %306 = load i64, i64* %305
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.295, i32 0, i32 0) }, %string* %28
-  %307 = bitcast %string* %28 to { i64, i64 }*
-  %308 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %307, i32 0, i32 0
-  %309 = load i64, i64* %308
-  %310 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %307, i32 0, i32 1
-  %311 = load i64, i64* %310
-  %312 = call i32 @print_string(i64 %304, i64 %306, i32 %300, i64 %309, i64 %311)
-  store i32 %312, i32* %.ret.8, align 4
-  br label %exit
-
-if_then35:                                        ; preds = %loop_body
-  %313 = load i32, i32* %cur, align 4
-  %314 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %314, { i64, i8* }* %29
-  %315 = bitcast { i64, i8* }* %29 to { i64, i64 }*
-  %316 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %315, i32 0, i32 0
-  %317 = load i64, i64* %316
-  %318 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %315, i32 0, i32 1
-  %319 = load i64, i64* %318
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.296, i32 0, i32 0) }, %string* %30
-  %320 = bitcast %string* %30 to { i64, i64 }*
-  %321 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %320, i32 0, i32 0
-  %322 = load i64, i64* %321
-  %323 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %320, i32 0, i32 1
-  %324 = load i64, i64* %323
-  %325 = call i32 @print_string(i64 %317, i64 %319, i32 %313, i64 %322, i64 %324)
-  store i32 %325, i32* %cur, align 4
+print_string.exit752:                             ; preds = %loop_body.i748, %if_cont3.i751, %if_cont3.i751.1
+  %.pre-phi875 = phi i32 [ %.pre874, %if_cont3.i751.1 ], [ %173, %loop_body.i748 ], [ %183, %if_cont3.i751 ]
+  %.pre528 = load i64, i64* %141, align 8
   br label %if_cont37
 
-if_else36:                                        ; preds = %loop_body
-  br label %if_cont37
-
-if_cont37:                                        ; preds = %if_else36, %if_then35
-  br label %loop_increment
+if_cont37:                                        ; preds = %loop_body, %print_string.exit752
+  %186 = phi i64 [ %.pre528, %print_string.exit752 ], [ %174, %loop_body ]
+  %cur.3 = phi i32 [ %.pre-phi875, %print_string.exit752 ], [ %173, %loop_body ]
+  %187 = add nuw i64 %i.0518, 1
+  %188 = icmp ult i64 %187, %186
+  br i1 %188, label %loop_body, label %loop_body.i757
 
 if_then38:                                        ; preds = %if_then31
-  %326 = load %TypeInfoStruct*, %TypeInfoStruct** %info4, align 8
-  %327 = getelementptr inbounds %TypeInfoStruct, %TypeInfoStruct* %326, i32 0, i32 1
-  %328 = load %string, %string* %327, align 8
-  %329 = load i32, i32* %cur, align 4
-  %330 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %330, { i64, i8* }* %31
-  %331 = bitcast { i64, i8* }* %31 to { i64, i64 }*
-  %332 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %331, i32 0, i32 0
-  %333 = load i64, i64* %332
-  %334 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %331, i32 0, i32 1
-  %335 = load i64, i64* %334
-  store %string %328, %string* %32
-  %336 = bitcast %string* %32 to { i64, i64 }*
-  %337 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %336, i32 0, i32 0
-  %338 = load i64, i64* %337
-  %339 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %336, i32 0, i32 1
-  %340 = load i64, i64* %339
-  %341 = call i32 @print_string(i64 %333, i64 %335, i32 %329, i64 %338, i64 %340)
-  store i32 %341, i32* %cur, align 4
-  %342 = load i32, i32* %cur, align 4
-  %343 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %343, { i64, i8* }* %33
-  %344 = bitcast { i64, i8* }* %33 to { i64, i64 }*
-  %345 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %344, i32 0, i32 0
-  %346 = load i64, i64* %345
-  %347 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %344, i32 0, i32 1
-  %348 = load i64, i64* %347
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.297, i32 0, i32 0) }, %string* %34
-  %349 = bitcast %string* %34 to { i64, i64 }*
-  %350 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %349, i32 0, i32 0
-  %351 = load i64, i64* %350
-  %352 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %349, i32 0, i32 1
-  %353 = load i64, i64* %352
-  %354 = call i32 @print_string(i64 %346, i64 %348, i32 %342, i64 %351, i64 %353)
-  store i32 %354, i32* %cur, align 4
-  store i32 0, i32* %i6
-  br label %loop_decide43
+  %.elt254 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 1
+  %189 = bitcast %TypeInfo* %.elt254 to i64*
+  %.unpack255 = load i64, i64* %189, align 8
+  %.elt256 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 1, i32 1
+  %.unpack257269 = load i64, i64* %.elt256, align 8
+  %190 = inttoptr i64 %.unpack257269 to i8*
+  %191 = icmp eq i64 %.unpack257269, 0
+  br i1 %191, label %print_string.exit743, label %loop_decide.preheader.i735
 
-if_else39:                                        ; preds = %if_then31
-  br label %if_cont44
+loop_decide.preheader.i735:                       ; preds = %if_then38
+  %192 = icmp sgt i64 %.unpack255, 0
+  br i1 %192, label %loop_body.lr.ph.i736, label %loop_continue.i741
 
-if_then40:                                        ; preds = %if_else32
-  %355 = load %Any*, %Any** %any, align 8
-  %356 = getelementptr inbounds %Any, %Any* %355, i32 0, i32 1
-  %357 = load i8*, i8** %356, align 8
-  %358 = bitcast i8* %357 to i64*
-  %359 = load i64, i64* %358, align 8
-  store i64 %359, i64* %ptr9
-  %360 = load i64, i64* %ptr9, align 8
-  %361 = icmp eq i64 %360, 0
-  br i1 %361, label %if_then67, label %if_else68
+loop_body.lr.ph.i736:                             ; preds = %loop_decide.preheader.i735
+  %193 = inttoptr i64 %1 to i8*
+  br label %loop_body.i739
 
-if_else41:                                        ; preds = %if_else32
-  %362 = load %Any*, %Any** %any, align 8
-  %363 = getelementptr inbounds %Any, %Any* %362, i32 0, i32 0
-  %364 = load %TypeInfo*, %TypeInfo** %363, align 8
-  %365 = getelementptr inbounds %TypeInfo, %TypeInfo* %364, i32 0, i32 0
-  %366 = load i32, i32* %365, align 4
-  %367 = icmp eq i32 %366, 7
-  br i1 %367, label %if_then69, label %if_else70
+loop_body.i739:                                   ; preds = %if_cont3.i742, %loop_body.lr.ph.i736
+  %194 = phi i64 [ 0, %loop_body.lr.ph.i736 ], [ %203, %if_cont3.i742 ]
+  %i.05.i738 = phi i32 [ 0, %loop_body.lr.ph.i736 ], [ %202, %if_cont3.i742 ]
+  %195 = add i32 %i.05.i738, %2
+  %196 = sext i32 %195 to i64
+  %197 = icmp slt i64 %196, %0
+  br i1 %197, label %if_cont3.i742, label %loop_continue.i741
 
-if_cont42:                                        ; preds = %if_cont71
-  br label %if_cont33
+loop_continue.i741:                               ; preds = %if_cont3.i742, %loop_body.i739, %loop_decide.preheader.i735
+  %i.0.lcssa.i740 = phi i32 [ 0, %loop_decide.preheader.i735 ], [ %202, %if_cont3.i742 ], [ %i.05.i738, %loop_body.i739 ]
+  %198 = add i32 %i.0.lcssa.i740, %2
+  br label %print_string.exit743
 
-loop_decide43:                                    ; preds = %loop_increment47, %if_then38
-  %368 = load %TypeInfoStruct*, %TypeInfoStruct** %info4, align 8
-  %369 = getelementptr inbounds %TypeInfoStruct, %TypeInfoStruct* %368, i32 0, i32 2
-  %370 = getelementptr inbounds { i64, %TypeInfoStructMember* }, { i64, %TypeInfoStructMember* }* %369, i32 0, i32 0
-  %371 = load i64, i64* %370, align 8
-  %372 = load i32, i32* %i6, align 4
-  %373 = sext i32 %372 to i64
-  %374 = icmp slt i64 %373, %371
-  br i1 %374, label %loop_body48, label %loop_continue49
+if_cont3.i742:                                    ; preds = %loop_body.i739
+  %199 = getelementptr inbounds i8, i8* %190, i64 %194
+  %200 = load i8, i8* %199, align 1
+  %201 = getelementptr inbounds i8, i8* %193, i64 %196
+  store i8 %200, i8* %201, align 1
+  %202 = add i32 %i.05.i738, 1
+  %203 = sext i32 %202 to i64
+  %204 = icmp sgt i64 %.unpack255, %203
+  br i1 %204, label %loop_body.i739, label %loop_continue.i741
 
-if_cont44:                                        ; preds = %if_else39
-  %375 = load %TypeInfoStruct*, %TypeInfoStruct** %info4, align 8
-  %376 = getelementptr inbounds %TypeInfoStruct, %TypeInfoStruct* %375, i32 0, i32 2
-  %377 = getelementptr inbounds { i64, %TypeInfoStructMember* }, { i64, %TypeInfoStructMember* }* %376, i32 0, i32 1
-  %378 = load %TypeInfoStructMember*, %TypeInfoStructMember** %377
-  %379 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %378, i64 0
-  %380 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %379, i32 0, i32 2
-  %381 = load i32, i32* %380, align 4
-  %382 = zext i32 %381 to i64
-  %383 = load %Any*, %Any** %any, align 8
-  %384 = getelementptr inbounds %Any, %Any* %383, i32 0, i32 1
-  %385 = load i8*, i8** %384, align 8
-  %386 = ptrtoint i8* %385 to i64
-  %387 = add i64 %386, %382
-  %388 = inttoptr i64 %387 to i8*
-  %389 = call i64 @u64_from_u8_ptr(i8* %388, i32 64)
-  store i64 %389, i64* %len
-  %390 = load %TypeInfoStruct*, %TypeInfoStruct** %info4, align 8
-  %391 = getelementptr inbounds %TypeInfoStruct, %TypeInfoStruct* %390, i32 0, i32 2
-  %392 = getelementptr inbounds { i64, %TypeInfoStructMember* }, { i64, %TypeInfoStructMember* }* %391, i32 0, i32 1
-  %393 = load %TypeInfoStructMember*, %TypeInfoStructMember** %392
-  %394 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %393, i64 1
-  %395 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %394, i32 0, i32 2
-  %396 = load i32, i32* %395, align 4
-  %397 = zext i32 %396 to i64
-  %398 = load %Any*, %Any** %any, align 8
-  %399 = getelementptr inbounds %Any, %Any* %398, i32 0, i32 1
-  %400 = load i8*, i8** %399, align 8
-  %401 = ptrtoint i8* %400 to i64
-  %402 = add i64 %401, %397
-  %403 = inttoptr i64 %402 to i8*
-  %404 = call i8* @ptr_from_ptr(i8* %403)
-  store i8* %404, i8** %ptr
-  %405 = load i64, i64* %len, align 8
-  %406 = icmp eq i64 %405, 0
-  br i1 %406, label %if_then45, label %if_else46
+print_string.exit743:                             ; preds = %if_then38, %loop_continue.i741
+  %.ret.10.0.i737 = phi i32 [ %198, %loop_continue.i741 ], [ %2, %if_then38 ]
+  %205 = inttoptr i64 %1 to i8*
+  %206 = sext i32 %.ret.10.0.i737 to i64
+  %207 = icmp slt i64 %206, %0
+  br i1 %207, label %if_cont3.i733, label %print_string.exit734
+
+if_cont3.i733:                                    ; preds = %print_string.exit743
+  %208 = getelementptr inbounds i8, i8* %205, i64 %206
+  store i8 32, i8* %208, align 1
+  %209 = add i32 %.ret.10.0.i737, 1
+  %210 = sext i32 %209 to i64
+  %211 = icmp slt i64 %210, %0
+  br i1 %211, label %if_cont3.i733.1, label %print_string.exit734
+
+print_string.exit734:                             ; preds = %print_string.exit743, %if_cont3.i733, %if_cont3.i733.1
+  %.pre-phi887 = phi i32 [ %.pre886, %if_cont3.i733.1 ], [ %.ret.10.0.i737, %print_string.exit743 ], [ %209, %if_cont3.i733 ]
+  %212 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 2
+  %213 = bitcast %TypeInfo* %212 to i64*
+  %214 = load i64, i64* %213, align 8
+  %215 = icmp sgt i64 %214, 0
+  br i1 %215, label %loop_body48.lr.ph, label %loop_body.i683
+
+loop_body48.lr.ph:                                ; preds = %print_string.exit734
+  %216 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 2, i32 1
+  %217 = bitcast i64* %216 to %TypeInfoStructMember**
+  %218 = getelementptr inbounds %Any, %Any* %3, i64 0, i32 1
+  %219 = bitcast i8** %218 to i64*
+  %220 = getelementptr inbounds %Any, %Any* %tmp5, i64 0, i32 1
+  %221 = bitcast %Any* %tmp5 to i64*
+  br label %loop_body48
+
+if_then40:                                        ; preds = %entry
+  %222 = getelementptr inbounds %Any, %Any* %3, i64 0, i32 1
+  %223 = bitcast i8** %222 to i64**
+  %224 = load i64*, i64** %223, align 8
+  %225 = load i64, i64* %224, align 8
+  %226 = icmp eq i64 %225, 0
+  %227 = inttoptr i64 %1 to i8*
+  %228 = sext i32 %2 to i64
+  %229 = icmp slt i64 %228, %0
+  br i1 %226, label %loop_body.i620, label %loop_body.i.i603
+
+if_cont44:                                        ; preds = %if_then31
+  %230 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 2, i32 1
+  %231 = bitcast i64* %230 to %TypeInfoStructMember**
+  %232 = load %TypeInfoStructMember*, %TypeInfoStructMember** %231, align 8
+  %233 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %232, i64 0, i32 2
+  %234 = load i32, i32* %233, align 4
+  %235 = zext i32 %234 to i64
+  %236 = getelementptr inbounds %Any, %Any* %3, i64 0, i32 1
+  %237 = bitcast i8** %236 to i64*
+  %238 = load i64, i64* %237, align 8
+  %239 = add i64 %238, %235
+  %240 = inttoptr i64 %239 to i64*
+  %241 = load i64, i64* %240, align 8
+  %242 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %232, i64 1, i32 2
+  %243 = load i32, i32* %242, align 4
+  %244 = zext i32 %243 to i64
+  %245 = add i64 %238, %244
+  %246 = inttoptr i64 %245 to i8**
+  %247 = load i8*, i8** %246, align 8
+  %248 = icmp eq i64 %241, 0
+  br i1 %248, label %if_then45, label %if_cont53
 
 if_then45:                                        ; preds = %if_cont44
-  %407 = load i32, i32* %cur, align 4
-  %408 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %408, { i64, i8* }* %44
-  %409 = bitcast { i64, i8* }* %44 to { i64, i64 }*
-  %410 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %409, i32 0, i32 0
-  %411 = load i64, i64* %410
-  %412 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %409, i32 0, i32 1
-  %413 = load i64, i64* %412
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.293, i32 0, i32 0) }, %string* %45
-  %414 = bitcast %string* %45 to { i64, i64 }*
-  %415 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %414, i32 0, i32 0
-  %416 = load i64, i64* %415
-  %417 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %414, i32 0, i32 1
-  %418 = load i64, i64* %417
-  %419 = call i32 @print_string(i64 %411, i64 %413, i32 %407, i64 %416, i64 %418)
-  store i32 %419, i32* %.ret.8, align 4
+  %249 = inttoptr i64 %1 to i8*
+  %250 = sext i32 %2 to i64
+  %251 = icmp slt i64 %250, %0
+  br i1 %251, label %if_cont3.i722, label %exit
+
+if_cont3.i722:                                    ; preds = %if_then45
+  %252 = getelementptr inbounds i8, i8* %249, i64 %250
+  store i8 91, i8* %252, align 1
+  %253 = add i32 %2, 1
+  %254 = sext i32 %253 to i64
+  %255 = icmp slt i64 %254, %0
+  br i1 %255, label %if_cont3.i722.1, label %exit
+
+loop_body48:                                      ; preds = %loop_body48.lr.ph, %if_cont52
+  %256 = phi i64 [ 0, %loop_body48.lr.ph ], [ %299, %if_cont52 ]
+  %cur.4524 = phi i32 [ %.pre-phi887, %loop_body48.lr.ph ], [ %cur.5, %if_cont52 ]
+  %i6.0523 = phi i32 [ 0, %loop_body48.lr.ph ], [ %298, %if_cont52 ]
+  %257 = load %TypeInfoStructMember*, %TypeInfoStructMember** %217, align 8
+  %.unpack289.elt = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %257, i64 %256, i32 0, i32 0
+  %.unpack289.unpack = load i64, i64* %.unpack289.elt, align 8
+  %.unpack289.elt296 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %257, i64 %256, i32 0, i32 1
+  %258 = bitcast i8** %.unpack289.elt296 to i64*
+  %.unpack289.unpack297309 = load i64, i64* %258, align 8
+  %.elt290 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %257, i64 %256, i32 1
+  %259 = bitcast %TypeInfo** %.elt290 to i64*
+  %.unpack291308 = load i64, i64* %259, align 8
+  %.elt292 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %257, i64 %256, i32 2
+  %.unpack293 = load i32, i32* %.elt292, align 8
+  %260 = inttoptr i64 %.unpack289.unpack297309 to i8*
+  %261 = icmp eq i64 %.unpack289.unpack297309, 0
+  br i1 %261, label %loop_body.i701, label %loop_decide.preheader.i706
+
+loop_decide.preheader.i706:                       ; preds = %loop_body48
+  %262 = icmp sgt i64 %.unpack289.unpack, 0
+  br i1 %262, label %loop_body.i710, label %loop_continue.i712
+
+loop_body.i710:                                   ; preds = %loop_decide.preheader.i706, %if_cont3.i713
+  %263 = phi i64 [ %272, %if_cont3.i713 ], [ 0, %loop_decide.preheader.i706 ]
+  %i.05.i709 = phi i32 [ %271, %if_cont3.i713 ], [ 0, %loop_decide.preheader.i706 ]
+  %264 = add i32 %i.05.i709, %cur.4524
+  %265 = sext i32 %264 to i64
+  %266 = icmp slt i64 %265, %0
+  br i1 %266, label %if_cont3.i713, label %loop_continue.i712
+
+loop_continue.i712:                               ; preds = %if_cont3.i713, %loop_body.i710, %loop_decide.preheader.i706
+  %i.0.lcssa.i711 = phi i32 [ 0, %loop_decide.preheader.i706 ], [ %271, %if_cont3.i713 ], [ %i.05.i709, %loop_body.i710 ]
+  %267 = add i32 %i.0.lcssa.i711, %cur.4524
+  br label %loop_body.i701
+
+if_cont3.i713:                                    ; preds = %loop_body.i710
+  %268 = getelementptr inbounds i8, i8* %260, i64 %263
+  %269 = load i8, i8* %268, align 1
+  %270 = getelementptr inbounds i8, i8* %205, i64 %265
+  store i8 %269, i8* %270, align 1
+  %271 = add i32 %i.05.i709, 1
+  %272 = sext i32 %271 to i64
+  %273 = icmp sgt i64 %.unpack289.unpack, %272
+  br i1 %273, label %loop_body.i710, label %loop_continue.i712
+
+loop_body.i701:                                   ; preds = %loop_continue.i712, %loop_body48
+  %.ret.10.0.i708 = phi i32 [ %267, %loop_continue.i712 ], [ %cur.4524, %loop_body48 ]
+  %274 = sext i32 %.ret.10.0.i708 to i64
+  %275 = icmp slt i64 %274, %0
+  br i1 %275, label %if_cont3.i704, label %print_string.exit705
+
+if_cont3.i704:                                    ; preds = %loop_body.i701
+  %276 = getelementptr inbounds i8, i8* %205, i64 %274
+  store i8 32, i8* %276, align 1
+  %277 = add i32 %.ret.10.0.i708, 1
+  %278 = sext i32 %277 to i64
+  %279 = icmp slt i64 %278, %0
+  br i1 %279, label %if_cont3.i704.1, label %print_string.exit705
+
+print_string.exit705:                             ; preds = %loop_body.i701, %if_cont3.i704, %if_cont3.i704.1, %if_cont3.i704.2
+  %.pre-phi889 = phi i32 [ %.pre888, %if_cont3.i704.2 ], [ %.ret.10.0.i708, %loop_body.i701 ], [ %277, %if_cont3.i704 ], [ %533, %if_cont3.i704.1 ]
+  %280 = zext i32 %.unpack293 to i64
+  %281 = load i64, i64* %219, align 8
+  %282 = add i64 %281, %280
+  %283 = inttoptr i64 %282 to i8*
+  store i8* %283, i8** %220, align 8
+  store i64 %.unpack291308, i64* %221, align 8
+  %284 = call i32 @print_any(i64 %0, i64 %1, i32 %.pre-phi889, %Any* nonnull %tmp5)
+  %285 = load i64, i64* %213, align 8
+  %286 = add i64 %285, -1
+  %287 = icmp sgt i64 %286, %256
+  br i1 %287, label %loop_body.i674, label %if_cont52
+
+loop_body.i683:                                   ; preds = %print_string.exit734, %if_cont52
+  %cur.4.lcssa = phi i32 [ %.pre-phi887, %print_string.exit734 ], [ %cur.5, %if_cont52 ]
+  %288 = sext i32 %cur.4.lcssa to i64
+  %289 = icmp slt i64 %288, %0
+  br i1 %289, label %if_cont3.i686, label %exit
+
+if_cont3.i686:                                    ; preds = %loop_body.i683
+  %290 = getelementptr inbounds i8, i8* %205, i64 %288
+  store i8 125, i8* %290, align 1
+  %.pre892 = add i32 %cur.4.lcssa, 1
   br label %exit
 
-if_else46:                                        ; preds = %if_cont44
-  br label %if_cont53
+loop_body.i674:                                   ; preds = %print_string.exit705
+  %291 = sext i32 %284 to i64
+  %292 = icmp slt i64 %291, %0
+  br i1 %292, label %if_cont3.i677, label %print_string.exit678
 
-loop_increment47:                                 ; preds = %if_cont52
-  %420 = load i32, i32* %i6, align 4
-  %421 = add i32 %420, 1
-  store i32 %421, i32* %i6, align 4
-  br label %loop_decide43
+if_cont3.i677:                                    ; preds = %loop_body.i674
+  %293 = getelementptr inbounds i8, i8* %205, i64 %291
+  store i8 44, i8* %293, align 1
+  %294 = add i32 %284, 1
+  %295 = sext i32 %294 to i64
+  %296 = icmp slt i64 %295, %0
+  br i1 %296, label %if_cont3.i677.1, label %print_string.exit678
 
-loop_body48:                                      ; preds = %loop_decide43
-  %422 = load %TypeInfoStruct*, %TypeInfoStruct** %info4, align 8
-  %423 = getelementptr inbounds %TypeInfoStruct, %TypeInfoStruct* %422, i32 0, i32 2
-  %424 = load i32, i32* %i6, align 4
-  %425 = sext i32 %424 to i64
-  %426 = getelementptr inbounds { i64, %TypeInfoStructMember* }, { i64, %TypeInfoStructMember* }* %423, i32 0, i32 1
-  %427 = load %TypeInfoStructMember*, %TypeInfoStructMember** %426
-  %428 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %427, i64 %425
-  %429 = load %TypeInfoStructMember, %TypeInfoStructMember* %428, align 8
-  store %TypeInfoStructMember %429, %TypeInfoStructMember* %member
-  %430 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %member, i32 0, i32 0
-  %431 = load %string, %string* %430, align 8
-  %432 = load i32, i32* %cur, align 4
-  %433 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %433, { i64, i8* }* %35
-  %434 = bitcast { i64, i8* }* %35 to { i64, i64 }*
-  %435 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %434, i32 0, i32 0
-  %436 = load i64, i64* %435
-  %437 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %434, i32 0, i32 1
-  %438 = load i64, i64* %437
-  store %string %431, %string* %36
-  %439 = bitcast %string* %36 to { i64, i64 }*
-  %440 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %439, i32 0, i32 0
-  %441 = load i64, i64* %440
-  %442 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %439, i32 0, i32 1
-  %443 = load i64, i64* %442
-  %444 = call i32 @print_string(i64 %436, i64 %438, i32 %432, i64 %441, i64 %443)
-  store i32 %444, i32* %cur, align 4
-  %445 = load i32, i32* %cur, align 4
-  %446 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %446, { i64, i8* }* %37
-  %447 = bitcast { i64, i8* }* %37 to { i64, i64 }*
-  %448 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %447, i32 0, i32 0
-  %449 = load i64, i64* %448
-  %450 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %447, i32 0, i32 1
-  %451 = load i64, i64* %450
-  store %string { i64 3, i8* getelementptr inbounds ([4 x i8], [4 x i8]* @.str.298, i32 0, i32 0) }, %string* %38
-  %452 = bitcast %string* %38 to { i64, i64 }*
-  %453 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %452, i32 0, i32 0
-  %454 = load i64, i64* %453
-  %455 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %452, i32 0, i32 1
-  %456 = load i64, i64* %455
-  %457 = call i32 @print_string(i64 %449, i64 %451, i32 %445, i64 %454, i64 %456)
-  store i32 %457, i32* %cur, align 4
-  %458 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %member, i32 0, i32 2
-  %459 = load i32, i32* %458, align 4
-  %460 = zext i32 %459 to i64
-  %461 = load %Any*, %Any** %any, align 8
-  %462 = getelementptr inbounds %Any, %Any* %461, i32 0, i32 1
-  %463 = load i8*, i8** %462, align 8
-  %464 = ptrtoint i8* %463 to i64
-  %465 = add i64 %464, %460
-  %466 = inttoptr i64 %465 to i8*
-  %467 = getelementptr inbounds %Any, %Any* %tmp5, i32 0, i32 1
-  store i8* %466, i8** %467, align 8
-  %468 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %member, i32 0, i32 1
-  %469 = load %TypeInfo*, %TypeInfo** %468, align 8
-  %470 = getelementptr inbounds %Any, %Any* %tmp5, i32 0, i32 0
-  store %TypeInfo* %469, %TypeInfo** %470, align 8
-  %471 = load i32, i32* %cur, align 4
-  %472 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %472, { i64, i8* }* %39
-  %473 = bitcast { i64, i8* }* %39 to { i64, i64 }*
-  %474 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %473, i32 0, i32 0
-  %475 = load i64, i64* %474
-  %476 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %473, i32 0, i32 1
-  %477 = load i64, i64* %476
-  %478 = call i32 @print_any(i64 %475, i64 %477, i32 %471, %Any* %tmp5)
-  store i32 %478, i32* %cur, align 4
-  %479 = load %TypeInfoStruct*, %TypeInfoStruct** %info4, align 8
-  %480 = getelementptr inbounds %TypeInfoStruct, %TypeInfoStruct* %479, i32 0, i32 2
-  %481 = getelementptr inbounds { i64, %TypeInfoStructMember* }, { i64, %TypeInfoStructMember* }* %480, i32 0, i32 0
-  %482 = load i64, i64* %481, align 8
-  %483 = sub i64 %482, 1
-  %484 = load i32, i32* %i6, align 4
-  %485 = sext i32 %484 to i64
-  %486 = icmp slt i64 %485, %483
-  br i1 %486, label %if_then50, label %if_else51
-
-loop_continue49:                                  ; preds = %loop_decide43
-  %487 = load i32, i32* %cur, align 4
-  %488 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %488, { i64, i8* }* %40
-  %489 = bitcast { i64, i8* }* %40 to { i64, i64 }*
-  %490 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %489, i32 0, i32 0
-  %491 = load i64, i64* %490
-  %492 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %489, i32 0, i32 1
-  %493 = load i64, i64* %492
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.299, i32 0, i32 0) }, %string* %41
-  %494 = bitcast %string* %41 to { i64, i64 }*
-  %495 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %494, i32 0, i32 0
-  %496 = load i64, i64* %495
-  %497 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %494, i32 0, i32 1
-  %498 = load i64, i64* %497
-  %499 = call i32 @print_string(i64 %491, i64 %493, i32 %487, i64 %496, i64 %498)
-  store i32 %499, i32* %.ret.8, align 4
-  br label %exit
-
-if_then50:                                        ; preds = %loop_body48
-  %500 = load i32, i32* %cur, align 4
-  %501 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %501, { i64, i8* }* %42
-  %502 = bitcast { i64, i8* }* %42 to { i64, i64 }*
-  %503 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %502, i32 0, i32 0
-  %504 = load i64, i64* %503
-  %505 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %502, i32 0, i32 1
-  %506 = load i64, i64* %505
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.296, i32 0, i32 0) }, %string* %43
-  %507 = bitcast %string* %43 to { i64, i64 }*
-  %508 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %507, i32 0, i32 0
-  %509 = load i64, i64* %508
-  %510 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %507, i32 0, i32 1
-  %511 = load i64, i64* %510
-  %512 = call i32 @print_string(i64 %504, i64 %506, i32 %500, i64 %509, i64 %511)
-  store i32 %512, i32* %cur, align 4
+print_string.exit678:                             ; preds = %loop_body.i674, %if_cont3.i677, %if_cont3.i677.1
+  %.pre-phi891 = phi i32 [ %.pre890, %if_cont3.i677.1 ], [ %284, %loop_body.i674 ], [ %294, %if_cont3.i677 ]
+  %.pre = load i64, i64* %213, align 8
   br label %if_cont52
 
-if_else51:                                        ; preds = %loop_body48
-  br label %if_cont52
+if_cont52:                                        ; preds = %print_string.exit705, %print_string.exit678
+  %297 = phi i64 [ %.pre, %print_string.exit678 ], [ %285, %print_string.exit705 ]
+  %cur.5 = phi i32 [ %.pre-phi891, %print_string.exit678 ], [ %284, %print_string.exit705 ]
+  %298 = add i32 %i6.0523, 1
+  %299 = sext i32 %298 to i64
+  %300 = icmp sgt i64 %297, %299
+  br i1 %300, label %loop_body48, label %loop_body.i683
 
-if_cont52:                                        ; preds = %if_else51, %if_then50
-  br label %loop_increment47
+if_cont53:                                        ; preds = %if_cont44
+  %301 = icmp eq i8* %247, null
+  %302 = inttoptr i64 %1 to i8*
+  %303 = sext i32 %2 to i64
+  %304 = icmp slt i64 %303, %0
+  br i1 %301, label %loop_body.i665, label %loop_body.i656
 
-if_cont53:                                        ; preds = %if_else46
-  %513 = load i8*, i8** %ptr, align 8
-  %514 = icmp eq i8* %513, null
-  br i1 %514, label %if_then54, label %if_else55
+loop_body.i665:                                   ; preds = %if_cont53
+  br i1 %304, label %if_cont3.i668, label %exit
 
-if_then54:                                        ; preds = %if_cont53
-  %515 = load i32, i32* %cur, align 4
-  %516 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %516, { i64, i8* }* %46
-  %517 = bitcast { i64, i8* }* %46 to { i64, i64 }*
-  %518 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %517, i32 0, i32 0
-  %519 = load i64, i64* %518
-  %520 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %517, i32 0, i32 1
-  %521 = load i64, i64* %520
-  store %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.300, i32 0, i32 0) }, %string* %47
-  %522 = bitcast %string* %47 to { i64, i64 }*
-  %523 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %522, i32 0, i32 0
-  %524 = load i64, i64* %523
-  %525 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %522, i32 0, i32 1
-  %526 = load i64, i64* %525
-  %527 = call i32 @print_string(i64 %519, i64 %521, i32 %515, i64 %524, i64 %526)
-  store i32 %527, i32* %.ret.8, align 4
+if_cont3.i668:                                    ; preds = %loop_body.i665
+  %305 = getelementptr inbounds i8, i8* %302, i64 %303
+  store i8 91, i8* %305, align 1
+  %306 = add i32 %2, 1
+  %307 = sext i32 %306 to i64
+  %308 = icmp slt i64 %307, %0
+  br i1 %308, label %if_cont3.i668.1, label %exit
+
+loop_body.i656:                                   ; preds = %if_cont53
+  br i1 %304, label %if_cont3.i659, label %print_string.exit660
+
+if_cont3.i659:                                    ; preds = %loop_body.i656
+  %309 = getelementptr inbounds i8, i8* %302, i64 %303
+  store i8 91, i8* %309, align 1
+  %.pre880 = add i32 %2, 1
+  br label %print_string.exit660
+
+print_string.exit660:                             ; preds = %loop_body.i656, %if_cont3.i659
+  %.pre-phi881 = phi i32 [ %.pre880, %if_cont3.i659 ], [ %2, %loop_body.i656 ]
+  %310 = load %TypeInfoStructMember*, %TypeInfoStructMember** %231, align 8
+  %311 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %310, i64 1, i32 1
+  %312 = bitcast %TypeInfo** %311 to %TypeInfoPtr**
+  %313 = load %TypeInfoPtr*, %TypeInfoPtr** %312, align 8
+  %314 = getelementptr inbounds %TypeInfoPtr, %TypeInfoPtr* %313, i64 0, i32 1
+  %315 = load %TypeInfo*, %TypeInfo** %314, align 8
+  %316 = getelementptr inbounds %TypeInfo, %TypeInfo* %315, i64 0, i32 1
+  %317 = load i64, i64* %316, align 8
+  %318 = getelementptr inbounds %Any, %Any* %tmp5, i64 0, i32 0
+  store %TypeInfo* %315, %TypeInfo** %318, align 8
+  %319 = icmp eq i64 %317, 0
+  br i1 %319, label %loop_body.i647, label %loop_body62.lr.ph
+
+loop_body62.lr.ph:                                ; preds = %print_string.exit660
+  %320 = ptrtoint i8* %247 to i64
+  %321 = getelementptr inbounds %Any, %Any* %tmp5, i64 0, i32 1
+  %322 = add i64 %241, -1
+  br label %loop_body62
+
+loop_body.i647:                                   ; preds = %print_string.exit660, %if_cont66
+  %cur.7 = phi i32 [ %.pre-phi881, %print_string.exit660 ], [ %cur.8, %if_cont66 ]
+  %323 = sext i32 %cur.7 to i64
+  %324 = icmp slt i64 %323, %0
+  br i1 %324, label %if_cont3.i650, label %exit
+
+if_cont3.i650:                                    ; preds = %loop_body.i647
+  %325 = getelementptr inbounds i8, i8* %302, i64 %323
+  store i8 93, i8* %325, align 1
+  %.pre882 = add i32 %cur.7, 1
   br label %exit
 
-if_else55:                                        ; preds = %if_cont53
-  br label %if_cont56
+loop_body62:                                      ; preds = %if_cont66, %loop_body62.lr.ph
+  %cur.6521 = phi i32 [ %.pre-phi881, %loop_body62.lr.ph ], [ %cur.8, %if_cont66 ]
+  %i8.0520 = phi i64 [ 0, %loop_body62.lr.ph ], [ %337, %if_cont66 ]
+  %326 = mul i64 %i8.0520, %317
+  %327 = add i64 %326, %320
+  %328 = inttoptr i64 %327 to i8*
+  store i8* %328, i8** %321, align 8
+  %329 = call i32 @print_any(i64 %0, i64 %1, i32 %cur.6521, %Any* nonnull %tmp5)
+  %330 = icmp ult i64 %i8.0520, %322
+  br i1 %330, label %loop_body.i629, label %if_cont66
 
-if_cont56:                                        ; preds = %if_else55
-  %528 = load i32, i32* %cur, align 4
-  %529 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %529, { i64, i8* }* %48
-  %530 = bitcast { i64, i8* }* %48 to { i64, i64 }*
-  %531 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %530, i32 0, i32 0
-  %532 = load i64, i64* %531
-  %533 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %530, i32 0, i32 1
-  %534 = load i64, i64* %533
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.294, i32 0, i32 0) }, %string* %49
-  %535 = bitcast %string* %49 to { i64, i64 }*
-  %536 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %535, i32 0, i32 0
-  %537 = load i64, i64* %536
-  %538 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %535, i32 0, i32 1
-  %539 = load i64, i64* %538
-  %540 = call i32 @print_string(i64 %532, i64 %534, i32 %528, i64 %537, i64 %539)
-  store i32 %540, i32* %cur, align 4
-  %541 = load %TypeInfoStruct*, %TypeInfoStruct** %info4, align 8
-  %542 = getelementptr inbounds %TypeInfoStruct, %TypeInfoStruct* %541, i32 0, i32 2
-  %543 = getelementptr inbounds { i64, %TypeInfoStructMember* }, { i64, %TypeInfoStructMember* }* %542, i32 0, i32 1
-  %544 = load %TypeInfoStructMember*, %TypeInfoStructMember** %543
-  %545 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %544, i64 1
-  %546 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %545, i32 0, i32 1
-  %547 = load %TypeInfo*, %TypeInfo** %546, align 8
-  %548 = bitcast %TypeInfo* %547 to %TypeInfoPtr*
-  %549 = getelementptr inbounds %TypeInfoPtr, %TypeInfoPtr* %548, i32 0, i32 1
-  %550 = load %TypeInfo*, %TypeInfo** %549, align 8
-  store %TypeInfo* %550, %TypeInfo** %elem_type
-  %551 = load %TypeInfo*, %TypeInfo** %elem_type, align 8
-  %552 = getelementptr inbounds %TypeInfo, %TypeInfo* %551, i32 0, i32 1
-  %553 = load i64, i64* %552, align 8
-  store i64 %553, i64* %elem_size7
-  %554 = load %TypeInfo*, %TypeInfo** %elem_type, align 8
-  %555 = getelementptr inbounds %Any, %Any* %tmp5, i32 0, i32 0
-  store %TypeInfo* %554, %TypeInfo** %555, align 8
-  %556 = load i64, i64* %elem_size7, align 8
-  %557 = icmp ugt i64 %556, 0
-  br i1 %557, label %if_then57, label %if_else58
+loop_body.i629:                                   ; preds = %loop_body62
+  %331 = sext i32 %329 to i64
+  %332 = icmp slt i64 %331, %0
+  br i1 %332, label %if_cont3.i632, label %if_cont66
 
-if_then57:                                        ; preds = %if_cont56
-  store i64 0, i64* %i8
-  br label %loop_decide59
+if_cont3.i632:                                    ; preds = %loop_body.i629
+  %333 = getelementptr inbounds i8, i8* %302, i64 %331
+  store i8 44, i8* %333, align 1
+  %334 = add i32 %329, 1
+  %335 = sext i32 %334 to i64
+  %336 = icmp slt i64 %335, %0
+  br i1 %336, label %if_cont3.i632.1, label %if_cont66
 
-if_else58:                                        ; preds = %if_cont56
-  br label %if_cont60
+if_cont66:                                        ; preds = %if_cont3.i632.1, %if_cont3.i632, %loop_body.i629, %loop_body62
+  %cur.8 = phi i32 [ %329, %loop_body62 ], [ %.pre884, %if_cont3.i632.1 ], [ %329, %loop_body.i629 ], [ %334, %if_cont3.i632 ]
+  %337 = add nuw i64 %i8.0520, 1
+  %exitcond = icmp eq i64 %337, %241
+  br i1 %exitcond, label %loop_body.i647, label %loop_body62
 
-loop_decide59:                                    ; preds = %loop_increment61, %if_then57
-  %558 = load i64, i64* %len, align 8
-  %559 = load i64, i64* %i8, align 8
-  %560 = icmp ult i64 %559, %558
-  br i1 %560, label %loop_body62, label %loop_continue63
+loop_body.i620:                                   ; preds = %if_then40
+  br i1 %229, label %if_cont3.i623, label %exit
 
-if_cont60:                                        ; preds = %loop_continue63, %if_else58
-  %561 = load i32, i32* %cur, align 4
-  %562 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %562, { i64, i8* }* %50
-  %563 = bitcast { i64, i8* }* %50 to { i64, i64 }*
-  %564 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %563, i32 0, i32 0
-  %565 = load i64, i64* %564
-  %566 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %563, i32 0, i32 1
-  %567 = load i64, i64* %566
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.295, i32 0, i32 0) }, %string* %51
-  %568 = bitcast %string* %51 to { i64, i64 }*
-  %569 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %568, i32 0, i32 0
-  %570 = load i64, i64* %569
-  %571 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %568, i32 0, i32 1
-  %572 = load i64, i64* %571
-  %573 = call i32 @print_string(i64 %565, i64 %567, i32 %561, i64 %570, i64 %572)
-  store i32 %573, i32* %.ret.8, align 4
+if_cont3.i623:                                    ; preds = %loop_body.i620
+  %338 = getelementptr inbounds i8, i8* %227, i64 %228
+  store i8 110, i8* %338, align 1
+  %339 = add i32 %2, 1
+  %340 = sext i32 %339 to i64
+  %341 = icmp slt i64 %340, %0
+  br i1 %341, label %if_cont3.i623.1, label %exit
+
+if_then69:                                        ; preds = %entry
+  %342 = getelementptr inbounds %Any, %Any* %3, i64 0, i32 1
+  %343 = bitcast i8** %342 to i1**
+  %344 = load i1*, i1** %343, align 8
+  %345 = load i1, i1* %344, align 1
+  %346 = inttoptr i64 %1 to i8*
+  %347 = sext i32 %2 to i64
+  %348 = icmp slt i64 %347, %0
+  br i1 %345, label %loop_body.i597, label %loop_body.i588
+
+loop_body.i.i603:                                 ; preds = %if_then40
+  br i1 %229, label %if_cont3.i.i604, label %loop_body.i609.preheader
+
+if_cont3.i.i604:                                  ; preds = %loop_body.i.i603
+  %349 = getelementptr inbounds i8, i8* %227, i64 %228
+  store i8 48, i8* %349, align 1
+  %350 = add i32 %2, 1
+  %351 = sext i32 %350 to i64
+  %352 = icmp slt i64 %351, %0
+  br i1 %352, label %if_cont3.i.i604.1, label %loop_body.i609.preheader
+
+loop_body.i609.preheader:                         ; preds = %if_cont3.i.i604.1, %if_cont3.i.i604, %loop_body.i.i603
+  %.pre-phi897 = phi i32 [ %.pre896, %if_cont3.i.i604.1 ], [ %2, %loop_body.i.i603 ], [ %350, %if_cont3.i.i604 ]
+  br label %loop_body.i609
+
+loop_body.i609:                                   ; preds = %loop_body.i609.preheader, %if_cont6.i615
+  %v.032.i = phi i64 [ %353, %if_cont6.i615 ], [ %225, %loop_body.i609.preheader ]
+  %cur.031.i = phi i32 [ %cur.1.i614, %if_cont6.i615 ], [ %.pre-phi897, %loop_body.i609.preheader ]
+  %hit_non_zero.030.i = phi i1 [ %hit_non_zero.0..i608, %if_cont6.i615 ], [ false, %loop_body.i609.preheader ]
+  %i.029.i = phi i32 [ %362, %if_cont6.i615 ], [ 0, %loop_body.i609.preheader ]
+  %353 = shl i64 %v.032.i, 4
+  %354 = lshr i64 %v.032.i, 60
+  %355 = icmp ne i64 %354, 0
+  %hit_non_zero.0..i608 = or i1 %hit_non_zero.030.i, %355
+  br i1 %hit_non_zero.0..i608, label %if_then4.i610, label %if_cont6.i615
+
+if_then4.i610:                                    ; preds = %loop_body.i609
+  %356 = sext i32 %cur.031.i to i64
+  %357 = icmp slt i64 %356, %0
+  br i1 %357, label %if_cont.i.i611, label %if_cont6.i615
+
+if_cont.i.i611:                                   ; preds = %if_then4.i610
+  %358 = getelementptr [16 x i8], [16 x i8]* @0, i64 0, i64 %354
+  %359 = load i8, i8* %358, align 1
+  %360 = getelementptr inbounds i8, i8* %227, i64 %356
+  store i8 %359, i8* %360, align 1
+  %361 = add i32 %cur.031.i, 1
+  br label %if_cont6.i615
+
+if_cont6.i615:                                    ; preds = %if_then4.i610, %if_cont.i.i611, %loop_body.i609
+  %cur.1.i614 = phi i32 [ %cur.031.i, %loop_body.i609 ], [ %361, %if_cont.i.i611 ], [ 0, %if_then4.i610 ]
+  %362 = add nuw nsw i32 %i.029.i, 1
+  %exitcond.i = icmp eq i32 %362, 16
+  br i1 %exitcond.i, label %exit, label %loop_body.i609
+
+loop_body.i597:                                   ; preds = %if_then69
+  br i1 %348, label %if_cont3.i600, label %exit
+
+if_cont3.i600:                                    ; preds = %loop_body.i597
+  %363 = getelementptr inbounds i8, i8* %346, i64 %347
+  store i8 116, i8* %363, align 1
+  %364 = add i32 %2, 1
+  %365 = sext i32 %364 to i64
+  %366 = icmp slt i64 %365, %0
+  br i1 %366, label %if_cont3.i600.1, label %exit
+
+loop_body.i588:                                   ; preds = %if_then69
+  br i1 %348, label %if_cont3.i591, label %exit
+
+if_cont3.i591:                                    ; preds = %loop_body.i588
+  %367 = getelementptr inbounds i8, i8* %346, i64 %347
+  store i8 102, i8* %367, align 1
+  %368 = add i32 %2, 1
+  %369 = sext i32 %368 to i64
+  %370 = icmp slt i64 %369, %0
+  br i1 %370, label %if_cont3.i591.1, label %exit
+
+if_then75:                                        ; preds = %entry
+  %371 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 2
+  %372 = bitcast %TypeInfo* %371 to %TypeInfoInt**
+  %373 = load %TypeInfoInt*, %TypeInfoInt** %372, align 8
+  %374 = getelementptr inbounds %TypeInfoInt, %TypeInfoInt* %373, i64 0, i32 1
+  %375 = load i32, i32* %374, align 4
+  %376 = getelementptr inbounds %Any, %Any* %3, i64 0, i32 1
+  %377 = load i8*, i8** %376, align 8
+  %378 = add i32 %375, -8
+  %379 = lshr i32 %378, 3
+  %380 = shl i32 %378, 29
+  %381 = or i32 %379, %380
+  switch i32 %381, label %s64_from_u8_ptr.exit583 [
+    i32 7, label %if_then.i578
+    i32 3, label %if_then1.i580
+    i32 1, label %if_then4.i581
+    i32 0, label %if_then7.i582
+  ]
+
+if_then.i578:                                     ; preds = %if_then75
+  %382 = bitcast i8* %377 to i64*
+  %383 = load i64, i64* %382, align 8
+  br label %s64_from_u8_ptr.exit583
+
+if_then1.i580:                                    ; preds = %if_then75
+  %384 = bitcast i8* %377 to i32*
+  %385 = load i32, i32* %384, align 4
+  %386 = sext i32 %385 to i64
+  br label %s64_from_u8_ptr.exit583
+
+if_then4.i581:                                    ; preds = %if_then75
+  %387 = bitcast i8* %377 to i16*
+  %388 = load i16, i16* %387, align 2
+  %389 = sext i16 %388 to i64
+  br label %s64_from_u8_ptr.exit583
+
+if_then7.i582:                                    ; preds = %if_then75
+  %390 = load i8, i8* %377, align 1
+  %391 = sext i8 %390 to i64
+  br label %s64_from_u8_ptr.exit583
+
+s64_from_u8_ptr.exit583:                          ; preds = %if_then75, %if_then.i578, %if_then1.i580, %if_then4.i581, %if_then7.i582
+  %.ret.15.0.i579 = phi i64 [ %383, %if_then.i578 ], [ %386, %if_then1.i580 ], [ %389, %if_then4.i581 ], [ %391, %if_then7.i582 ], [ 0, %if_then75 ]
+  %392 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 2, i32 1
+  %393 = load i64, i64* %392, align 8
+  %394 = icmp sgt i64 %393, 0
+  br i1 %394, label %loop_body84.lr.ph, label %loop_continue85
+
+loop_body84.lr.ph:                                ; preds = %s64_from_u8_ptr.exit583
+  %395 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 3
+  %396 = bitcast %TypeInfo* %395 to %TypeInfoEnumVariant**
+  %397 = load %TypeInfoEnumVariant*, %TypeInfoEnumVariant** %396, align 8
+  br label %loop_body84
+
+loop_decide79:                                    ; preds = %loop_body84
+  %398 = sext i32 %415 to i64
+  %399 = icmp sgt i64 %393, %398
+  br i1 %399, label %loop_body84, label %loop_continue85
+
+if_then80:                                        ; preds = %entry
+  %400 = getelementptr inbounds %Any, %Any* %3, i64 0, i32 1
+  %401 = bitcast i8** %400 to %TypeInfo**
+  %402 = load %TypeInfo*, %TypeInfo** %401, align 8
+  %403 = tail call i32 @print_type(i64 %0, i64 %1, i32 %2, %TypeInfo* %402)
   br label %exit
 
-loop_increment61:                                 ; preds = %if_cont66
-  %574 = load i64, i64* %i8, align 8
-  %575 = add i64 %574, 1
-  store i64 %575, i64* %i8, align 8
-  br label %loop_decide59
+if_else81:                                        ; preds = %entry
+  %404 = inttoptr i64 %1 to i8*
+  %405 = sext i32 %2 to i64
+  %406 = icmp slt i64 %405, %0
+  br i1 %406, label %if_cont3.i567, label %exit
 
-loop_body62:                                      ; preds = %loop_decide59
-  %576 = load i64, i64* %elem_size7, align 8
-  %577 = load i64, i64* %i8, align 8
-  %578 = mul i64 %577, %576
-  %579 = load i8*, i8** %ptr, align 8
-  %580 = ptrtoint i8* %579 to i64
-  %581 = add i64 %580, %578
-  %582 = inttoptr i64 %581 to i8*
-  %583 = getelementptr inbounds %Any, %Any* %tmp5, i32 0, i32 1
-  store i8* %582, i8** %583, align 8
-  %584 = load i32, i32* %cur, align 4
-  %585 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %585, { i64, i8* }* %52
-  %586 = bitcast { i64, i8* }* %52 to { i64, i64 }*
-  %587 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %586, i32 0, i32 0
-  %588 = load i64, i64* %587
-  %589 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %586, i32 0, i32 1
-  %590 = load i64, i64* %589
-  %591 = call i32 @print_any(i64 %588, i64 %590, i32 %584, %Any* %tmp5)
-  store i32 %591, i32* %cur, align 4
-  %592 = load i64, i64* %len, align 8
-  %593 = sub i64 %592, 1
-  %594 = load i64, i64* %i8, align 8
-  %595 = icmp ult i64 %594, %593
-  br i1 %595, label %if_then64, label %if_else65
+if_cont3.i567:                                    ; preds = %if_else81
+  %407 = getelementptr inbounds i8, i8* %404, i64 %405
+  store i8 60, i8* %407, align 1
+  %408 = add i32 %2, 1
+  %409 = sext i32 %408 to i64
+  %410 = icmp slt i64 %409, %0
+  br i1 %410, label %if_cont3.i567.1, label %exit
 
-loop_continue63:                                  ; preds = %loop_decide59
-  br label %if_cont60
+loop_body84:                                      ; preds = %loop_body84.lr.ph, %loop_decide79
+  %411 = phi i64 [ 0, %loop_body84.lr.ph ], [ %398, %loop_decide79 ]
+  %i11.0526 = phi i32 [ 0, %loop_body84.lr.ph ], [ %415, %loop_decide79 ]
+  %412 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %397, i64 %411, i32 1
+  %413 = load i64, i64* %412, align 8
+  %414 = icmp eq i64 %413, %.ret.15.0.i579
+  %415 = add i32 %i11.0526, 1
+  br i1 %414, label %if_then86, label %loop_decide79
 
-if_then64:                                        ; preds = %loop_body62
-  %596 = load i32, i32* %cur, align 4
-  %597 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %597, { i64, i8* }* %53
-  %598 = bitcast { i64, i8* }* %53 to { i64, i64 }*
-  %599 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %598, i32 0, i32 0
-  %600 = load i64, i64* %599
-  %601 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %598, i32 0, i32 1
-  %602 = load i64, i64* %601
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.296, i32 0, i32 0) }, %string* %54
-  %603 = bitcast %string* %54 to { i64, i64 }*
-  %604 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %603, i32 0, i32 0
-  %605 = load i64, i64* %604
-  %606 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %603, i32 0, i32 1
-  %607 = load i64, i64* %606
-  %608 = call i32 @print_string(i64 %600, i64 %602, i32 %596, i64 %605, i64 %607)
-  store i32 %608, i32* %cur, align 4
-  br label %if_cont66
-
-if_else65:                                        ; preds = %loop_body62
-  br label %if_cont66
-
-if_cont66:                                        ; preds = %if_else65, %if_then64
-  br label %loop_increment61
-
-if_then67:                                        ; preds = %if_then40
-  %609 = load i32, i32* %cur, align 4
-  %610 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %610, { i64, i8* }* %55
-  %611 = bitcast { i64, i8* }* %55 to { i64, i64 }*
-  %612 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %611, i32 0, i32 0
-  %613 = load i64, i64* %612
-  %614 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %611, i32 0, i32 1
-  %615 = load i64, i64* %614
-  store %string { i64 4, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.288, i32 0, i32 0) }, %string* %56
-  %616 = bitcast %string* %56 to { i64, i64 }*
-  %617 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %616, i32 0, i32 0
-  %618 = load i64, i64* %617
-  %619 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %616, i32 0, i32 1
-  %620 = load i64, i64* %619
-  %621 = call i32 @print_string(i64 %613, i64 %615, i32 %609, i64 %618, i64 %620)
-  store i32 %621, i32* %.ret.8, align 4
-  br label %exit
-
-if_else68:                                        ; preds = %if_then40
-  br label %if_cont72
-
-if_then69:                                        ; preds = %if_else41
-  %622 = load %Any*, %Any** %any, align 8
-  %623 = getelementptr inbounds %Any, %Any* %622, i32 0, i32 1
-  %624 = load i8*, i8** %623, align 8
-  %625 = bitcast i8* %624 to i1*
-  %626 = load i1, i1* %625, align 1
-  store i1 %626, i1* %b
-  %627 = load i1, i1* %b, align 1
-  br i1 %627, label %if_then73, label %if_else74
-
-if_else70:                                        ; preds = %if_else41
-  %628 = load %Any*, %Any** %any, align 8
-  %629 = getelementptr inbounds %Any, %Any* %628, i32 0, i32 0
-  %630 = load %TypeInfo*, %TypeInfo** %629, align 8
-  %631 = getelementptr inbounds %TypeInfo, %TypeInfo* %630, i32 0, i32 0
-  %632 = load i32, i32* %631, align 4
-  %633 = icmp eq i32 %632, 10
-  br i1 %633, label %if_then75, label %if_else76
-
-if_cont71:                                        ; preds = %if_cont77
-  br label %if_cont42
-
-if_cont72:                                        ; preds = %if_else68
-  %634 = load i64, i64* %ptr9, align 8
-  %635 = load i32, i32* %cur, align 4
-  %636 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %636, { i64, i8* }* %57
-  %637 = bitcast { i64, i8* }* %57 to { i64, i64 }*
-  %638 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %637, i32 0, i32 0
-  %639 = load i64, i64* %638
-  %640 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %637, i32 0, i32 1
-  %641 = load i64, i64* %640
-  %642 = call i32 @print_u64_hex(i64 %639, i64 %641, i32 %635, i64 %634)
-  store i32 %642, i32* %.ret.8, align 4
-  br label %exit
-
-if_then73:                                        ; preds = %if_then69
-  %643 = load i32, i32* %cur, align 4
-  %644 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %644, { i64, i8* }* %58
-  %645 = bitcast { i64, i8* }* %58 to { i64, i64 }*
-  %646 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %645, i32 0, i32 0
-  %647 = load i64, i64* %646
-  %648 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %645, i32 0, i32 1
-  %649 = load i64, i64* %648
-  store %string { i64 4, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.301, i32 0, i32 0) }, %string* %59
-  %650 = bitcast %string* %59 to { i64, i64 }*
-  %651 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %650, i32 0, i32 0
-  %652 = load i64, i64* %651
-  %653 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %650, i32 0, i32 1
-  %654 = load i64, i64* %653
-  %655 = call i32 @print_string(i64 %647, i64 %649, i32 %643, i64 %652, i64 %654)
-  store i32 %655, i32* %.ret.8, align 4
-  br label %exit
-
-if_else74:                                        ; preds = %if_then69
-  %656 = load i32, i32* %cur, align 4
-  %657 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %657, { i64, i8* }* %60
-  %658 = bitcast { i64, i8* }* %60 to { i64, i64 }*
-  %659 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %658, i32 0, i32 0
-  %660 = load i64, i64* %659
-  %661 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %658, i32 0, i32 1
-  %662 = load i64, i64* %661
-  store %string { i64 5, i8* getelementptr inbounds ([6 x i8], [6 x i8]* @.str.302, i32 0, i32 0) }, %string* %61
-  %663 = bitcast %string* %61 to { i64, i64 }*
-  %664 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %663, i32 0, i32 0
-  %665 = load i64, i64* %664
-  %666 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %663, i32 0, i32 1
-  %667 = load i64, i64* %666
-  %668 = call i32 @print_string(i64 %660, i64 %662, i32 %656, i64 %665, i64 %667)
-  store i32 %668, i32* %.ret.8, align 4
-  br label %exit
-
-if_then75:                                        ; preds = %if_else70
-  %669 = load %Any*, %Any** %any, align 8
-  %670 = getelementptr inbounds %Any, %Any* %669, i32 0, i32 0
-  %671 = load %TypeInfo*, %TypeInfo** %670, align 8
-  %672 = bitcast %TypeInfo* %671 to %TypeInfoEnum*
-  store %TypeInfoEnum* %672, %TypeInfoEnum** %info10
-  %673 = load %TypeInfoEnum*, %TypeInfoEnum** %info10, align 8
-  %674 = getelementptr inbounds %TypeInfoEnum, %TypeInfoEnum* %673, i32 0, i32 2
-  %675 = load %TypeInfo*, %TypeInfo** %674, align 8
-  %676 = bitcast %TypeInfo* %675 to %TypeInfoInt*
-  store %TypeInfoInt* %676, %TypeInfoInt** %info_base_type
-  %677 = load %TypeInfoInt*, %TypeInfoInt** %info_base_type, align 8
-  %678 = getelementptr inbounds %TypeInfoInt, %TypeInfoInt* %677, i32 0, i32 1
-  %679 = load i32, i32* %678, align 4
-  %680 = load %Any*, %Any** %any, align 8
-  %681 = getelementptr inbounds %Any, %Any* %680, i32 0, i32 1
-  %682 = load i8*, i8** %681, align 8
-  %683 = call i64 @s64_from_u8_ptr(i8* %682, i32 %679)
-  store i64 %683, i64* %value
-  store i32 0, i32* %i11
-  br label %loop_decide79
-
-if_else76:                                        ; preds = %if_else70
-  %684 = load %Any*, %Any** %any, align 8
-  %685 = getelementptr inbounds %Any, %Any* %684, i32 0, i32 0
-  %686 = load %TypeInfo*, %TypeInfo** %685, align 8
-  %687 = getelementptr inbounds %TypeInfo, %TypeInfo* %686, i32 0, i32 0
-  %688 = load i32, i32* %687, align 4
-  %689 = icmp eq i32 %688, 1
-  br i1 %689, label %if_then80, label %if_else81
-
-if_cont77:                                        ; preds = %if_cont82, %if_cont78
-  br label %if_cont71
-
-if_cont78:                                        ; No predecessors!
-  br label %if_cont77
-
-loop_decide79:                                    ; preds = %loop_increment83, %if_then75
-  %690 = load %TypeInfoEnum*, %TypeInfoEnum** %info10, align 8
-  %691 = getelementptr inbounds %TypeInfoEnum, %TypeInfoEnum* %690, i32 0, i32 3
-  %692 = getelementptr inbounds { i64, %TypeInfoEnumVariant* }, { i64, %TypeInfoEnumVariant* }* %691, i32 0, i32 0
-  %693 = load i64, i64* %692, align 8
-  %694 = load i32, i32* %i11, align 4
-  %695 = sext i32 %694 to i64
-  %696 = icmp slt i64 %695, %693
-  br i1 %696, label %loop_body84, label %loop_continue85
-
-if_then80:                                        ; preds = %if_else76
-  %697 = load %Any*, %Any** %any, align 8
-  %698 = getelementptr inbounds %Any, %Any* %697, i32 0, i32 1
-  %699 = load i8*, i8** %698, align 8
-  %700 = bitcast i8* %699 to %TypeInfo*
-  %701 = load i32, i32* %cur, align 4
-  %702 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %702, { i64, i8* }* %71
-  %703 = bitcast { i64, i8* }* %71 to { i64, i64 }*
-  %704 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %703, i32 0, i32 0
-  %705 = load i64, i64* %704
-  %706 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %703, i32 0, i32 1
-  %707 = load i64, i64* %706
-  %708 = call i32 @print_type(i64 %705, i64 %707, i32 %701, %TypeInfo* %700)
-  store i32 %708, i32* %.ret.8, align 4
-  br label %exit
-
-if_else81:                                        ; preds = %if_else76
-  %709 = load i32, i32* %cur, align 4
-  %710 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %710, { i64, i8* }* %72
-  %711 = bitcast { i64, i8* }* %72 to { i64, i64 }*
-  %712 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %711, i32 0, i32 0
-  %713 = load i64, i64* %712
-  %714 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %711, i32 0, i32 1
-  %715 = load i64, i64* %714
-  store %string { i64 9, i8* getelementptr inbounds ([10 x i8], [10 x i8]* @.str.304, i32 0, i32 0) }, %string* %73
-  %716 = bitcast %string* %73 to { i64, i64 }*
-  %717 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %716, i32 0, i32 0
-  %718 = load i64, i64* %717
-  %719 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %716, i32 0, i32 1
-  %720 = load i64, i64* %719
-  %721 = call i32 @print_string(i64 %713, i64 %715, i32 %709, i64 %718, i64 %720)
-  store i32 %721, i32* %.ret.8, align 4
-  br label %exit
-
-if_cont82:                                        ; preds = %if_cont92
-  br label %if_cont77
-
-loop_increment83:                                 ; preds = %if_cont90
-  %722 = load i32, i32* %i11, align 4
-  %723 = add i32 %722, 1
-  store i32 %723, i32* %i11, align 4
-  br label %loop_decide79
-
-loop_body84:                                      ; preds = %loop_decide79
-  %724 = load i64, i64* %value, align 8
-  %725 = load %TypeInfoEnum*, %TypeInfoEnum** %info10, align 8
-  %726 = getelementptr inbounds %TypeInfoEnum, %TypeInfoEnum* %725, i32 0, i32 3
-  %727 = load i32, i32* %i11, align 4
-  %728 = sext i32 %727 to i64
-  %729 = getelementptr inbounds { i64, %TypeInfoEnumVariant* }, { i64, %TypeInfoEnumVariant* }* %726, i32 0, i32 1
-  %730 = load %TypeInfoEnumVariant*, %TypeInfoEnumVariant** %729
-  %731 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %730, i64 %728
-  %732 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %731, i32 0, i32 1
-  %733 = load i64, i64* %732, align 8
-  %734 = icmp eq i64 %733, %724
-  br i1 %734, label %if_then86, label %if_else87
-
-loop_continue85:                                  ; preds = %loop_decide79
-  %735 = load i64, i64* %value, align 8
-  %736 = icmp slt i64 %735, 0
-  br i1 %736, label %if_then88, label %if_else89
+loop_continue85:                                  ; preds = %loop_decide79, %s64_from_u8_ptr.exit583
+  %416 = icmp slt i64 %.ret.15.0.i579, 0
+  br i1 %416, label %if_then88, label %if_cont91
 
 if_then86:                                        ; preds = %loop_body84
-  %737 = load %TypeInfoEnum*, %TypeInfoEnum** %info10, align 8
-  %738 = getelementptr inbounds %TypeInfoEnum, %TypeInfoEnum* %737, i32 0, i32 1
-  %739 = load %string, %string* %738, align 8
-  %740 = load i32, i32* %cur, align 4
-  %741 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %741, { i64, i8* }* %62
-  %742 = bitcast { i64, i8* }* %62 to { i64, i64 }*
-  %743 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %742, i32 0, i32 0
-  %744 = load i64, i64* %743
-  %745 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %742, i32 0, i32 1
-  %746 = load i64, i64* %745
-  store %string %739, %string* %63
-  %747 = bitcast %string* %63 to { i64, i64 }*
-  %748 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %747, i32 0, i32 0
-  %749 = load i64, i64* %748
-  %750 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %747, i32 0, i32 1
-  %751 = load i64, i64* %750
-  %752 = call i32 @print_string(i64 %744, i64 %746, i32 %740, i64 %749, i64 %751)
-  store i32 %752, i32* %cur, align 4
-  %753 = load i32, i32* %cur, align 4
-  %754 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %754, { i64, i8* }* %64
-  %755 = bitcast { i64, i8* }* %64 to { i64, i64 }*
-  %756 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %755, i32 0, i32 0
-  %757 = load i64, i64* %756
-  %758 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %755, i32 0, i32 1
-  %759 = load i64, i64* %758
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.303, i32 0, i32 0) }, %string* %65
-  %760 = bitcast %string* %65 to { i64, i64 }*
-  %761 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %760, i32 0, i32 0
-  %762 = load i64, i64* %761
-  %763 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %760, i32 0, i32 1
-  %764 = load i64, i64* %763
-  %765 = call i32 @print_string(i64 %757, i64 %759, i32 %753, i64 %762, i64 %764)
-  store i32 %765, i32* %cur, align 4
-  %766 = load %TypeInfoEnum*, %TypeInfoEnum** %info10, align 8
-  %767 = getelementptr inbounds %TypeInfoEnum, %TypeInfoEnum* %766, i32 0, i32 3
-  %768 = load i32, i32* %i11, align 4
-  %769 = sext i32 %768 to i64
-  %770 = getelementptr inbounds { i64, %TypeInfoEnumVariant* }, { i64, %TypeInfoEnumVariant* }* %767, i32 0, i32 1
-  %771 = load %TypeInfoEnumVariant*, %TypeInfoEnumVariant** %770
-  %772 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %771, i64 %769
-  %773 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %772, i32 0, i32 0
-  %774 = load %string, %string* %773, align 8
-  %775 = load i32, i32* %cur, align 4
-  %776 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %776, { i64, i8* }* %66
-  %777 = bitcast { i64, i8* }* %66 to { i64, i64 }*
-  %778 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %777, i32 0, i32 0
-  %779 = load i64, i64* %778
-  %780 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %777, i32 0, i32 1
-  %781 = load i64, i64* %780
-  store %string %774, %string* %67
-  %782 = bitcast %string* %67 to { i64, i64 }*
-  %783 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %782, i32 0, i32 0
-  %784 = load i64, i64* %783
-  %785 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %782, i32 0, i32 1
-  %786 = load i64, i64* %785
-  %787 = call i32 @print_string(i64 %779, i64 %781, i32 %775, i64 %784, i64 %786)
-  store i32 %787, i32* %.ret.8, align 4
+  %.elt125 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 1
+  %417 = bitcast %TypeInfo* %.elt125 to i64*
+  %.unpack126 = load i64, i64* %417, align 8
+  %.elt127 = getelementptr inbounds %TypeInfo, %TypeInfo* %5, i64 1, i32 1
+  %.unpack128140 = load i64, i64* %.elt127, align 8
+  %418 = inttoptr i64 %.unpack128140 to i8*
+  %419 = icmp eq i64 %.unpack128140, 0
+  br i1 %419, label %print_string.exit559, label %loop_decide.preheader.i
+
+loop_decide.preheader.i:                          ; preds = %if_then86
+  %420 = icmp sgt i64 %.unpack126, 0
+  br i1 %420, label %loop_body.lr.ph.i, label %loop_continue.i
+
+loop_body.lr.ph.i:                                ; preds = %loop_decide.preheader.i
+  %421 = inttoptr i64 %1 to i8*
+  br label %loop_body.i556
+
+loop_body.i556:                                   ; preds = %if_cont3.i558, %loop_body.lr.ph.i
+  %422 = phi i64 [ 0, %loop_body.lr.ph.i ], [ %431, %if_cont3.i558 ]
+  %i.05.i555 = phi i32 [ 0, %loop_body.lr.ph.i ], [ %430, %if_cont3.i558 ]
+  %423 = add i32 %i.05.i555, %2
+  %424 = sext i32 %423 to i64
+  %425 = icmp slt i64 %424, %0
+  br i1 %425, label %if_cont3.i558, label %loop_continue.i
+
+loop_continue.i:                                  ; preds = %if_cont3.i558, %loop_body.i556, %loop_decide.preheader.i
+  %i.0.lcssa.i557 = phi i32 [ 0, %loop_decide.preheader.i ], [ %430, %if_cont3.i558 ], [ %i.05.i555, %loop_body.i556 ]
+  %426 = add i32 %i.0.lcssa.i557, %2
+  br label %print_string.exit559
+
+if_cont3.i558:                                    ; preds = %loop_body.i556
+  %427 = getelementptr inbounds i8, i8* %418, i64 %422
+  %428 = load i8, i8* %427, align 1
+  %429 = getelementptr inbounds i8, i8* %421, i64 %424
+  store i8 %428, i8* %429, align 1
+  %430 = add i32 %i.05.i555, 1
+  %431 = sext i32 %430 to i64
+  %432 = icmp sgt i64 %.unpack126, %431
+  br i1 %432, label %loop_body.i556, label %loop_continue.i
+
+print_string.exit559:                             ; preds = %if_then86, %loop_continue.i
+  %.ret.10.0.i = phi i32 [ %426, %loop_continue.i ], [ %2, %if_then86 ]
+  %433 = inttoptr i64 %1 to i8*
+  %434 = sext i32 %.ret.10.0.i to i64
+  %435 = icmp slt i64 %434, %0
+  br i1 %435, label %if_cont3.i, label %print_string.exit
+
+if_cont3.i:                                       ; preds = %print_string.exit559
+  %436 = getelementptr inbounds i8, i8* %433, i64 %434
+  store i8 46, i8* %436, align 1
+  %.pre904 = add i32 %.ret.10.0.i, 1
+  br label %print_string.exit
+
+print_string.exit:                                ; preds = %print_string.exit559, %if_cont3.i
+  %.pre-phi905 = phi i32 [ %.pre904, %if_cont3.i ], [ %.ret.10.0.i, %print_string.exit559 ]
+  %437 = load %TypeInfoEnumVariant*, %TypeInfoEnumVariant** %396, align 8
+  %.elt150 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %437, i64 %411, i32 0, i32 0
+  %.unpack151 = load i64, i64* %.elt150, align 8
+  %.elt152 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %437, i64 %411, i32 0, i32 1
+  %438 = bitcast i8** %.elt152 to i64*
+  %.unpack153165 = load i64, i64* %438, align 8
+  %439 = inttoptr i64 %.unpack153165 to i8*
+  %440 = icmp eq i64 %.unpack153165, 0
+  br i1 %440, label %exit, label %loop_decide.preheader.i634
+
+loop_decide.preheader.i634:                       ; preds = %print_string.exit
+  %441 = icmp sgt i64 %.unpack151, 0
+  br i1 %441, label %loop_body.i638, label %loop_continue.i640
+
+loop_body.i638:                                   ; preds = %loop_decide.preheader.i634, %if_cont3.i641
+  %442 = phi i64 [ %451, %if_cont3.i641 ], [ 0, %loop_decide.preheader.i634 ]
+  %i.05.i637 = phi i32 [ %450, %if_cont3.i641 ], [ 0, %loop_decide.preheader.i634 ]
+  %443 = add i32 %i.05.i637, %.pre-phi905
+  %444 = sext i32 %443 to i64
+  %445 = icmp slt i64 %444, %0
+  br i1 %445, label %if_cont3.i641, label %loop_continue.i640
+
+loop_continue.i640:                               ; preds = %if_cont3.i641, %loop_body.i638, %loop_decide.preheader.i634
+  %i.0.lcssa.i639 = phi i32 [ 0, %loop_decide.preheader.i634 ], [ %450, %if_cont3.i641 ], [ %i.05.i637, %loop_body.i638 ]
+  %446 = add i32 %i.0.lcssa.i639, %.pre-phi905
   br label %exit
 
-if_else87:                                        ; preds = %loop_body84
-  br label %if_cont90
+if_cont3.i641:                                    ; preds = %loop_body.i638
+  %447 = getelementptr inbounds i8, i8* %439, i64 %442
+  %448 = load i8, i8* %447, align 1
+  %449 = getelementptr inbounds i8, i8* %433, i64 %444
+  store i8 %448, i8* %449, align 1
+  %450 = add i32 %i.05.i637, 1
+  %451 = sext i32 %450 to i64
+  %452 = icmp sgt i64 %.unpack151, %451
+  br i1 %452, label %loop_body.i638, label %loop_continue.i640
 
 if_then88:                                        ; preds = %loop_continue85
-  %788 = load i32, i32* %cur, align 4
-  %789 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %789, { i64, i8* }* %68
-  %790 = bitcast { i64, i8* }* %68 to { i64, i64 }*
-  %791 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %790, i32 0, i32 0
-  %792 = load i64, i64* %791
-  %793 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %790, i32 0, i32 1
-  %794 = load i64, i64* %793
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.292, i32 0, i32 0) }, %string* %69
-  %795 = bitcast %string* %69 to { i64, i64 }*
-  %796 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %795, i32 0, i32 0
-  %797 = load i64, i64* %796
-  %798 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %795, i32 0, i32 1
-  %799 = load i64, i64* %798
-  %800 = call i32 @print_string(i64 %792, i64 %794, i32 %788, i64 %797, i64 %799)
-  store i32 %800, i32* %cur, align 4
-  %801 = load i64, i64* %value, align 8
-  %802 = sub i64 0, %801
-  store i64 %802, i64* %value, align 8
+  %453 = sext i32 %2 to i64
+  %454 = icmp slt i64 %453, %0
+  br i1 %454, label %if_cont3.i695, label %print_string.exit696
+
+if_cont3.i695:                                    ; preds = %if_then88
+  %455 = inttoptr i64 %1 to i8*
+  %456 = getelementptr inbounds i8, i8* %455, i64 %453
+  store i8 45, i8* %456, align 1
+  %.pre906 = add i32 %2, 1
+  br label %print_string.exit696
+
+print_string.exit696:                             ; preds = %if_then88, %if_cont3.i695
+  %.pre-phi907 = phi i32 [ %.pre906, %if_cont3.i695 ], [ %2, %if_then88 ]
+  %457 = sub i64 0, %.ret.15.0.i579
   br label %if_cont91
 
-if_else89:                                        ; preds = %loop_continue85
-  br label %if_cont91
+if_cont91:                                        ; preds = %loop_continue85, %print_string.exit696
+  %value.0 = phi i64 [ %457, %print_string.exit696 ], [ %.ret.15.0.i579, %loop_continue85 ]
+  %cur.9 = phi i32 [ %.pre-phi907, %print_string.exit696 ], [ %2, %loop_continue85 ]
+  %458 = icmp eq i64 %value.0, 0
+  %459 = inttoptr i64 %1 to i8*
+  br i1 %458, label %loop_body.i.i764, label %loop_body.i774
 
-if_cont90:                                        ; preds = %if_else87
-  br label %loop_increment83
+loop_body.i.i764:                                 ; preds = %if_cont91
+  %460 = sext i32 %cur.9 to i64
+  %461 = icmp slt i64 %460, %0
+  br i1 %461, label %if_cont3.i.i765, label %exit
 
-if_cont91:                                        ; preds = %if_else89, %if_then88
-  %803 = load i64, i64* %value, align 8
-  %804 = load i32, i32* %cur, align 4
-  %805 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %805, { i64, i8* }* %70
-  %806 = bitcast { i64, i8* }* %70 to { i64, i64 }*
-  %807 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %806, i32 0, i32 0
-  %808 = load i64, i64* %807
-  %809 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %806, i32 0, i32 1
-  %810 = load i64, i64* %809
-  %811 = call i32 @print_u64(i64 %808, i64 %810, i32 %804, i64 %803)
-  store i32 %811, i32* %.ret.8, align 4
+if_cont3.i.i765:                                  ; preds = %loop_body.i.i764
+  %462 = getelementptr inbounds i8, i8* %459, i64 %460
+  store i8 48, i8* %462, align 1
+  %.pre908 = add i32 %cur.9, 1
   br label %exit
 
-if_cont92:                                        ; No predecessors!
-  br label %if_cont82
-}
+loop_body.i774:                                   ; preds = %if_cont91, %if_cont6.i780
+  %v.027.i769 = phi i64 [ %463, %if_cont6.i780 ], [ %value.0, %if_cont91 ]
+  %cur.026.i770 = phi i32 [ %cur.1.i779, %if_cont6.i780 ], [ %cur.9, %if_cont91 ]
+  %hit_non_zero.025.i771 = phi i1 [ %hit_non_zero.0..i773, %if_cont6.i780 ], [ false, %if_cont91 ]
+  %div.024.i772 = phi i64 [ %464, %if_cont6.i780 ], [ -8446744073709551616, %if_cont91 ]
+  %463 = urem i64 %v.027.i769, %div.024.i772
+  %464 = udiv i64 %div.024.i772, 10
+  %465 = icmp ule i64 %div.024.i772, %v.027.i769
+  %hit_non_zero.0..i773 = or i1 %hit_non_zero.025.i771, %465
+  br i1 %hit_non_zero.0..i773, label %if_then4.i775, label %if_cont6.i780
 
-define i32 @print_string(i64, i64, i32, i64, i64) {
-entry:
-  %.ret.10 = alloca i32, align 4
-  %str = alloca %string, align 8
-  %cur = alloca i32, align 4
-  %buf = alloca { i64, i8* }, align 8
-  %i = alloca i32, align 4
-  %bi = alloca i32, align 4
-  %5 = bitcast %string* %str to { i64, i64 }*
-  %6 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %5, i32 0, i32 0
-  store i64 %3, i64* %6
-  %7 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %5, i32 0, i32 1
-  store i64 %4, i64* %7
-  store i32 %2, i32* %cur
-  %8 = bitcast { i64, i8* }* %buf to { i64, i64 }*
-  %9 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %8, i32 0, i32 0
-  store i64 %0, i64* %9
-  %10 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %8, i32 0, i32 1
-  store i64 %1, i64* %10
-  %11 = getelementptr inbounds %string, %string* %str, i32 0, i32 1
-  %12 = load i8*, i8** %11, align 8
-  %13 = icmp eq i8* %12, null
-  br i1 %13, label %if_then, label %if_else
+if_then4.i775:                                    ; preds = %loop_body.i774
+  %466 = sext i32 %cur.026.i770 to i64
+  %467 = icmp slt i64 %466, %0
+  br i1 %467, label %if_cont.i.i776, label %if_cont6.i780
 
-if_then:                                          ; preds = %entry
-  %14 = load i32, i32* %cur, align 4
-  store i32 %14, i32* %.ret.10, align 4
+if_cont.i.i776:                                   ; preds = %if_then4.i775
+  %468 = udiv i64 %v.027.i769, %div.024.i772
+  %469 = trunc i64 %468 to i8
+  %470 = add i8 %469, 48
+  %471 = getelementptr inbounds i8, i8* %459, i64 %466
+  store i8 %470, i8* %471, align 1
+  %472 = add i32 %cur.026.i770, 1
+  br label %if_cont6.i780
+
+if_cont6.i780:                                    ; preds = %if_then4.i775, %if_cont.i.i776, %loop_body.i774
+  %cur.1.i779 = phi i32 [ %cur.026.i770, %loop_body.i774 ], [ %472, %if_cont.i.i776 ], [ 0, %if_then4.i775 ]
+  %473 = icmp ult i64 %div.024.i772, 10
+  br i1 %473, label %exit, label %loop_body.i774
+
+if_cont3.i567.1:                                  ; preds = %if_cont3.i567
+  %474 = getelementptr inbounds i8, i8* %404, i64 %409
+  store i8 117, i8* %474, align 1
+  %475 = add i32 %2, 2
+  %476 = sext i32 %475 to i64
+  %477 = icmp slt i64 %476, %0
+  br i1 %477, label %if_cont3.i567.2, label %exit
+
+if_cont3.i567.2:                                  ; preds = %if_cont3.i567.1
+  %478 = getelementptr inbounds i8, i8* %404, i64 %476
+  store i8 110, i8* %478, align 1
+  %479 = add i32 %2, 3
+  %480 = sext i32 %479 to i64
+  %481 = icmp slt i64 %480, %0
+  br i1 %481, label %if_cont3.i567.3, label %exit
+
+if_cont3.i567.3:                                  ; preds = %if_cont3.i567.2
+  %482 = getelementptr inbounds i8, i8* %404, i64 %480
+  store i8 107, i8* %482, align 1
+  %483 = add i32 %2, 4
+  %484 = sext i32 %483 to i64
+  %485 = icmp slt i64 %484, %0
+  br i1 %485, label %if_cont3.i567.4, label %exit
+
+if_cont3.i567.4:                                  ; preds = %if_cont3.i567.3
+  %486 = getelementptr inbounds i8, i8* %404, i64 %484
+  store i8 110, i8* %486, align 1
+  %487 = add i32 %2, 5
+  %488 = sext i32 %487 to i64
+  %489 = icmp slt i64 %488, %0
+  br i1 %489, label %if_cont3.i567.5, label %exit
+
+if_cont3.i567.5:                                  ; preds = %if_cont3.i567.4
+  %490 = getelementptr inbounds i8, i8* %404, i64 %488
+  store i8 111, i8* %490, align 1
+  %491 = add i32 %2, 6
+  %492 = sext i32 %491 to i64
+  %493 = icmp slt i64 %492, %0
+  br i1 %493, label %if_cont3.i567.6, label %exit
+
+if_cont3.i567.6:                                  ; preds = %if_cont3.i567.5
+  %494 = getelementptr inbounds i8, i8* %404, i64 %492
+  store i8 119, i8* %494, align 1
+  %495 = add i32 %2, 7
+  %496 = sext i32 %495 to i64
+  %497 = icmp slt i64 %496, %0
+  br i1 %497, label %if_cont3.i567.7, label %exit
+
+if_cont3.i567.7:                                  ; preds = %if_cont3.i567.6
+  %498 = getelementptr inbounds i8, i8* %404, i64 %496
+  store i8 110, i8* %498, align 1
+  %499 = add i32 %2, 8
+  %500 = sext i32 %499 to i64
+  %501 = icmp slt i64 %500, %0
+  br i1 %501, label %if_cont3.i567.8, label %exit
+
+if_cont3.i567.8:                                  ; preds = %if_cont3.i567.7
+  %502 = getelementptr inbounds i8, i8* %404, i64 %500
+  store i8 62, i8* %502, align 1
+  %.pre858 = add i32 %2, 9
   br label %exit
 
-if_else:                                          ; preds = %entry
-  br label %if_cont
-
-exit:                                             ; preds = %loop_continue, %if_then
-  %15 = load i32, i32* %.ret.10, align 4
-  ret i32 %15
-
-if_cont:                                          ; preds = %if_else
-  store i32 0, i32* %i
-  br label %loop_decide
-
-loop_decide:                                      ; preds = %loop_increment, %if_cont
-  %16 = getelementptr inbounds %string, %string* %str, i32 0, i32 0
-  %17 = load i64, i64* %16, align 8
-  %18 = load i32, i32* %i, align 4
-  %19 = sext i32 %18 to i64
-  %20 = icmp slt i64 %19, %17
-  br i1 %20, label %loop_body, label %loop_continue
-
-loop_increment:                                   ; preds = %if_cont3
-  %21 = load i32, i32* %i, align 4
-  %22 = add i32 %21, 1
-  store i32 %22, i32* %i, align 4
-  br label %loop_decide
-
-loop_body:                                        ; preds = %loop_decide
-  %23 = load i32, i32* %i, align 4
-  %24 = load i32, i32* %cur, align 4
-  %25 = add i32 %24, %23
-  store i32 %25, i32* %bi
-  %26 = getelementptr inbounds { i64, i8* }, { i64, i8* }* %buf, i32 0, i32 0
-  %27 = load i64, i64* %26, align 8
-  %28 = load i32, i32* %bi, align 4
-  %29 = sext i32 %28 to i64
-  %30 = icmp sge i64 %29, %27
-  br i1 %30, label %if_then1, label %if_else2
-
-loop_continue:                                    ; preds = %if_then1, %loop_decide
-  %31 = load i32, i32* %i, align 4
-  %32 = load i32, i32* %cur, align 4
-  %33 = add i32 %32, %31
-  store i32 %33, i32* %.ret.10, align 4
+if_cont3.i798.1:                                  ; preds = %if_cont3.i798
+  %503 = getelementptr inbounds i8, i8* %144, i64 %149
+  store i8 93, i8* %503, align 1
+  %.pre868 = add i32 %2, 2
   br label %exit
 
-if_then1:                                         ; preds = %loop_body
-  br label %loop_continue
+if_cont3.i751.1:                                  ; preds = %if_cont3.i751
+  %504 = getelementptr inbounds i8, i8* %160, i64 %184
+  store i8 32, i8* %504, align 1
+  %.pre874 = add i32 %173, 2
+  br label %print_string.exit752
 
-if_else2:                                         ; preds = %loop_body
-  br label %if_cont3
-
-if_cont3:                                         ; preds = %if_else2
-  %34 = load i32, i32* %i, align 4
-  %35 = sext i32 %34 to i64
-  %36 = getelementptr inbounds %string, %string* %str, i32 0, i32 1
-  %37 = load i8*, i8** %36
-  %38 = getelementptr inbounds i8, i8* %37, i64 %35
-  %39 = load i8, i8* %38, align 1
-  %40 = load i32, i32* %bi, align 4
-  %41 = sext i32 %40 to i64
-  %42 = getelementptr inbounds { i64, i8* }, { i64, i8* }* %buf, i32 0, i32 1
-  %43 = load i8*, i8** %42
-  %44 = getelementptr inbounds i8, i8* %43, i64 %41
-  store i8 %39, i8* %44, align 1
-  br label %loop_increment
-}
-
-define i64 @s64_from_u8_ptr(i8*, i32) {
-entry:
-  %.ret.15 = alloca i64, align 8
-  %bit_count = alloca i32, align 4
-  %ptr = alloca i8*, align 8
-  store i32 %1, i32* %bit_count
-  store i8* %0, i8** %ptr
-  %2 = load i32, i32* %bit_count, align 4
-  %3 = icmp eq i32 %2, 64
-  br i1 %3, label %if_then, label %if_else
-
-if_then:                                          ; preds = %entry
-  %4 = load i8*, i8** %ptr, align 8
-  %5 = bitcast i8* %4 to i64*
-  %6 = load i64, i64* %5, align 8
-  store i64 %6, i64* %.ret.15, align 8
+if_cont3.i722.1:                                  ; preds = %if_cont3.i722
+  %505 = getelementptr inbounds i8, i8* %249, i64 %254
+  store i8 93, i8* %505, align 1
+  %.pre876 = add i32 %2, 2
   br label %exit
 
-if_else:                                          ; preds = %entry
-  br label %if_cont
+if_cont3.i668.1:                                  ; preds = %if_cont3.i668
+  %506 = getelementptr inbounds i8, i8* %302, i64 %307
+  store i8 60, i8* %506, align 1
+  %507 = add i32 %2, 2
+  %508 = sext i32 %507 to i64
+  %509 = icmp slt i64 %508, %0
+  br i1 %509, label %if_cont3.i668.2, label %exit
 
-exit:                                             ; preds = %if_cont9, %if_then7, %if_then4, %if_then1, %if_then
-  %7 = load i64, i64* %.ret.15, align 8
-  ret i64 %7
+if_cont3.i668.2:                                  ; preds = %if_cont3.i668.1
+  %510 = getelementptr inbounds i8, i8* %302, i64 %508
+  store i8 110, i8* %510, align 1
+  %511 = add i32 %2, 3
+  %512 = sext i32 %511 to i64
+  %513 = icmp slt i64 %512, %0
+  br i1 %513, label %if_cont3.i668.3, label %exit
 
-if_cont:                                          ; preds = %if_else
-  %8 = load i32, i32* %bit_count, align 4
-  %9 = icmp eq i32 %8, 32
-  br i1 %9, label %if_then1, label %if_else2
+if_cont3.i668.3:                                  ; preds = %if_cont3.i668.2
+  %514 = getelementptr inbounds i8, i8* %302, i64 %512
+  store i8 117, i8* %514, align 1
+  %515 = add i32 %2, 4
+  %516 = sext i32 %515 to i64
+  %517 = icmp slt i64 %516, %0
+  br i1 %517, label %if_cont3.i668.4, label %exit
 
-if_then1:                                         ; preds = %if_cont
-  %10 = load i8*, i8** %ptr, align 8
-  %11 = bitcast i8* %10 to i32*
-  %12 = load i32, i32* %11, align 4
-  %13 = sext i32 %12 to i64
-  store i64 %13, i64* %.ret.15, align 8
+if_cont3.i668.4:                                  ; preds = %if_cont3.i668.3
+  %518 = getelementptr inbounds i8, i8* %302, i64 %516
+  store i8 108, i8* %518, align 1
+  %519 = add i32 %2, 5
+  %520 = sext i32 %519 to i64
+  %521 = icmp slt i64 %520, %0
+  br i1 %521, label %if_cont3.i668.5, label %exit
+
+if_cont3.i668.5:                                  ; preds = %if_cont3.i668.4
+  %522 = getelementptr inbounds i8, i8* %302, i64 %520
+  store i8 108, i8* %522, align 1
+  %523 = add i32 %2, 6
+  %524 = sext i32 %523 to i64
+  %525 = icmp slt i64 %524, %0
+  br i1 %525, label %if_cont3.i668.6, label %exit
+
+if_cont3.i668.6:                                  ; preds = %if_cont3.i668.5
+  %526 = getelementptr inbounds i8, i8* %302, i64 %524
+  store i8 62, i8* %526, align 1
+  %527 = add i32 %2, 7
+  %528 = sext i32 %527 to i64
+  %529 = icmp slt i64 %528, %0
+  br i1 %529, label %if_cont3.i668.7, label %exit
+
+if_cont3.i668.7:                                  ; preds = %if_cont3.i668.6
+  %530 = getelementptr inbounds i8, i8* %302, i64 %528
+  store i8 93, i8* %530, align 1
+  %.pre878 = add i32 %2, 8
   br label %exit
 
-if_else2:                                         ; preds = %if_cont
-  br label %if_cont3
+if_cont3.i632.1:                                  ; preds = %if_cont3.i632
+  %531 = getelementptr inbounds i8, i8* %302, i64 %335
+  store i8 32, i8* %531, align 1
+  %.pre884 = add i32 %329, 2
+  br label %if_cont66
 
-if_cont3:                                         ; preds = %if_else2
-  %14 = load i32, i32* %bit_count, align 4
-  %15 = icmp eq i32 %14, 16
-  br i1 %15, label %if_then4, label %if_else5
+if_cont3.i704.1:                                  ; preds = %if_cont3.i704
+  %532 = getelementptr inbounds i8, i8* %205, i64 %278
+  store i8 61, i8* %532, align 1
+  %533 = add i32 %.ret.10.0.i708, 2
+  %534 = sext i32 %533 to i64
+  %535 = icmp slt i64 %534, %0
+  br i1 %535, label %if_cont3.i704.2, label %print_string.exit705
 
-if_then4:                                         ; preds = %if_cont3
-  %16 = load i8*, i8** %ptr, align 8
-  %17 = bitcast i8* %16 to i16*
-  %18 = load i16, i16* %17, align 2
-  %19 = sext i16 %18 to i64
-  store i64 %19, i64* %.ret.15, align 8
+if_cont3.i704.2:                                  ; preds = %if_cont3.i704.1
+  %536 = getelementptr inbounds i8, i8* %205, i64 %534
+  store i8 32, i8* %536, align 1
+  %.pre888 = add i32 %.ret.10.0.i708, 3
+  br label %print_string.exit705
+
+if_cont3.i677.1:                                  ; preds = %if_cont3.i677
+  %537 = getelementptr inbounds i8, i8* %205, i64 %295
+  store i8 32, i8* %537, align 1
+  %.pre890 = add i32 %284, 2
+  br label %print_string.exit678
+
+if_cont3.i733.1:                                  ; preds = %if_cont3.i733
+  %538 = getelementptr inbounds i8, i8* %205, i64 %210
+  store i8 123, i8* %538, align 1
+  %.pre886 = add i32 %.ret.10.0.i737, 2
+  br label %print_string.exit734
+
+if_cont3.i623.1:                                  ; preds = %if_cont3.i623
+  %539 = getelementptr inbounds i8, i8* %227, i64 %340
+  store i8 117, i8* %539, align 1
+  %540 = add i32 %2, 2
+  %541 = sext i32 %540 to i64
+  %542 = icmp slt i64 %541, %0
+  br i1 %542, label %if_cont3.i623.2, label %exit
+
+if_cont3.i623.2:                                  ; preds = %if_cont3.i623.1
+  %543 = getelementptr inbounds i8, i8* %227, i64 %541
+  store i8 108, i8* %543, align 1
+  %544 = add i32 %2, 3
+  %545 = sext i32 %544 to i64
+  %546 = icmp slt i64 %545, %0
+  br i1 %546, label %if_cont3.i623.3, label %exit
+
+if_cont3.i623.3:                                  ; preds = %if_cont3.i623.2
+  %547 = getelementptr inbounds i8, i8* %227, i64 %545
+  store i8 108, i8* %547, align 1
+  %.pre894 = add i32 %2, 4
   br label %exit
 
-if_else5:                                         ; preds = %if_cont3
-  br label %if_cont6
+if_cont3.i.i604.1:                                ; preds = %if_cont3.i.i604
+  %548 = getelementptr inbounds i8, i8* %227, i64 %351
+  store i8 120, i8* %548, align 1
+  %.pre896 = add i32 %2, 2
+  br label %loop_body.i609.preheader
 
-if_cont6:                                         ; preds = %if_else5
-  %20 = load i32, i32* %bit_count, align 4
-  %21 = icmp eq i32 %20, 8
-  br i1 %21, label %if_then7, label %if_else8
+if_cont3.i600.1:                                  ; preds = %if_cont3.i600
+  %549 = getelementptr inbounds i8, i8* %346, i64 %365
+  store i8 114, i8* %549, align 1
+  %550 = add i32 %2, 2
+  %551 = sext i32 %550 to i64
+  %552 = icmp slt i64 %551, %0
+  br i1 %552, label %if_cont3.i600.2, label %exit
 
-if_then7:                                         ; preds = %if_cont6
-  %22 = load i8*, i8** %ptr, align 8
-  %23 = load i8, i8* %22, align 1
-  %24 = sext i8 %23 to i64
-  store i64 %24, i64* %.ret.15, align 8
+if_cont3.i600.2:                                  ; preds = %if_cont3.i600.1
+  %553 = getelementptr inbounds i8, i8* %346, i64 %551
+  store i8 117, i8* %553, align 1
+  %554 = add i32 %2, 3
+  %555 = sext i32 %554 to i64
+  %556 = icmp slt i64 %555, %0
+  br i1 %556, label %if_cont3.i600.3, label %exit
+
+if_cont3.i600.3:                                  ; preds = %if_cont3.i600.2
+  %557 = getelementptr inbounds i8, i8* %346, i64 %555
+  store i8 101, i8* %557, align 1
+  %.pre900 = add i32 %2, 4
   br label %exit
 
-if_else8:                                         ; preds = %if_cont6
-  br label %if_cont9
-
-if_cont9:                                         ; preds = %if_else8
-  store i64 0, i64* %.ret.15, align 8
-  br label %exit
-}
-
-define i64 @u64_from_u8_ptr(i8*, i32) {
-entry:
-  %.ret.16 = alloca i64, align 8
-  %bit_count = alloca i32, align 4
-  %ptr = alloca i8*, align 8
-  store i32 %1, i32* %bit_count
-  store i8* %0, i8** %ptr
-  %2 = load i32, i32* %bit_count, align 4
-  %3 = icmp eq i32 %2, 64
-  br i1 %3, label %if_then, label %if_else
-
-if_then:                                          ; preds = %entry
-  %4 = load i8*, i8** %ptr, align 8
-  %5 = bitcast i8* %4 to i64*
-  %6 = load i64, i64* %5, align 8
-  store i64 %6, i64* %.ret.16, align 8
-  br label %exit
-
-if_else:                                          ; preds = %entry
-  br label %if_cont
-
-exit:                                             ; preds = %if_cont9, %if_then7, %if_then4, %if_then1, %if_then
-  %7 = load i64, i64* %.ret.16, align 8
-  ret i64 %7
-
-if_cont:                                          ; preds = %if_else
-  %8 = load i32, i32* %bit_count, align 4
-  %9 = icmp eq i32 %8, 32
-  br i1 %9, label %if_then1, label %if_else2
-
-if_then1:                                         ; preds = %if_cont
-  %10 = load i8*, i8** %ptr, align 8
-  %11 = bitcast i8* %10 to i32*
-  %12 = load i32, i32* %11, align 4
-  %13 = zext i32 %12 to i64
-  store i64 %13, i64* %.ret.16, align 8
-  br label %exit
-
-if_else2:                                         ; preds = %if_cont
-  br label %if_cont3
-
-if_cont3:                                         ; preds = %if_else2
-  %14 = load i32, i32* %bit_count, align 4
-  %15 = icmp eq i32 %14, 16
-  br i1 %15, label %if_then4, label %if_else5
-
-if_then4:                                         ; preds = %if_cont3
-  %16 = load i8*, i8** %ptr, align 8
-  %17 = bitcast i8* %16 to i16*
-  %18 = load i16, i16* %17, align 2
-  %19 = zext i16 %18 to i64
-  store i64 %19, i64* %.ret.16, align 8
-  br label %exit
-
-if_else5:                                         ; preds = %if_cont3
-  br label %if_cont6
-
-if_cont6:                                         ; preds = %if_else5
-  %20 = load i32, i32* %bit_count, align 4
-  %21 = icmp eq i32 %20, 8
-  br i1 %21, label %if_then7, label %if_else8
-
-if_then7:                                         ; preds = %if_cont6
-  %22 = load i8*, i8** %ptr, align 8
-  %23 = load i8, i8* %22, align 1
-  %24 = zext i8 %23 to i64
-  store i64 %24, i64* %.ret.16, align 8
-  br label %exit
-
-if_else8:                                         ; preds = %if_cont6
-  br label %if_cont9
-
-if_cont9:                                         ; preds = %if_else8
-  store i64 0, i64* %.ret.16, align 8
-  br label %exit
-}
-
-define i32 @print_u64(i64, i64, i32, i64) {
-entry:
-  %.ret.13 = alloca i32, align 4
-  %v = alloca i64, align 8
-  %cur = alloca i32, align 4
-  %buf = alloca { i64, i8* }, align 8
-  %base = alloca i64, align 8
-  %div = alloca i64, align 8
-  %hit_non_zero = alloca i1, align 1
-  %d = alloca i64, align 8
-  store i64 %3, i64* %v
-  store i32 %2, i32* %cur
-  %4 = bitcast { i64, i8* }* %buf to { i64, i64 }*
-  %5 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 0
-  store i64 %0, i64* %5
-  %6 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 1
-  store i64 %1, i64* %6
-  %7 = load i64, i64* %v, align 8
-  %8 = icmp eq i64 %7, 0
-  %9 = alloca { i64, i8* }
-  %10 = alloca %string
-  %11 = alloca { i64, i8* }
-  br i1 %8, label %if_then, label %if_else
-
-if_then:                                          ; preds = %entry
-  %12 = load i32, i32* %cur, align 4
-  %13 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %13, { i64, i8* }* %9
-  %14 = bitcast { i64, i8* }* %9 to { i64, i64 }*
-  %15 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %14, i32 0, i32 0
-  %16 = load i64, i64* %15
-  %17 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %14, i32 0, i32 1
-  %18 = load i64, i64* %17
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.317, i32 0, i32 0) }, %string* %10
-  %19 = bitcast %string* %10 to { i64, i64 }*
-  %20 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %19, i32 0, i32 0
-  %21 = load i64, i64* %20
-  %22 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %19, i32 0, i32 1
-  %23 = load i64, i64* %22
-  %24 = call i32 @print_string(i64 %16, i64 %18, i32 %12, i64 %21, i64 %23)
-  store i32 %24, i32* %.ret.13, align 4
-  br label %exit
-
-if_else:                                          ; preds = %entry
-  br label %if_cont
-
-exit:                                             ; preds = %loop_continue, %if_then
-  %25 = load i32, i32* %.ret.13, align 4
-  ret i32 %25
-
-if_cont:                                          ; preds = %if_else
-  store i64 10, i64* %base
-  store i64 -8446744073709551616, i64* %div
-  store i1 false, i1* %hit_non_zero
-  br label %loop_decide
-
-loop_decide:                                      ; preds = %if_cont6, %if_cont
-  %26 = load i64, i64* %div, align 8
-  %27 = icmp ugt i64 %26, 0
-  br i1 %27, label %loop_body, label %loop_continue
-
-loop_body:                                        ; preds = %loop_decide
-  %28 = load i64, i64* %div, align 8
-  %29 = load i64, i64* %v, align 8
-  %30 = udiv i64 %29, %28
-  store i64 %30, i64* %d
-  %31 = load i64, i64* %div, align 8
-  %32 = load i64, i64* %v, align 8
-  %33 = urem i64 %32, %31
-  store i64 %33, i64* %v, align 8
-  %34 = load i64, i64* %div, align 8
-  %35 = udiv i64 %34, 10
-  store i64 %35, i64* %div, align 8
-  %36 = load i64, i64* %d, align 8
-  %37 = icmp ne i64 %36, 0
-  br i1 %37, label %if_then1, label %if_else2
-
-loop_continue:                                    ; preds = %loop_decide
-  %38 = load i32, i32* %cur, align 4
-  store i32 %38, i32* %.ret.13, align 4
-  br label %exit
-
-if_then1:                                         ; preds = %loop_body
-  store i1 true, i1* %hit_non_zero, align 1
-  br label %if_cont3
-
-if_else2:                                         ; preds = %loop_body
-  br label %if_cont3
-
-if_cont3:                                         ; preds = %if_else2, %if_then1
-  %39 = load i1, i1* %hit_non_zero, align 1
-  br i1 %39, label %if_then4, label %if_else5
-
-if_then4:                                         ; preds = %if_cont3
-  %40 = load i64, i64* %d, align 8
-  %41 = add i64 %40, 48
-  %42 = trunc i64 %41 to i8
-  %43 = load i32, i32* %cur, align 4
-  %44 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %44, { i64, i8* }* %11
-  %45 = bitcast { i64, i8* }* %11 to { i64, i64 }*
-  %46 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %45, i32 0, i32 0
-  %47 = load i64, i64* %46
-  %48 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %45, i32 0, i32 1
-  %49 = load i64, i64* %48
-  %50 = call i32 @print_char(i64 %47, i64 %49, i32 %43, i8 %42)
-  store i32 %50, i32* %cur, align 4
-  br label %if_cont6
-
-if_else5:                                         ; preds = %if_cont3
-  br label %if_cont6
-
-if_cont6:                                         ; preds = %if_else5, %if_then4
-  br label %loop_decide
-}
-
-define double @f64_from_u8_ptr(i8*, i32) {
-entry:
-  %.ret.17 = alloca double, align 8
-  %bit_count = alloca i32, align 4
-  %ptr = alloca i8*, align 8
-  store i32 %1, i32* %bit_count
-  store i8* %0, i8** %ptr
-  %2 = load i32, i32* %bit_count, align 4
-  %3 = icmp eq i32 %2, 64
-  br i1 %3, label %if_then, label %if_else
-
-if_then:                                          ; preds = %entry
-  %4 = load i8*, i8** %ptr, align 8
-  %5 = bitcast i8* %4 to double*
-  %6 = load double, double* %5, align 8
-  store double %6, double* %.ret.17, align 8
-  br label %exit
-
-if_else:                                          ; preds = %entry
-  br label %if_cont
-
-exit:                                             ; preds = %if_cont3, %if_then1, %if_then
-  %7 = load double, double* %.ret.17, align 8
-  ret double %7
-
-if_cont:                                          ; preds = %if_else
-  %8 = load i32, i32* %bit_count, align 4
-  %9 = icmp eq i32 %8, 32
-  br i1 %9, label %if_then1, label %if_else2
-
-if_then1:                                         ; preds = %if_cont
-  %10 = load i8*, i8** %ptr, align 8
-  %11 = bitcast i8* %10 to float*
-  %12 = load float, float* %11, align 4
-  %13 = fpext float %12 to double
-  store double %13, double* %.ret.17, align 8
-  br label %exit
-
-if_else2:                                         ; preds = %if_cont
-  br label %if_cont3
-
-if_cont3:                                         ; preds = %if_else2
-  store double 0.000000e+00, double* %.ret.17, align 8
-  br label %exit
-}
-
-define i32 @print_f64(i64, i64, i32, double) {
-entry:
-  %.ret.14 = alloca i32, align 4
-  %v = alloca double, align 8
-  %cur = alloca i32, align 4
-  %buf = alloca { i64, i8* }, align 8
-  %precision = alloca double, align 8
-  %m = alloca i32, align 4
-  %weight = alloca double, align 8
-  %d = alloca i8, align 1
-  store double %3, double* %v
-  store i32 %2, i32* %cur
-  %4 = bitcast { i64, i8* }* %buf to { i64, i64 }*
-  %5 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 0
-  store i64 %0, i64* %5
-  %6 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 1
-  store i64 %1, i64* %6
-  store double 0x3EB0C6F7A0B5ED8D, double* %precision
-  %7 = load double, double* %v, align 8
-  %8 = call double @log10(double %7)
-  %9 = fptosi double %8 to i32
-  store i32 %9, i32* %m
-  %10 = load i32, i32* %m, align 4
-  %11 = icmp slt i32 %10, 0
-  %12 = alloca { i64, i8* }
-  %13 = alloca { i64, i8* }
-  br i1 %11, label %if_then, label %if_else
-
-if_then:                                          ; preds = %entry
-  store i32 0, i32* %m, align 4
-  br label %if_cont
-
-if_else:                                          ; preds = %entry
-  br label %if_cont
-
-exit:                                             ; preds = %loop_continue
-  %14 = load i32, i32* %.ret.14, align 4
-  ret i32 %14
-
-if_cont:                                          ; preds = %if_else, %if_then
-  br label %loop_decide
-
-loop_decide:                                      ; preds = %if_cont7, %if_cont
-  %15 = load double, double* %v, align 8
-  %16 = fcmp ogt double %15, 0x3EB0C6F7A0B5ED8D
-  br i1 %16, label %end_block, label %rhs_block
-
-end_block:                                        ; preds = %rhs_block, %loop_decide
-  %17 = phi i1 [ true, %loop_decide ], [ %19, %rhs_block ]
-  br i1 %17, label %loop_body, label %loop_continue
-
-rhs_block:                                        ; preds = %loop_decide
-  %18 = load i32, i32* %m, align 4
-  %19 = icmp sge i32 %18, 0
-  br label %end_block
-
-loop_body:                                        ; preds = %end_block
-  %20 = load i32, i32* %m, align 4
-  %21 = sitofp i32 %20 to double
-  %22 = call double @pow(double 1.000000e+01, double %21)
-  store double %22, double* %weight
-  %23 = load double, double* %weight, align 8
-  %24 = fcmp ogt double %23, 0.000000e+00
-  br i1 %24, label %if_then1, label %if_else2
-
-if_then1:                                         ; preds = %loop_body
-  %25 = load double, double* %weight, align 8
-  %26 = load double, double* %v, align 8
-  %27 = fdiv double %26, %25
-  %28 = call double @floor(double %27)
-  %29 = fptoui double %28 to i8
-  store i8 %29, i8* %d
-  %30 = load double, double* %weight, align 8
-  %31 = load i8, i8* %d, align 1
-  %32 = uitofp i8 %31 to double
-  %33 = fmul double %32, %30
-  %34 = load double, double* %v, align 8
-  %35 = fsub double %34, %33
-  store double %35, double* %v, align 8
-  %36 = load i8, i8* %d, align 1
-  %37 = add i8 %36, 48
-  %38 = load i32, i32* %cur, align 4
-  %39 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %39, { i64, i8* }* %12
-  %40 = bitcast { i64, i8* }* %12 to { i64, i64 }*
-  %41 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %40, i32 0, i32 0
-  %42 = load i64, i64* %41
-  %43 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %40, i32 0, i32 1
-  %44 = load i64, i64* %43
-  %45 = call i32 @print_char(i64 %42, i64 %44, i32 %38, i8 %37)
-  store i32 %45, i32* %cur, align 4
-  br label %if_cont3
-
-if_else2:                                         ; preds = %loop_body
-  br label %if_cont3
-
-loop_continue:                                    ; preds = %end_block
-  %46 = load i32, i32* %cur, align 4
-  store i32 %46, i32* %.ret.14, align 4
-  br label %exit
-
-if_cont3:                                         ; preds = %if_else2, %if_then1
-  %47 = load i32, i32* %m, align 4
-  %48 = icmp eq i32 %47, 0
-  br i1 %48, label %rhs_block4, label %end_block5
-
-rhs_block4:                                       ; preds = %if_cont3
-  %49 = load double, double* %v, align 8
-  %50 = fcmp ogt double %49, 0.000000e+00
-  br label %end_block5
-
-end_block5:                                       ; preds = %rhs_block4, %if_cont3
-  %51 = phi i1 [ false, %if_cont3 ], [ %50, %rhs_block4 ]
-  br i1 %51, label %if_then6, label %if_else8
-
-if_then6:                                         ; preds = %end_block5
-  %52 = load i32, i32* %cur, align 4
-  %53 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %53, { i64, i8* }* %13
-  %54 = bitcast { i64, i8* }* %13 to { i64, i64 }*
-  %55 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %54, i32 0, i32 0
-  %56 = load i64, i64* %55
-  %57 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %54, i32 0, i32 1
-  %58 = load i64, i64* %57
-  %59 = call i32 @print_char(i64 %56, i64 %58, i32 %52, i8 46)
-  store i32 %59, i32* %cur, align 4
-  br label %if_cont7
-
-if_cont7:                                         ; preds = %if_else8, %if_then6
-  %60 = load i32, i32* %m, align 4
-  %61 = sub i32 %60, 1
-  store i32 %61, i32* %m, align 4
-  br label %loop_decide
-
-if_else8:                                         ; preds = %end_block5
-  br label %if_cont7
-}
-
-define i8* @ptr_from_ptr(i8*) {
-entry:
-  %.ret.18 = alloca i8*, align 8
-  %ptr = alloca i8*, align 8
-  store i8* %0, i8** %ptr
-  %1 = load i8*, i8** %ptr, align 8
-  %2 = bitcast i8* %1 to i64*
-  %3 = load i64, i64* %2, align 8
-  %4 = inttoptr i64 %3 to i8*
-  store i8* %4, i8** %.ret.18, align 8
-  br label %exit
-
-exit:                                             ; preds = %entry
-  %5 = load i8*, i8** %.ret.18, align 8
-  ret i8* %5
-}
-
-define i32 @print_u64_hex(i64, i64, i32, i64) {
-entry:
-  %.ret.12 = alloca i32, align 4
-  %v = alloca i64, align 8
-  %cur = alloca i32, align 4
-  %buf = alloca { i64, i8* }, align 8
-  %digits = alloca [16 x i8], align 1
-  %mask = alloca i64, align 8
-  %hit_non_zero = alloca i1, align 1
-  %i = alloca i32, align 4
-  %d = alloca i64, align 8
-  store i64 %3, i64* %v
-  store i32 %2, i32* %cur
-  %4 = bitcast { i64, i8* }* %buf to { i64, i64 }*
-  %5 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 0
-  store i64 %0, i64* %5
-  %6 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 1
-  store i64 %1, i64* %6
-  %7 = load i32, i32* %cur, align 4
-  %8 = alloca { i64, i8* }
-  %9 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %9, { i64, i8* }* %8
-  %10 = bitcast { i64, i8* }* %8 to { i64, i64 }*
-  %11 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %10, i32 0, i32 0
-  %12 = load i64, i64* %11
-  %13 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %10, i32 0, i32 1
-  %14 = alloca %string
-  %15 = load i64, i64* %13
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.316, i32 0, i32 0) }, %string* %14
-  %16 = bitcast %string* %14 to { i64, i64 }*
-  %17 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %16, i32 0, i32 0
-  %18 = load i64, i64* %17
-  %19 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %16, i32 0, i32 1
-  %20 = load i64, i64* %19
-  %21 = call i32 @print_string(i64 %12, i64 %15, i32 %7, i64 %18, i64 %20)
-  store i32 %21, i32* %cur, align 4
-  %22 = load i64, i64* %v, align 8
-  %23 = icmp eq i64 %22, 0
-  %24 = alloca { i64, i8* }
-  %25 = alloca %string
-  %26 = alloca { i64, i8* }
-  br i1 %23, label %if_then, label %if_else
-
-if_then:                                          ; preds = %entry
-  %27 = load i32, i32* %cur, align 4
-  %28 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %28, { i64, i8* }* %24
-  %29 = bitcast { i64, i8* }* %24 to { i64, i64 }*
-  %30 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %29, i32 0, i32 0
-  %31 = load i64, i64* %30
-  %32 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %29, i32 0, i32 1
-  %33 = load i64, i64* %32
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.317, i32 0, i32 0) }, %string* %25
-  %34 = bitcast %string* %25 to { i64, i64 }*
-  %35 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %34, i32 0, i32 0
-  %36 = load i64, i64* %35
-  %37 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %34, i32 0, i32 1
-  %38 = load i64, i64* %37
-  %39 = call i32 @print_string(i64 %31, i64 %33, i32 %27, i64 %36, i64 %38)
-  store i32 %39, i32* %.ret.12, align 4
-  br label %exit
-
-if_else:                                          ; preds = %entry
-  br label %if_cont
-
-exit:                                             ; preds = %loop_continue, %if_then
-  %40 = load i32, i32* %.ret.12, align 4
-  ret i32 %40
-
-if_cont:                                          ; preds = %if_else
-  %41 = bitcast [16 x i8]* %digits to i8*
-  call void @llvm.memcpy.p0i8.p0i8.i64(i8* %41, i8* getelementptr inbounds ([16 x i8], [16 x i8]* @0, i32 0, i32 0), i64 16, i1 false)
-  store i64 -1152921504606846976, i64* %mask
-  store i1 false, i1* %hit_non_zero
-  store i32 0, i32* %i
-  br label %loop_decide
-
-loop_decide:                                      ; preds = %loop_increment, %if_cont
-  %42 = load i32, i32* %i, align 4
-  %43 = icmp slt i32 %42, 16
-  br i1 %43, label %loop_body, label %loop_continue
-
-loop_increment:                                   ; preds = %if_cont6
-  %44 = load i32, i32* %i, align 4
-  %45 = add i32 %44, 1
-  store i32 %45, i32* %i, align 4
-  br label %loop_decide
-
-loop_body:                                        ; preds = %loop_decide
-  %46 = load i64, i64* %mask, align 8
-  %47 = load i64, i64* %v, align 8
-  %48 = and i64 %47, %46
-  store i64 %48, i64* %d
-  %49 = load i64, i64* %v, align 8
-  %50 = shl i64 %49, 4
-  store i64 %50, i64* %v, align 8
-  %51 = load i64, i64* %d, align 8
-  %52 = lshr i64 %51, 60
-  store i64 %52, i64* %d, align 8
-  %53 = load i64, i64* %d, align 8
-  %54 = icmp ne i64 %53, 0
-  br i1 %54, label %if_then1, label %if_else2
-
-loop_continue:                                    ; preds = %loop_decide
-  %55 = load i32, i32* %cur, align 4
-  store i32 %55, i32* %.ret.12, align 4
-  br label %exit
-
-if_then1:                                         ; preds = %loop_body
-  store i1 true, i1* %hit_non_zero, align 1
-  br label %if_cont3
-
-if_else2:                                         ; preds = %loop_body
-  br label %if_cont3
-
-if_cont3:                                         ; preds = %if_else2, %if_then1
-  %56 = load i1, i1* %hit_non_zero, align 1
-  br i1 %56, label %if_then4, label %if_else5
-
-if_then4:                                         ; preds = %if_cont3
-  %57 = load i64, i64* %d, align 8
-  %58 = getelementptr [16 x i8], [16 x i8]* %digits, i64 0, i64 %57
-  %59 = load i8, i8* %58, align 1
-  %60 = load i32, i32* %cur, align 4
-  %61 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %61, { i64, i8* }* %26
-  %62 = bitcast { i64, i8* }* %26 to { i64, i64 }*
-  %63 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %62, i32 0, i32 0
-  %64 = load i64, i64* %63
-  %65 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %62, i32 0, i32 1
-  %66 = load i64, i64* %65
-  %67 = call i32 @print_char(i64 %64, i64 %66, i32 %60, i8 %59)
-  store i32 %67, i32* %cur, align 4
-  br label %if_cont6
-
-if_else5:                                         ; preds = %if_cont3
-  br label %if_cont6
-
-if_cont6:                                         ; preds = %if_else5, %if_then4
-  br label %loop_increment
-}
-
-define i32 @print_type(i64, i64, i32, %TypeInfo*) {
-entry:
-  %.ret.9 = alloca i32, align 4
-  %info = alloca %TypeInfo*, align 8
-  %cur = alloca i32, align 4
-  %buf = alloca { i64, i8* }, align 8
-  %c = alloca %TypeInfoInt*, align 8
-  %c1 = alloca %TypeInfoReal*, align 8
-  %c2 = alloca %TypeInfoPtr*, align 8
-  %c3 = alloca %TypeInfoArray*, align 8
-  %c4 = alloca %TypeInfoStruct*, align 8
-  %i = alloca i32, align 4
-  %member = alloca %TypeInfoStructMember, align 8
-  %c5 = alloca %TypeInfoFn*, align 8
-  %i6 = alloca i32, align 4
-  %arg = alloca %TypeInfo*, align 8
-  %c7 = alloca %TypeInfoEnum*, align 8
-  %i8 = alloca i32, align 4
-  %variant = alloca %TypeInfoEnumVariant, align 8
-  store %TypeInfo* %3, %TypeInfo** %info
-  store i32 %2, i32* %cur
-  %4 = bitcast { i64, i8* }* %buf to { i64, i64 }*
-  %5 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 0
-  store i64 %0, i64* %5
-  %6 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %4, i32 0, i32 1
-  store i64 %1, i64* %6
-  %7 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %8 = getelementptr inbounds %TypeInfo, %TypeInfo* %7, i32 0, i32 0
-  %9 = load i32, i32* %8, align 4
-  %10 = icmp eq i32 %9, 3
-  %11 = alloca { i64, i8* }
-  %12 = alloca %string
-  %13 = alloca { i64, i8* }
-  %14 = alloca %string
-  %15 = alloca { i64, i8* }
-  %16 = alloca { i64, i8* }
-  %17 = alloca %string
-  %18 = alloca { i64, i8* }
-  %19 = alloca { i64, i8* }
-  %20 = alloca %string
-  %21 = alloca { i64, i8* }
-  %22 = alloca %string
-  %23 = alloca { i64, i8* }
-  %24 = alloca { i64, i8* }
-  %25 = alloca %string
-  %26 = alloca { i64, i8* }
-  %27 = alloca { i64, i8* }
-  %28 = alloca %string
-  %29 = alloca { i64, i8* }
-  %30 = alloca { i64, i8* }
-  %31 = alloca %string
-  %32 = alloca { i64, i8* }
-  %33 = alloca %string
-  %34 = alloca { i64, i8* }
-  %35 = alloca %string
-  %36 = alloca { i64, i8* }
-  %37 = alloca { i64, i8* }
-  %38 = alloca %string
-  %39 = alloca { i64, i8* }
-  %40 = alloca %string
-  %41 = alloca { i64, i8* }
-  %42 = alloca %string
-  %43 = alloca { i64, i8* }
-  %44 = alloca { i64, i8* }
-  %45 = alloca %string
-  %46 = alloca { i64, i8* }
-  %47 = alloca { i64, i8* }
-  %48 = alloca %string
-  %49 = alloca { i64, i8* }
-  %50 = alloca %string
-  %51 = alloca { i64, i8* }
-  %52 = alloca { i64, i8* }
-  %53 = alloca %string
-  %54 = alloca { i64, i8* }
-  %55 = alloca %string
-  %56 = alloca { i64, i8* }
-  %57 = alloca %string
-  %58 = alloca { i64, i8* }
-  %59 = alloca { i64, i8* }
-  %60 = alloca %string
-  %61 = alloca { i64, i8* }
-  %62 = alloca %string
-  %63 = alloca { i64, i8* }
-  %64 = alloca %string
-  %65 = alloca { i64, i8* }
-  %66 = alloca %string
-  %67 = alloca { i64, i8* }
-  %68 = alloca %string
-  br i1 %10, label %if_then, label %if_else
-
-if_then:                                          ; preds = %entry
-  %69 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %70 = bitcast %TypeInfo* %69 to %TypeInfoInt*
-  store %TypeInfoInt* %70, %TypeInfoInt** %c
-  %71 = load %TypeInfoInt*, %TypeInfoInt** %c, align 8
-  %72 = getelementptr inbounds %TypeInfoInt, %TypeInfoInt* %71, i32 0, i32 2
-  %73 = load i1, i1* %72, align 1
-  br i1 %73, label %if_then9, label %if_else10
-
-if_else:                                          ; preds = %entry
-  %74 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %75 = getelementptr inbounds %TypeInfo, %TypeInfo* %74, i32 0, i32 0
-  %76 = load i32, i32* %75, align 4
-  %77 = icmp eq i32 %76, 4
-  br i1 %77, label %if_then11, label %if_else12
-
-exit:                                             ; preds = %if_then55, %if_then52, %if_then43, %loop_continue48, %loop_continue38, %loop_continue, %if_then20, %if_then17, %if_then14, %if_then11, %if_cont13, %if_cont
-  %78 = load i32, i32* %.ret.9, align 4
-  ret i32 %78
-
-if_then9:                                         ; preds = %if_then
-  %79 = load i32, i32* %cur, align 4
-  %80 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %80, { i64, i8* }* %11
-  %81 = bitcast { i64, i8* }* %11 to { i64, i64 }*
-  %82 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %81, i32 0, i32 0
-  %83 = load i64, i64* %82
-  %84 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %81, i32 0, i32 1
-  %85 = load i64, i64* %84
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.305, i32 0, i32 0) }, %string* %12
-  %86 = bitcast %string* %12 to { i64, i64 }*
-  %87 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %86, i32 0, i32 0
-  %88 = load i64, i64* %87
-  %89 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %86, i32 0, i32 1
-  %90 = load i64, i64* %89
-  %91 = call i32 @print_string(i64 %83, i64 %85, i32 %79, i64 %88, i64 %90)
-  store i32 %91, i32* %cur, align 4
-  br label %if_cont13
-
-if_else10:                                        ; preds = %if_then
-  %92 = load i32, i32* %cur, align 4
-  %93 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %93, { i64, i8* }* %13
-  %94 = bitcast { i64, i8* }* %13 to { i64, i64 }*
-  %95 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %94, i32 0, i32 0
-  %96 = load i64, i64* %95
-  %97 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %94, i32 0, i32 1
-  %98 = load i64, i64* %97
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.306, i32 0, i32 0) }, %string* %14
-  %99 = bitcast %string* %14 to { i64, i64 }*
-  %100 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %99, i32 0, i32 0
-  %101 = load i64, i64* %100
-  %102 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %99, i32 0, i32 1
-  %103 = load i64, i64* %102
-  %104 = call i32 @print_string(i64 %96, i64 %98, i32 %92, i64 %101, i64 %103)
-  store i32 %104, i32* %cur, align 4
-  br label %if_cont13
-
-if_then11:                                        ; preds = %if_else
-  %105 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %106 = bitcast %TypeInfo* %105 to %TypeInfoReal*
-  store %TypeInfoReal* %106, %TypeInfoReal** %c1
-  %107 = load i32, i32* %cur, align 4
-  %108 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %108, { i64, i8* }* %16
-  %109 = bitcast { i64, i8* }* %16 to { i64, i64 }*
-  %110 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %109, i32 0, i32 0
-  %111 = load i64, i64* %110
-  %112 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %109, i32 0, i32 1
-  %113 = load i64, i64* %112
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.307, i32 0, i32 0) }, %string* %17
-  %114 = bitcast %string* %17 to { i64, i64 }*
-  %115 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %114, i32 0, i32 0
-  %116 = load i64, i64* %115
-  %117 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %114, i32 0, i32 1
-  %118 = load i64, i64* %117
-  %119 = call i32 @print_string(i64 %111, i64 %113, i32 %107, i64 %116, i64 %118)
-  store i32 %119, i32* %cur, align 4
-  %120 = load %TypeInfoReal*, %TypeInfoReal** %c1, align 8
-  %121 = getelementptr inbounds %TypeInfoReal, %TypeInfoReal* %120, i32 0, i32 1
-  %122 = load i32, i32* %121, align 4
-  %123 = zext i32 %122 to i64
-  %124 = load i32, i32* %cur, align 4
-  %125 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %125, { i64, i8* }* %18
-  %126 = bitcast { i64, i8* }* %18 to { i64, i64 }*
-  %127 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %126, i32 0, i32 0
-  %128 = load i64, i64* %127
-  %129 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %126, i32 0, i32 1
-  %130 = load i64, i64* %129
-  %131 = call i32 @print_u64(i64 %128, i64 %130, i32 %124, i64 %123)
-  store i32 %131, i32* %.ret.9, align 4
-  br label %exit
-
-if_else12:                                        ; preds = %if_else
-  %132 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %133 = getelementptr inbounds %TypeInfo, %TypeInfo* %132, i32 0, i32 0
-  %134 = load i32, i32* %133, align 4
-  %135 = icmp eq i32 %134, 7
-  br i1 %135, label %if_then14, label %if_else15
-
-if_cont:                                          ; preds = %if_cont16
-  store i32 0, i32* %.ret.9, align 4
-  br label %exit
-
-if_cont13:                                        ; preds = %if_else10, %if_then9
-  %136 = load %TypeInfoInt*, %TypeInfoInt** %c, align 8
-  %137 = getelementptr inbounds %TypeInfoInt, %TypeInfoInt* %136, i32 0, i32 1
-  %138 = load i32, i32* %137, align 4
-  %139 = zext i32 %138 to i64
-  %140 = load i32, i32* %cur, align 4
-  %141 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %141, { i64, i8* }* %15
-  %142 = bitcast { i64, i8* }* %15 to { i64, i64 }*
-  %143 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %142, i32 0, i32 0
-  %144 = load i64, i64* %143
-  %145 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %142, i32 0, i32 1
-  %146 = load i64, i64* %145
-  %147 = call i32 @print_u64(i64 %144, i64 %146, i32 %140, i64 %139)
-  store i32 %147, i32* %.ret.9, align 4
-  br label %exit
-
-if_then14:                                        ; preds = %if_else12
-  %148 = load i32, i32* %cur, align 4
-  %149 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %149, { i64, i8* }* %19
-  %150 = bitcast { i64, i8* }* %19 to { i64, i64 }*
-  %151 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %150, i32 0, i32 0
-  %152 = load i64, i64* %151
-  %153 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %150, i32 0, i32 1
-  %154 = load i64, i64* %153
-  store %string { i64 4, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.277, i32 0, i32 0) }, %string* %20
-  %155 = bitcast %string* %20 to { i64, i64 }*
-  %156 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %155, i32 0, i32 0
-  %157 = load i64, i64* %156
-  %158 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %155, i32 0, i32 1
-  %159 = load i64, i64* %158
-  %160 = call i32 @print_string(i64 %152, i64 %154, i32 %148, i64 %157, i64 %159)
-  store i32 %160, i32* %.ret.9, align 4
-  br label %exit
-
-if_else15:                                        ; preds = %if_else12
-  %161 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %162 = getelementptr inbounds %TypeInfo, %TypeInfo* %161, i32 0, i32 0
-  %163 = load i32, i32* %162, align 4
-  %164 = icmp eq i32 %163, 6
-  br i1 %164, label %if_then17, label %if_else18
-
-if_cont16:                                        ; preds = %if_cont19
-  br label %if_cont
-
-if_then17:                                        ; preds = %if_else15
-  %165 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %166 = bitcast %TypeInfo* %165 to %TypeInfoPtr*
-  store %TypeInfoPtr* %166, %TypeInfoPtr** %c2
-  %167 = load i32, i32* %cur, align 4
-  %168 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %168, { i64, i8* }* %21
-  %169 = bitcast { i64, i8* }* %21 to { i64, i64 }*
-  %170 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %169, i32 0, i32 0
-  %171 = load i64, i64* %170
-  %172 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %169, i32 0, i32 1
-  %173 = load i64, i64* %172
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.308, i32 0, i32 0) }, %string* %22
-  %174 = bitcast %string* %22 to { i64, i64 }*
-  %175 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %174, i32 0, i32 0
-  %176 = load i64, i64* %175
-  %177 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %174, i32 0, i32 1
-  %178 = load i64, i64* %177
-  %179 = call i32 @print_string(i64 %171, i64 %173, i32 %167, i64 %176, i64 %178)
-  store i32 %179, i32* %cur, align 4
-  %180 = load %TypeInfoPtr*, %TypeInfoPtr** %c2, align 8
-  %181 = getelementptr inbounds %TypeInfoPtr, %TypeInfoPtr* %180, i32 0, i32 1
-  %182 = load %TypeInfo*, %TypeInfo** %181, align 8
-  %183 = load i32, i32* %cur, align 4
-  %184 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %184, { i64, i8* }* %23
-  %185 = bitcast { i64, i8* }* %23 to { i64, i64 }*
-  %186 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %185, i32 0, i32 0
-  %187 = load i64, i64* %186
-  %188 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %185, i32 0, i32 1
-  %189 = load i64, i64* %188
-  %190 = call i32 @print_type(i64 %187, i64 %189, i32 %183, %TypeInfo* %182)
-  store i32 %190, i32* %.ret.9, align 4
-  br label %exit
-
-if_else18:                                        ; preds = %if_else15
-  %191 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %192 = getelementptr inbounds %TypeInfo, %TypeInfo* %191, i32 0, i32 0
-  %193 = load i32, i32* %192, align 4
-  %194 = icmp eq i32 %193, 8
-  br i1 %194, label %if_then20, label %if_else21
-
-if_cont19:                                        ; preds = %if_cont22
-  br label %if_cont16
-
-if_then20:                                        ; preds = %if_else18
-  %195 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %196 = bitcast %TypeInfo* %195 to %TypeInfoArray*
-  store %TypeInfoArray* %196, %TypeInfoArray** %c3
-  %197 = load i32, i32* %cur, align 4
-  %198 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %198, { i64, i8* }* %24
-  %199 = bitcast { i64, i8* }* %24 to { i64, i64 }*
-  %200 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %199, i32 0, i32 0
-  %201 = load i64, i64* %200
-  %202 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %199, i32 0, i32 1
-  %203 = load i64, i64* %202
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.294, i32 0, i32 0) }, %string* %25
-  %204 = bitcast %string* %25 to { i64, i64 }*
-  %205 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %204, i32 0, i32 0
-  %206 = load i64, i64* %205
-  %207 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %204, i32 0, i32 1
-  %208 = load i64, i64* %207
-  %209 = call i32 @print_string(i64 %201, i64 %203, i32 %197, i64 %206, i64 %208)
-  store i32 %209, i32* %cur, align 4
-  %210 = load %TypeInfoArray*, %TypeInfoArray** %c3, align 8
-  %211 = getelementptr inbounds %TypeInfoArray, %TypeInfoArray* %210, i32 0, i32 3
-  %212 = load i64, i64* %211, align 8
-  %213 = load i32, i32* %cur, align 4
-  %214 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %214, { i64, i8* }* %26
-  %215 = bitcast { i64, i8* }* %26 to { i64, i64 }*
-  %216 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %215, i32 0, i32 0
-  %217 = load i64, i64* %216
-  %218 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %215, i32 0, i32 1
-  %219 = load i64, i64* %218
-  %220 = call i32 @print_u64(i64 %217, i64 %219, i32 %213, i64 %212)
-  store i32 %220, i32* %cur, align 4
-  %221 = load i32, i32* %cur, align 4
-  %222 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %222, { i64, i8* }* %27
-  %223 = bitcast { i64, i8* }* %27 to { i64, i64 }*
-  %224 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %223, i32 0, i32 0
-  %225 = load i64, i64* %224
-  %226 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %223, i32 0, i32 1
-  %227 = load i64, i64* %226
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.295, i32 0, i32 0) }, %string* %28
-  %228 = bitcast %string* %28 to { i64, i64 }*
-  %229 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %228, i32 0, i32 0
-  %230 = load i64, i64* %229
-  %231 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %228, i32 0, i32 1
-  %232 = load i64, i64* %231
-  %233 = call i32 @print_string(i64 %225, i64 %227, i32 %221, i64 %230, i64 %232)
-  store i32 %233, i32* %cur, align 4
-  %234 = load %TypeInfoArray*, %TypeInfoArray** %c3, align 8
-  %235 = getelementptr inbounds %TypeInfoArray, %TypeInfoArray* %234, i32 0, i32 2
-  %236 = load %TypeInfo*, %TypeInfo** %235, align 8
-  %237 = load i32, i32* %cur, align 4
-  %238 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %238, { i64, i8* }* %29
-  %239 = bitcast { i64, i8* }* %29 to { i64, i64 }*
-  %240 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %239, i32 0, i32 0
-  %241 = load i64, i64* %240
-  %242 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %239, i32 0, i32 1
-  %243 = load i64, i64* %242
-  %244 = call i32 @print_type(i64 %241, i64 %243, i32 %237, %TypeInfo* %236)
-  store i32 %244, i32* %.ret.9, align 4
-  br label %exit
-
-if_else21:                                        ; preds = %if_else18
-  %245 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %246 = getelementptr inbounds %TypeInfo, %TypeInfo* %245, i32 0, i32 0
-  %247 = load i32, i32* %246, align 4
-  %248 = icmp eq i32 %247, 9
-  br i1 %248, label %if_then23, label %if_else24
-
-if_cont22:                                        ; preds = %if_cont25
-  br label %if_cont19
-
-if_then23:                                        ; preds = %if_else21
-  %249 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %250 = bitcast %TypeInfo* %249 to %TypeInfoStruct*
-  store %TypeInfoStruct* %250, %TypeInfoStruct** %c4
-  %251 = load i32, i32* %cur, align 4
-  %252 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %252, { i64, i8* }* %30
-  %253 = bitcast { i64, i8* }* %30 to { i64, i64 }*
-  %254 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %253, i32 0, i32 0
-  %255 = load i64, i64* %254
-  %256 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %253, i32 0, i32 1
-  %257 = load i64, i64* %256
-  store %string { i64 8, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @.str.309, i32 0, i32 0) }, %string* %31
-  %258 = bitcast %string* %31 to { i64, i64 }*
-  %259 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %258, i32 0, i32 0
-  %260 = load i64, i64* %259
-  %261 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %258, i32 0, i32 1
-  %262 = load i64, i64* %261
-  %263 = call i32 @print_string(i64 %255, i64 %257, i32 %251, i64 %260, i64 %262)
-  store i32 %263, i32* %cur, align 4
-  store i32 0, i32* %i
-  br label %loop_decide
-
-if_else24:                                        ; preds = %if_else21
-  %264 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %265 = getelementptr inbounds %TypeInfo, %TypeInfo* %264, i32 0, i32 0
-  %266 = load i32, i32* %265, align 4
-  %267 = icmp eq i32 %266, 5
-  br i1 %267, label %if_then26, label %if_else27
-
-if_cont25:                                        ; preds = %if_cont28
-  br label %if_cont22
-
-loop_decide:                                      ; preds = %loop_increment, %if_then23
-  %268 = load %TypeInfoStruct*, %TypeInfoStruct** %c4, align 8
-  %269 = getelementptr inbounds %TypeInfoStruct, %TypeInfoStruct* %268, i32 0, i32 2
-  %270 = getelementptr inbounds { i64, %TypeInfoStructMember* }, { i64, %TypeInfoStructMember* }* %269, i32 0, i32 0
-  %271 = load i64, i64* %270, align 8
-  %272 = load i32, i32* %i, align 4
-  %273 = sext i32 %272 to i64
-  %274 = icmp slt i64 %273, %271
-  br i1 %274, label %loop_body, label %loop_continue
-
-if_then26:                                        ; preds = %if_else24
-  %275 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %276 = bitcast %TypeInfo* %275 to %TypeInfoFn*
-  store %TypeInfoFn* %276, %TypeInfoFn** %c5
-  %277 = load i32, i32* %cur, align 4
-  %278 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %278, { i64, i8* }* %41
-  %279 = bitcast { i64, i8* }* %41 to { i64, i64 }*
-  %280 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %279, i32 0, i32 0
-  %281 = load i64, i64* %280
-  %282 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %279, i32 0, i32 1
-  %283 = load i64, i64* %282
-  store %string { i64 4, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.311, i32 0, i32 0) }, %string* %42
-  %284 = bitcast %string* %42 to { i64, i64 }*
-  %285 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %284, i32 0, i32 0
-  %286 = load i64, i64* %285
-  %287 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %284, i32 0, i32 1
-  %288 = load i64, i64* %287
-  %289 = call i32 @print_string(i64 %281, i64 %283, i32 %277, i64 %286, i64 %288)
-  store i32 %289, i32* %cur, align 4
-  store i32 0, i32* %i6
-  br label %loop_decide32
-
-if_else27:                                        ; preds = %if_else24
-  %290 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %291 = getelementptr inbounds %TypeInfo, %TypeInfo* %290, i32 0, i32 0
-  %292 = load i32, i32* %291, align 4
-  %293 = icmp eq i32 %292, 10
-  br i1 %293, label %if_then33, label %if_else34
-
-if_cont28:                                        ; preds = %if_cont35
-  br label %if_cont25
-
-loop_increment:                                   ; preds = %if_cont31
-  %294 = load i32, i32* %i, align 4
-  %295 = add i32 %294, 1
-  store i32 %295, i32* %i, align 4
-  br label %loop_decide
-
-loop_body:                                        ; preds = %loop_decide
-  %296 = load %TypeInfoStruct*, %TypeInfoStruct** %c4, align 8
-  %297 = getelementptr inbounds %TypeInfoStruct, %TypeInfoStruct* %296, i32 0, i32 2
-  %298 = load i32, i32* %i, align 4
-  %299 = sext i32 %298 to i64
-  %300 = getelementptr inbounds { i64, %TypeInfoStructMember* }, { i64, %TypeInfoStructMember* }* %297, i32 0, i32 1
-  %301 = load %TypeInfoStructMember*, %TypeInfoStructMember** %300
-  %302 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %301, i64 %299
-  %303 = load %TypeInfoStructMember, %TypeInfoStructMember* %302, align 8
-  store %TypeInfoStructMember %303, %TypeInfoStructMember* %member
-  %304 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %member, i32 0, i32 0
-  %305 = load %string, %string* %304, align 8
-  %306 = load i32, i32* %cur, align 4
-  %307 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %307, { i64, i8* }* %32
-  %308 = bitcast { i64, i8* }* %32 to { i64, i64 }*
-  %309 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %308, i32 0, i32 0
-  %310 = load i64, i64* %309
-  %311 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %308, i32 0, i32 1
-  %312 = load i64, i64* %311
-  store %string %305, %string* %33
-  %313 = bitcast %string* %33 to { i64, i64 }*
-  %314 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %313, i32 0, i32 0
-  %315 = load i64, i64* %314
-  %316 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %313, i32 0, i32 1
-  %317 = load i64, i64* %316
-  %318 = call i32 @print_string(i64 %310, i64 %312, i32 %306, i64 %315, i64 %317)
-  store i32 %318, i32* %cur, align 4
-  %319 = load i32, i32* %cur, align 4
-  %320 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %320, { i64, i8* }* %34
-  %321 = bitcast { i64, i8* }* %34 to { i64, i64 }*
-  %322 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %321, i32 0, i32 0
-  %323 = load i64, i64* %322
-  %324 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %321, i32 0, i32 1
-  %325 = load i64, i64* %324
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.310, i32 0, i32 0) }, %string* %35
-  %326 = bitcast %string* %35 to { i64, i64 }*
-  %327 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %326, i32 0, i32 0
-  %328 = load i64, i64* %327
-  %329 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %326, i32 0, i32 1
-  %330 = load i64, i64* %329
-  %331 = call i32 @print_string(i64 %323, i64 %325, i32 %319, i64 %328, i64 %330)
-  store i32 %331, i32* %cur, align 4
-  %332 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %member, i32 0, i32 1
-  %333 = load %TypeInfo*, %TypeInfo** %332, align 8
-  %334 = load i32, i32* %cur, align 4
-  %335 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %335, { i64, i8* }* %36
-  %336 = bitcast { i64, i8* }* %36 to { i64, i64 }*
-  %337 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %336, i32 0, i32 0
-  %338 = load i64, i64* %337
-  %339 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %336, i32 0, i32 1
-  %340 = load i64, i64* %339
-  %341 = call i32 @print_type(i64 %338, i64 %340, i32 %334, %TypeInfo* %333)
-  store i32 %341, i32* %cur, align 4
-  %342 = load %TypeInfoStruct*, %TypeInfoStruct** %c4, align 8
-  %343 = getelementptr inbounds %TypeInfoStruct, %TypeInfoStruct* %342, i32 0, i32 2
-  %344 = getelementptr inbounds { i64, %TypeInfoStructMember* }, { i64, %TypeInfoStructMember* }* %343, i32 0, i32 0
-  %345 = load i64, i64* %344, align 8
-  %346 = sub i64 %345, 1
-  %347 = load i32, i32* %i, align 4
-  %348 = sext i32 %347 to i64
-  %349 = icmp slt i64 %348, %346
-  br i1 %349, label %if_then29, label %if_else30
-
-loop_continue:                                    ; preds = %loop_decide
-  %350 = load i32, i32* %cur, align 4
-  %351 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %351, { i64, i8* }* %37
-  %352 = bitcast { i64, i8* }* %37 to { i64, i64 }*
-  %353 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %352, i32 0, i32 0
-  %354 = load i64, i64* %353
-  %355 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %352, i32 0, i32 1
-  %356 = load i64, i64* %355
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.299, i32 0, i32 0) }, %string* %38
-  %357 = bitcast %string* %38 to { i64, i64 }*
-  %358 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %357, i32 0, i32 0
-  %359 = load i64, i64* %358
-  %360 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %357, i32 0, i32 1
-  %361 = load i64, i64* %360
-  %362 = call i32 @print_string(i64 %354, i64 %356, i32 %350, i64 %359, i64 %361)
-  store i32 %362, i32* %.ret.9, align 4
-  br label %exit
-
-if_then29:                                        ; preds = %loop_body
-  %363 = load i32, i32* %cur, align 4
-  %364 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %364, { i64, i8* }* %39
-  %365 = bitcast { i64, i8* }* %39 to { i64, i64 }*
-  %366 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %365, i32 0, i32 0
-  %367 = load i64, i64* %366
-  %368 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %365, i32 0, i32 1
-  %369 = load i64, i64* %368
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.296, i32 0, i32 0) }, %string* %40
-  %370 = bitcast %string* %40 to { i64, i64 }*
-  %371 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %370, i32 0, i32 0
-  %372 = load i64, i64* %371
-  %373 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %370, i32 0, i32 1
-  %374 = load i64, i64* %373
-  %375 = call i32 @print_string(i64 %367, i64 %369, i32 %363, i64 %372, i64 %374)
-  store i32 %375, i32* %cur, align 4
-  br label %if_cont31
-
-if_else30:                                        ; preds = %loop_body
-  br label %if_cont31
-
-if_cont31:                                        ; preds = %if_else30, %if_then29
-  br label %loop_increment
-
-loop_decide32:                                    ; preds = %loop_increment36, %if_then26
-  %376 = load %TypeInfoFn*, %TypeInfoFn** %c5, align 8
-  %377 = getelementptr inbounds %TypeInfoFn, %TypeInfoFn* %376, i32 0, i32 1
-  %378 = getelementptr inbounds { i64, %TypeInfo** }, { i64, %TypeInfo** }* %377, i32 0, i32 0
-  %379 = load i64, i64* %378, align 8
-  %380 = load i32, i32* %i6, align 4
-  %381 = sext i32 %380 to i64
-  %382 = icmp slt i64 %381, %379
-  br i1 %382, label %loop_body37, label %loop_continue38
-
-if_then33:                                        ; preds = %if_else27
-  %383 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %384 = bitcast %TypeInfo* %383 to %TypeInfoEnum*
-  store %TypeInfoEnum* %384, %TypeInfoEnum** %c7
-  %385 = load i32, i32* %cur, align 4
-  %386 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %386, { i64, i8* }* %49
-  %387 = bitcast { i64, i8* }* %49 to { i64, i64 }*
-  %388 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %387, i32 0, i32 0
-  %389 = load i64, i64* %388
-  %390 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %387, i32 0, i32 1
-  %391 = load i64, i64* %390
-  store %string { i64 5, i8* getelementptr inbounds ([6 x i8], [6 x i8]* @.str.312, i32 0, i32 0) }, %string* %50
-  %392 = bitcast %string* %50 to { i64, i64 }*
-  %393 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %392, i32 0, i32 0
-  %394 = load i64, i64* %393
-  %395 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %392, i32 0, i32 1
-  %396 = load i64, i64* %395
-  %397 = call i32 @print_string(i64 %389, i64 %391, i32 %385, i64 %394, i64 %396)
-  store i32 %397, i32* %cur, align 4
-  %398 = load %TypeInfoEnum*, %TypeInfoEnum** %c7, align 8
-  %399 = getelementptr inbounds %TypeInfoEnum, %TypeInfoEnum* %398, i32 0, i32 2
-  %400 = load %TypeInfo*, %TypeInfo** %399, align 8
-  %401 = load i32, i32* %cur, align 4
-  %402 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %402, { i64, i8* }* %51
-  %403 = bitcast { i64, i8* }* %51 to { i64, i64 }*
-  %404 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %403, i32 0, i32 0
-  %405 = load i64, i64* %404
-  %406 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %403, i32 0, i32 1
-  %407 = load i64, i64* %406
-  %408 = call i32 @print_type(i64 %405, i64 %407, i32 %401, %TypeInfo* %400)
-  store i32 %408, i32* %cur, align 4
-  %409 = load i32, i32* %cur, align 4
-  %410 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %410, { i64, i8* }* %52
-  %411 = bitcast { i64, i8* }* %52 to { i64, i64 }*
-  %412 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %411, i32 0, i32 0
-  %413 = load i64, i64* %412
-  %414 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %411, i32 0, i32 1
-  %415 = load i64, i64* %414
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.297, i32 0, i32 0) }, %string* %53
-  %416 = bitcast %string* %53 to { i64, i64 }*
-  %417 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %416, i32 0, i32 0
-  %418 = load i64, i64* %417
-  %419 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %416, i32 0, i32 1
-  %420 = load i64, i64* %419
-  %421 = call i32 @print_string(i64 %413, i64 %415, i32 %409, i64 %418, i64 %420)
-  store i32 %421, i32* %cur, align 4
-  store i32 0, i32* %i8
-  br label %loop_decide42
-
-if_else34:                                        ; preds = %if_else27
-  %422 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %423 = getelementptr inbounds %TypeInfo, %TypeInfo* %422, i32 0, i32 0
-  %424 = load i32, i32* %423, align 4
-  %425 = icmp eq i32 %424, 12
-  br i1 %425, label %if_then43, label %if_else44
-
-if_cont35:                                        ; preds = %if_cont45
-  br label %if_cont28
-
-loop_increment36:                                 ; preds = %if_cont41
-  %426 = load i32, i32* %i6, align 4
-  %427 = add i32 %426, 1
-  store i32 %427, i32* %i6, align 4
-  br label %loop_decide32
-
-loop_body37:                                      ; preds = %loop_decide32
-  %428 = load %TypeInfoFn*, %TypeInfoFn** %c5, align 8
-  %429 = getelementptr inbounds %TypeInfoFn, %TypeInfoFn* %428, i32 0, i32 1
-  %430 = load i32, i32* %i6, align 4
-  %431 = sext i32 %430 to i64
-  %432 = getelementptr inbounds { i64, %TypeInfo** }, { i64, %TypeInfo** }* %429, i32 0, i32 1
-  %433 = load %TypeInfo**, %TypeInfo*** %432
-  %434 = getelementptr inbounds %TypeInfo*, %TypeInfo** %433, i64 %431
-  %435 = load %TypeInfo*, %TypeInfo** %434, align 8
-  store %TypeInfo* %435, %TypeInfo** %arg
-  %436 = load %TypeInfo*, %TypeInfo** %arg, align 8
-  %437 = load i32, i32* %cur, align 4
-  %438 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %438, { i64, i8* }* %43
-  %439 = bitcast { i64, i8* }* %43 to { i64, i64 }*
-  %440 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %439, i32 0, i32 0
-  %441 = load i64, i64* %440
-  %442 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %439, i32 0, i32 1
-  %443 = load i64, i64* %442
-  %444 = call i32 @print_type(i64 %441, i64 %443, i32 %437, %TypeInfo* %436)
-  store i32 %444, i32* %cur, align 4
-  %445 = load %TypeInfoFn*, %TypeInfoFn** %c5, align 8
-  %446 = getelementptr inbounds %TypeInfoFn, %TypeInfoFn* %445, i32 0, i32 1
-  %447 = getelementptr inbounds { i64, %TypeInfo** }, { i64, %TypeInfo** }* %446, i32 0, i32 0
-  %448 = load i64, i64* %447, align 8
-  %449 = sub i64 %448, 1
-  %450 = load i32, i32* %i6, align 4
-  %451 = sext i32 %450 to i64
-  %452 = icmp slt i64 %451, %449
-  br i1 %452, label %if_then39, label %if_else40
-
-loop_continue38:                                  ; preds = %loop_decide32
-  %453 = load i32, i32* %cur, align 4
-  %454 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %454, { i64, i8* }* %44
-  %455 = bitcast { i64, i8* }* %44 to { i64, i64 }*
-  %456 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %455, i32 0, i32 0
-  %457 = load i64, i64* %456
-  %458 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %455, i32 0, i32 1
-  %459 = load i64, i64* %458
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.269, i32 0, i32 0) }, %string* %45
-  %460 = bitcast %string* %45 to { i64, i64 }*
-  %461 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %460, i32 0, i32 0
-  %462 = load i64, i64* %461
-  %463 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %460, i32 0, i32 1
-  %464 = load i64, i64* %463
-  %465 = call i32 @print_string(i64 %457, i64 %459, i32 %453, i64 %462, i64 %464)
-  store i32 %465, i32* %cur, align 4
-  %466 = load %TypeInfoFn*, %TypeInfoFn** %c5, align 8
-  %467 = getelementptr inbounds %TypeInfoFn, %TypeInfoFn* %466, i32 0, i32 2
-  %468 = load %TypeInfo*, %TypeInfo** %467, align 8
-  %469 = load i32, i32* %cur, align 4
-  %470 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %470, { i64, i8* }* %46
-  %471 = bitcast { i64, i8* }* %46 to { i64, i64 }*
-  %472 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %471, i32 0, i32 0
-  %473 = load i64, i64* %472
-  %474 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %471, i32 0, i32 1
-  %475 = load i64, i64* %474
-  %476 = call i32 @print_type(i64 %473, i64 %475, i32 %469, %TypeInfo* %468)
-  store i32 %476, i32* %.ret.9, align 4
-  br label %exit
-
-if_then39:                                        ; preds = %loop_body37
-  %477 = load i32, i32* %cur, align 4
-  %478 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %478, { i64, i8* }* %47
-  %479 = bitcast { i64, i8* }* %47 to { i64, i64 }*
-  %480 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %479, i32 0, i32 0
-  %481 = load i64, i64* %480
-  %482 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %479, i32 0, i32 1
-  %483 = load i64, i64* %482
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.296, i32 0, i32 0) }, %string* %48
-  %484 = bitcast %string* %48 to { i64, i64 }*
-  %485 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %484, i32 0, i32 0
-  %486 = load i64, i64* %485
-  %487 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %484, i32 0, i32 1
-  %488 = load i64, i64* %487
-  %489 = call i32 @print_string(i64 %481, i64 %483, i32 %477, i64 %486, i64 %488)
-  store i32 %489, i32* %cur, align 4
-  br label %if_cont41
-
-if_else40:                                        ; preds = %loop_body37
-  br label %if_cont41
-
-if_cont41:                                        ; preds = %if_else40, %if_then39
-  br label %loop_increment36
-
-loop_decide42:                                    ; preds = %loop_increment46, %if_then33
-  %490 = load %TypeInfoEnum*, %TypeInfoEnum** %c7, align 8
-  %491 = getelementptr inbounds %TypeInfoEnum, %TypeInfoEnum* %490, i32 0, i32 3
-  %492 = getelementptr inbounds { i64, %TypeInfoEnumVariant* }, { i64, %TypeInfoEnumVariant* }* %491, i32 0, i32 0
-  %493 = load i64, i64* %492, align 8
-  %494 = load i32, i32* %i8, align 4
-  %495 = sext i32 %494 to i64
-  %496 = icmp slt i64 %495, %493
-  br i1 %496, label %loop_body47, label %loop_continue48
-
-if_then43:                                        ; preds = %if_else34
-  %497 = load i32, i32* %cur, align 4
-  %498 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %498, { i64, i8* }* %63
-  %499 = bitcast { i64, i8* }* %63 to { i64, i64 }*
-  %500 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %499, i32 0, i32 0
-  %501 = load i64, i64* %500
-  %502 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %499, i32 0, i32 1
-  %503 = load i64, i64* %502
-  store %string { i64 6, i8* getelementptr inbounds ([7 x i8], [7 x i8]* @.str.314, i32 0, i32 0) }, %string* %64
-  %504 = bitcast %string* %64 to { i64, i64 }*
-  %505 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %504, i32 0, i32 0
-  %506 = load i64, i64* %505
-  %507 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %504, i32 0, i32 1
-  %508 = load i64, i64* %507
-  %509 = call i32 @print_string(i64 %501, i64 %503, i32 %497, i64 %506, i64 %508)
-  store i32 %509, i32* %.ret.9, align 4
-  br label %exit
-
-if_else44:                                        ; preds = %if_else34
-  %510 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %511 = getelementptr inbounds %TypeInfo, %TypeInfo* %510, i32 0, i32 0
-  %512 = load i32, i32* %511, align 4
-  %513 = icmp eq i32 %512, 2
-  br i1 %513, label %if_then52, label %if_else53
-
-if_cont45:                                        ; preds = %if_cont54
-  br label %if_cont35
-
-loop_increment46:                                 ; preds = %if_cont51
-  %514 = load i32, i32* %i8, align 4
-  %515 = add i32 %514, 1
-  store i32 %515, i32* %i8, align 4
-  br label %loop_decide42
-
-loop_body47:                                      ; preds = %loop_decide42
-  %516 = load %TypeInfoEnum*, %TypeInfoEnum** %c7, align 8
-  %517 = getelementptr inbounds %TypeInfoEnum, %TypeInfoEnum* %516, i32 0, i32 3
-  %518 = load i32, i32* %i8, align 4
-  %519 = sext i32 %518 to i64
-  %520 = getelementptr inbounds { i64, %TypeInfoEnumVariant* }, { i64, %TypeInfoEnumVariant* }* %517, i32 0, i32 1
-  %521 = load %TypeInfoEnumVariant*, %TypeInfoEnumVariant** %520
-  %522 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %521, i64 %519
-  %523 = load %TypeInfoEnumVariant, %TypeInfoEnumVariant* %522, align 8
-  store %TypeInfoEnumVariant %523, %TypeInfoEnumVariant* %variant
-  %524 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %variant, i32 0, i32 0
-  %525 = load %string, %string* %524, align 8
-  %526 = load i32, i32* %cur, align 4
-  %527 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %527, { i64, i8* }* %54
-  %528 = bitcast { i64, i8* }* %54 to { i64, i64 }*
-  %529 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %528, i32 0, i32 0
-  %530 = load i64, i64* %529
-  %531 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %528, i32 0, i32 1
-  %532 = load i64, i64* %531
-  store %string %525, %string* %55
-  %533 = bitcast %string* %55 to { i64, i64 }*
-  %534 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %533, i32 0, i32 0
-  %535 = load i64, i64* %534
-  %536 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %533, i32 0, i32 1
-  %537 = load i64, i64* %536
-  %538 = call i32 @print_string(i64 %530, i64 %532, i32 %526, i64 %535, i64 %537)
-  store i32 %538, i32* %cur, align 4
-  %539 = load i32, i32* %cur, align 4
-  %540 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %540, { i64, i8* }* %56
-  %541 = bitcast { i64, i8* }* %56 to { i64, i64 }*
-  %542 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %541, i32 0, i32 0
-  %543 = load i64, i64* %542
-  %544 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %541, i32 0, i32 1
-  %545 = load i64, i64* %544
-  store %string { i64 4, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.313, i32 0, i32 0) }, %string* %57
-  %546 = bitcast %string* %57 to { i64, i64 }*
-  %547 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %546, i32 0, i32 0
-  %548 = load i64, i64* %547
-  %549 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %546, i32 0, i32 1
-  %550 = load i64, i64* %549
-  %551 = call i32 @print_string(i64 %543, i64 %545, i32 %539, i64 %548, i64 %550)
-  store i32 %551, i32* %cur, align 4
-  %552 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %variant, i32 0, i32 1
-  %553 = load i64, i64* %552, align 8
-  %554 = load i32, i32* %cur, align 4
-  %555 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %555, { i64, i8* }* %58
-  %556 = bitcast { i64, i8* }* %58 to { i64, i64 }*
-  %557 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %556, i32 0, i32 0
-  %558 = load i64, i64* %557
-  %559 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %556, i32 0, i32 1
-  %560 = load i64, i64* %559
-  %561 = call i32 @print_u64(i64 %558, i64 %560, i32 %554, i64 %553)
-  store i32 %561, i32* %cur, align 4
-  %562 = load %TypeInfoEnum*, %TypeInfoEnum** %c7, align 8
-  %563 = getelementptr inbounds %TypeInfoEnum, %TypeInfoEnum* %562, i32 0, i32 3
-  %564 = getelementptr inbounds { i64, %TypeInfoEnumVariant* }, { i64, %TypeInfoEnumVariant* }* %563, i32 0, i32 0
-  %565 = load i64, i64* %564, align 8
-  %566 = sub i64 %565, 1
-  %567 = load i32, i32* %i8, align 4
+if_cont3.i591.1:                                  ; preds = %if_cont3.i591
+  %558 = getelementptr inbounds i8, i8* %346, i64 %369
+  store i8 97, i8* %558, align 1
+  %559 = add i32 %2, 2
+  %560 = sext i32 %559 to i64
+  %561 = icmp slt i64 %560, %0
+  br i1 %561, label %if_cont3.i591.2, label %exit
+
+if_cont3.i591.2:                                  ; preds = %if_cont3.i591.1
+  %562 = getelementptr inbounds i8, i8* %346, i64 %560
+  store i8 108, i8* %562, align 1
+  %563 = add i32 %2, 3
+  %564 = sext i32 %563 to i64
+  %565 = icmp slt i64 %564, %0
+  br i1 %565, label %if_cont3.i591.3, label %exit
+
+if_cont3.i591.3:                                  ; preds = %if_cont3.i591.2
+  %566 = getelementptr inbounds i8, i8* %346, i64 %564
+  store i8 115, i8* %566, align 1
+  %567 = add i32 %2, 4
   %568 = sext i32 %567 to i64
-  %569 = icmp slt i64 %568, %566
-  br i1 %569, label %if_then49, label %if_else50
+  %569 = icmp slt i64 %568, %0
+  br i1 %569, label %if_cont3.i591.4, label %exit
 
-loop_continue48:                                  ; preds = %loop_decide42
-  %570 = load i32, i32* %cur, align 4
-  %571 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %571, { i64, i8* }* %59
-  %572 = bitcast { i64, i8* }* %59 to { i64, i64 }*
-  %573 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %572, i32 0, i32 0
-  %574 = load i64, i64* %573
-  %575 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %572, i32 0, i32 1
-  %576 = load i64, i64* %575
-  store %string { i64 1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.299, i32 0, i32 0) }, %string* %60
-  %577 = bitcast %string* %60 to { i64, i64 }*
-  %578 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %577, i32 0, i32 0
-  %579 = load i64, i64* %578
-  %580 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %577, i32 0, i32 1
-  %581 = load i64, i64* %580
-  %582 = call i32 @print_string(i64 %574, i64 %576, i32 %570, i64 %579, i64 %581)
-  store i32 %582, i32* %.ret.9, align 4
+if_cont3.i591.4:                                  ; preds = %if_cont3.i591.3
+  %570 = getelementptr inbounds i8, i8* %346, i64 %568
+  store i8 101, i8* %570, align 1
+  %.pre902 = add i32 %2, 5
+  br label %exit
+}
+
+; Function Attrs: nofree norecurse nounwind
+define i32 @print_string(i64 %0, i64 %1, i32 %2, i64 %3, i64 %4) local_unnamed_addr #7 {
+entry:
+  %5 = inttoptr i64 %4 to i8*
+  %6 = icmp eq i64 %4, 0
+  br i1 %6, label %exit, label %loop_decide.preheader
+
+loop_decide.preheader:                            ; preds = %entry
+  %7 = icmp sgt i64 %3, 0
+  br i1 %7, label %loop_body.lr.ph, label %loop_continue
+
+loop_body.lr.ph:                                  ; preds = %loop_decide.preheader
+  %8 = inttoptr i64 %1 to i8*
+  br label %loop_body
+
+exit:                                             ; preds = %entry, %loop_continue
+  %.ret.10.0 = phi i32 [ %13, %loop_continue ], [ %2, %entry ]
+  ret i32 %.ret.10.0
+
+loop_body:                                        ; preds = %loop_body.lr.ph, %if_cont3
+  %9 = phi i64 [ 0, %loop_body.lr.ph ], [ %18, %if_cont3 ]
+  %i.05 = phi i32 [ 0, %loop_body.lr.ph ], [ %17, %if_cont3 ]
+  %10 = add i32 %i.05, %2
+  %11 = sext i32 %10 to i64
+  %12 = icmp slt i64 %11, %0
+  br i1 %12, label %if_cont3, label %loop_continue
+
+loop_continue:                                    ; preds = %if_cont3, %loop_body, %loop_decide.preheader
+  %i.0.lcssa = phi i32 [ 0, %loop_decide.preheader ], [ %17, %if_cont3 ], [ %i.05, %loop_body ]
+  %13 = add i32 %i.0.lcssa, %2
   br label %exit
 
-if_then49:                                        ; preds = %loop_body47
-  %583 = load i32, i32* %cur, align 4
-  %584 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %584, { i64, i8* }* %61
-  %585 = bitcast { i64, i8* }* %61 to { i64, i64 }*
-  %586 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %585, i32 0, i32 0
-  %587 = load i64, i64* %586
-  %588 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %585, i32 0, i32 1
-  %589 = load i64, i64* %588
-  store %string { i64 2, i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.str.296, i32 0, i32 0) }, %string* %62
-  %590 = bitcast %string* %62 to { i64, i64 }*
-  %591 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %590, i32 0, i32 0
-  %592 = load i64, i64* %591
-  %593 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %590, i32 0, i32 1
-  %594 = load i64, i64* %593
-  %595 = call i32 @print_string(i64 %587, i64 %589, i32 %583, i64 %592, i64 %594)
-  store i32 %595, i32* %cur, align 4
+if_cont3:                                         ; preds = %loop_body
+  %14 = getelementptr inbounds i8, i8* %5, i64 %9
+  %15 = load i8, i8* %14, align 1
+  %16 = getelementptr inbounds i8, i8* %8, i64 %11
+  store i8 %15, i8* %16, align 1
+  %17 = add i32 %i.05, 1
+  %18 = sext i32 %17 to i64
+  %19 = icmp slt i64 %18, %3
+  br i1 %19, label %loop_body, label %loop_continue
+}
+
+; Function Attrs: norecurse nounwind readonly
+define i64 @s64_from_u8_ptr(i8* nocapture readonly %0, i32 %1) local_unnamed_addr #4 {
+entry:
+  %2 = add i32 %1, -8
+  %3 = lshr i32 %2, 3
+  %4 = shl i32 %2, 29
+  %5 = or i32 %3, %4
+  switch i32 %5, label %exit [
+    i32 7, label %if_then
+    i32 3, label %if_then1
+    i32 1, label %if_then4
+    i32 0, label %if_then7
+  ]
+
+if_then:                                          ; preds = %entry
+  %6 = bitcast i8* %0 to i64*
+  %7 = load i64, i64* %6, align 8
+  br label %exit
+
+exit:                                             ; preds = %entry, %if_then7, %if_then4, %if_then1, %if_then
+  %.ret.15.0 = phi i64 [ %7, %if_then ], [ %10, %if_then1 ], [ %13, %if_then4 ], [ %15, %if_then7 ], [ 0, %entry ]
+  ret i64 %.ret.15.0
+
+if_then1:                                         ; preds = %entry
+  %8 = bitcast i8* %0 to i32*
+  %9 = load i32, i32* %8, align 4
+  %10 = sext i32 %9 to i64
+  br label %exit
+
+if_then4:                                         ; preds = %entry
+  %11 = bitcast i8* %0 to i16*
+  %12 = load i16, i16* %11, align 2
+  %13 = sext i16 %12 to i64
+  br label %exit
+
+if_then7:                                         ; preds = %entry
+  %14 = load i8, i8* %0, align 1
+  %15 = sext i8 %14 to i64
+  br label %exit
+}
+
+; Function Attrs: norecurse nounwind readonly
+define i64 @u64_from_u8_ptr(i8* nocapture readonly %0, i32 %1) local_unnamed_addr #4 {
+entry:
+  %2 = add i32 %1, -8
+  %3 = lshr i32 %2, 3
+  %4 = shl i32 %2, 29
+  %5 = or i32 %3, %4
+  switch i32 %5, label %exit [
+    i32 7, label %if_then
+    i32 3, label %if_then1
+    i32 1, label %if_then4
+    i32 0, label %if_then7
+  ]
+
+if_then:                                          ; preds = %entry
+  %6 = bitcast i8* %0 to i64*
+  %7 = load i64, i64* %6, align 8
+  br label %exit
+
+exit:                                             ; preds = %entry, %if_then7, %if_then4, %if_then1, %if_then
+  %.ret.16.0 = phi i64 [ %7, %if_then ], [ %10, %if_then1 ], [ %13, %if_then4 ], [ %15, %if_then7 ], [ 0, %entry ]
+  ret i64 %.ret.16.0
+
+if_then1:                                         ; preds = %entry
+  %8 = bitcast i8* %0 to i32*
+  %9 = load i32, i32* %8, align 4
+  %10 = zext i32 %9 to i64
+  br label %exit
+
+if_then4:                                         ; preds = %entry
+  %11 = bitcast i8* %0 to i16*
+  %12 = load i16, i16* %11, align 2
+  %13 = zext i16 %12 to i64
+  br label %exit
+
+if_then7:                                         ; preds = %entry
+  %14 = load i8, i8* %0, align 1
+  %15 = zext i8 %14 to i64
+  br label %exit
+}
+
+; Function Attrs: nofree norecurse nounwind writeonly
+define i32 @print_u64(i64 %0, i64 %1, i32 %2, i64 %3) local_unnamed_addr #6 {
+entry:
+  %4 = icmp eq i64 %3, 0
+  %5 = inttoptr i64 %1 to i8*
+  br i1 %4, label %loop_body.i, label %loop_body
+
+loop_body.i:                                      ; preds = %entry
+  %6 = sext i32 %2 to i64
+  %7 = icmp slt i64 %6, %0
+  br i1 %7, label %if_cont3.i, label %exit
+
+if_cont3.i:                                       ; preds = %loop_body.i
+  %8 = getelementptr inbounds i8, i8* %5, i64 %6
+  store i8 48, i8* %8, align 1
+  %.pre = add i32 %2, 1
+  br label %exit
+
+exit:                                             ; preds = %if_cont6, %if_cont3.i, %loop_body.i
+  %.ret.13.0 = phi i32 [ %.pre, %if_cont3.i ], [ %2, %loop_body.i ], [ %cur.1, %if_cont6 ]
+  ret i32 %.ret.13.0
+
+loop_body:                                        ; preds = %entry, %if_cont6
+  %v.027 = phi i64 [ %9, %if_cont6 ], [ %3, %entry ]
+  %cur.026 = phi i32 [ %cur.1, %if_cont6 ], [ %2, %entry ]
+  %hit_non_zero.025 = phi i1 [ %hit_non_zero.0., %if_cont6 ], [ false, %entry ]
+  %div.024 = phi i64 [ %10, %if_cont6 ], [ -8446744073709551616, %entry ]
+  %9 = urem i64 %v.027, %div.024
+  %10 = udiv i64 %div.024, 10
+  %11 = icmp ule i64 %div.024, %v.027
+  %hit_non_zero.0. = or i1 %hit_non_zero.025, %11
+  br i1 %hit_non_zero.0., label %if_then4, label %if_cont6
+
+if_then4:                                         ; preds = %loop_body
+  %12 = sext i32 %cur.026 to i64
+  %13 = icmp slt i64 %12, %0
+  br i1 %13, label %if_cont.i, label %if_cont6
+
+if_cont.i:                                        ; preds = %if_then4
+  %14 = udiv i64 %v.027, %div.024
+  %15 = trunc i64 %14 to i8
+  %16 = add i8 %15, 48
+  %17 = getelementptr inbounds i8, i8* %5, i64 %12
+  store i8 %16, i8* %17, align 1
+  %18 = add i32 %cur.026, 1
+  br label %if_cont6
+
+if_cont6:                                         ; preds = %if_cont.i, %if_then4, %loop_body
+  %cur.1 = phi i32 [ %cur.026, %loop_body ], [ %18, %if_cont.i ], [ 0, %if_then4 ]
+  %19 = icmp ult i64 %div.024, 10
+  br i1 %19, label %exit, label %loop_body
+}
+
+; Function Attrs: norecurse nounwind readonly
+define double @f64_from_u8_ptr(i8* nocapture readonly %0, i32 %1) local_unnamed_addr #4 {
+entry:
+  switch i32 %1, label %exit [
+    i32 64, label %if_then
+    i32 32, label %if_then1
+  ]
+
+if_then:                                          ; preds = %entry
+  %2 = bitcast i8* %0 to double*
+  %3 = load double, double* %2, align 8
+  br label %exit
+
+exit:                                             ; preds = %entry, %if_then1, %if_then
+  %.ret.17.0 = phi double [ %3, %if_then ], [ %6, %if_then1 ], [ 0.000000e+00, %entry ]
+  ret double %.ret.17.0
+
+if_then1:                                         ; preds = %entry
+  %4 = bitcast i8* %0 to float*
+  %5 = load float, float* %4, align 4
+  %6 = fpext float %5 to double
+  br label %exit
+}
+
+; Function Attrs: nofree
+define i32 @print_f64(i64 %0, i64 %1, i32 %2, double %3) local_unnamed_addr #5 {
+entry:
+  %4 = tail call double @log10(double %3)
+  %5 = fptosi double %4 to i32
+  %6 = icmp sgt i32 %5, 0
+  %. = select i1 %6, i32 %5, i32 0
+  %7 = inttoptr i64 %1 to i8*
+  br label %loop_body
+
+loop_body:                                        ; preds = %entry, %if_cont7
+  %m.127 = phi i32 [ %., %entry ], [ %28, %if_cont7 ]
+  %v.026 = phi double [ %3, %entry ], [ %v.1, %if_cont7 ]
+  %cur.025 = phi i32 [ %2, %entry ], [ %cur.2, %if_cont7 ]
+  %8 = sitofp i32 %m.127 to double
+  %9 = tail call double @pow(double 1.000000e+01, double %8)
+  %10 = fcmp ogt double %9, 0.000000e+00
+  br i1 %10, label %if_then1, label %if_cont3
+
+if_then1:                                         ; preds = %loop_body
+  %11 = fdiv double %v.026, %9
+  %12 = tail call double @llvm.floor.f64(double %11)
+  %13 = fptoui double %12 to i8
+  %14 = uitofp i8 %13 to double
+  %15 = fmul double %9, %14
+  %16 = fsub double %v.026, %15
+  %17 = sext i32 %cur.025 to i64
+  %18 = icmp slt i64 %17, %0
+  br i1 %18, label %if_cont.i, label %if_cont3
+
+if_cont.i:                                        ; preds = %if_then1
+  %19 = add i8 %13, 48
+  %20 = getelementptr inbounds i8, i8* %7, i64 %17
+  store i8 %19, i8* %20, align 1
+  %21 = add i32 %cur.025, 1
+  br label %if_cont3
+
+loop_continue:                                    ; preds = %if_cont7
+  ret i32 %cur.2
+
+if_cont3:                                         ; preds = %if_cont.i, %if_then1, %loop_body
+  %cur.1 = phi i32 [ %cur.025, %loop_body ], [ %21, %if_cont.i ], [ 0, %if_then1 ]
+  %v.1 = phi double [ %v.026, %loop_body ], [ %16, %if_cont.i ], [ %16, %if_then1 ]
+  %22 = icmp eq i32 %m.127, 0
+  %23 = fcmp ogt double %v.1, 0.000000e+00
+  %spec.select = and i1 %22, %23
+  br i1 %spec.select, label %if_then6, label %if_cont7
+
+if_then6:                                         ; preds = %if_cont3
+  %24 = sext i32 %cur.1 to i64
+  %25 = icmp slt i64 %24, %0
+  br i1 %25, label %if_cont.i29, label %if_cont7
+
+if_cont.i29:                                      ; preds = %if_then6
+  %26 = getelementptr inbounds i8, i8* %7, i64 %24
+  store i8 46, i8* %26, align 1
+  %27 = add i32 %cur.1, 1
+  br label %if_cont7
+
+if_cont7:                                         ; preds = %if_cont.i29, %if_then6, %if_cont3
+  %cur.2 = phi i32 [ %cur.1, %if_cont3 ], [ %27, %if_cont.i29 ], [ 0, %if_then6 ]
+  %28 = add i32 %m.127, -1
+  %29 = fcmp ogt double %v.1, 0x3EB0C6F7A0B5ED8D
+  %30 = icmp sgt i32 %28, -1
+  %31 = or i1 %29, %30
+  br i1 %31, label %loop_body, label %loop_continue
+}
+
+; Function Attrs: norecurse nounwind readonly
+define i8* @ptr_from_ptr(i8* nocapture readonly %0) local_unnamed_addr #4 {
+entry:
+  %1 = bitcast i8* %0 to i8**
+  %2 = load i8*, i8** %1, align 8
+  ret i8* %2
+}
+
+; Function Attrs: nofree norecurse nounwind writeonly
+define i32 @print_u64_hex(i64 %0, i64 %1, i32 %2, i64 %3) local_unnamed_addr #6 {
+entry:
+  %4 = inttoptr i64 %1 to i8*
+  %5 = sext i32 %2 to i64
+  %6 = icmp slt i64 %5, %0
+  br i1 %6, label %if_cont3.i, label %print_string.exit
+
+if_cont3.i:                                       ; preds = %entry
+  %7 = getelementptr inbounds i8, i8* %4, i64 %5
+  store i8 48, i8* %7, align 1
+  %8 = add i32 %2, 1
+  %9 = sext i32 %8 to i64
+  %10 = icmp slt i64 %9, %0
+  br i1 %10, label %if_cont3.i.1, label %print_string.exit
+
+print_string.exit:                                ; preds = %entry, %if_cont3.i, %if_cont3.i.1
+  %.pre-phi = phi i32 [ %.pre, %if_cont3.i.1 ], [ %2, %entry ], [ %8, %if_cont3.i ]
+  %11 = icmp eq i64 %3, 0
+  br i1 %11, label %loop_body.i35, label %loop_body
+
+loop_body.i35:                                    ; preds = %print_string.exit
+  %12 = sext i32 %.pre-phi to i64
+  %13 = icmp slt i64 %12, %0
+  br i1 %13, label %if_cont3.i37, label %exit
+
+if_cont3.i37:                                     ; preds = %loop_body.i35
+  %14 = getelementptr inbounds i8, i8* %4, i64 %12
+  store i8 48, i8* %14, align 1
+  %.pre39 = add i32 %.pre-phi, 1
+  br label %exit
+
+exit:                                             ; preds = %if_cont6, %if_cont3.i37, %loop_body.i35
+  %.ret.12.0 = phi i32 [ %.pre39, %if_cont3.i37 ], [ %.pre-phi, %loop_body.i35 ], [ %cur.1, %if_cont6 ]
+  ret i32 %.ret.12.0
+
+loop_body:                                        ; preds = %print_string.exit, %if_cont6
+  %v.032 = phi i64 [ %15, %if_cont6 ], [ %3, %print_string.exit ]
+  %cur.031 = phi i32 [ %cur.1, %if_cont6 ], [ %.pre-phi, %print_string.exit ]
+  %hit_non_zero.030 = phi i1 [ %hit_non_zero.0., %if_cont6 ], [ false, %print_string.exit ]
+  %i.029 = phi i32 [ %24, %if_cont6 ], [ 0, %print_string.exit ]
+  %15 = shl i64 %v.032, 4
+  %16 = lshr i64 %v.032, 60
+  %17 = icmp ne i64 %16, 0
+  %hit_non_zero.0. = or i1 %hit_non_zero.030, %17
+  br i1 %hit_non_zero.0., label %if_then4, label %if_cont6
+
+if_then4:                                         ; preds = %loop_body
+  %18 = sext i32 %cur.031 to i64
+  %19 = icmp slt i64 %18, %0
+  br i1 %19, label %if_cont.i, label %if_cont6
+
+if_cont.i:                                        ; preds = %if_then4
+  %20 = getelementptr [16 x i8], [16 x i8]* @0, i64 0, i64 %16
+  %21 = load i8, i8* %20, align 1
+  %22 = getelementptr inbounds i8, i8* %4, i64 %18
+  store i8 %21, i8* %22, align 1
+  %23 = add i32 %cur.031, 1
+  br label %if_cont6
+
+if_cont6:                                         ; preds = %if_cont.i, %if_then4, %loop_body
+  %cur.1 = phi i32 [ %cur.031, %loop_body ], [ %23, %if_cont.i ], [ 0, %if_then4 ]
+  %24 = add nuw nsw i32 %i.029, 1
+  %exitcond = icmp eq i32 %24, 16
+  br i1 %exitcond, label %exit, label %loop_body
+
+if_cont3.i.1:                                     ; preds = %if_cont3.i
+  %25 = getelementptr inbounds i8, i8* %4, i64 %9
+  store i8 120, i8* %25, align 1
+  %.pre = add i32 %2, 2
+  br label %print_string.exit
+}
+
+; Function Attrs: nofree nounwind
+define i32 @print_type(i64 %0, i64 %1, i32 %2, %TypeInfo* nocapture readonly %3) local_unnamed_addr #2 {
+entry:
+  %4 = inttoptr i64 %1 to i8*
+  br label %tailrecurse
+
+tailrecurse:                                      ; preds = %tailrecurse.backedge, %entry
+  %.tr468 = phi i32 [ %2, %entry ], [ %.tr468.be, %tailrecurse.backedge ]
+  %.tr469 = phi %TypeInfo* [ %3, %entry ], [ %.tr469.be, %tailrecurse.backedge ]
+  %5 = getelementptr inbounds %TypeInfo, %TypeInfo* %.tr469, i64 0, i32 0
+  %6 = load i32, i32* %5, align 4
+  switch i32 %6, label %exit [
+    i32 3, label %if_then
+    i32 4, label %loop_body.i581
+    i32 7, label %loop_body.i817
+    i32 6, label %loop_body.i808
+    i32 8, label %loop_body.i799
+    i32 9, label %loop_body.i761
+    i32 5, label %loop_body.i752
+    i32 10, label %loop_body.i698
+    i32 12, label %loop_body.i644
+    i32 2, label %loop_body.i689
+    i32 11, label %loop_body.i725
+  ]
+
+if_then:                                          ; preds = %tailrecurse
+  %7 = sext i32 %.tr468 to i64
+  %8 = icmp slt i64 %7, %0
+  br i1 %8, label %if_cont3.i, label %print_string.exit
+
+if_cont3.i:                                       ; preds = %if_then
+  %9 = bitcast %TypeInfo* %.tr469 to %TypeInfoInt*
+  %10 = getelementptr inbounds %TypeInfoInt, %TypeInfoInt* %9, i64 0, i32 2
+  %11 = load i1, i1* %10, align 1
+  %12 = select i1 %11, i8 115, i8 117
+  %13 = getelementptr inbounds i8, i8* %4, i64 %7
+  store i8 %12, i8* %13, align 1
+  %.pre840 = add i32 %.tr468, 1
+  br label %print_string.exit
+
+print_string.exit:                                ; preds = %if_then, %if_cont3.i
+  %.pre-phi = phi i32 [ %.pre840, %if_cont3.i ], [ %.tr468, %if_then ]
+  %14 = getelementptr inbounds %TypeInfo, %TypeInfo* %.tr469, i64 1, i32 0
+  %15 = load i32, i32* %14, align 4
+  %16 = icmp eq i32 %15, 0
+  br i1 %16, label %loop_body.i.i, label %loop_body.i579.preheader
+
+loop_body.i579.preheader:                         ; preds = %print_string.exit
+  %17 = zext i32 %15 to i64
+  br label %loop_body.i579
+
+loop_body.i.i:                                    ; preds = %print_string.exit
+  %18 = sext i32 %.pre-phi to i64
+  %19 = icmp slt i64 %18, %0
+  br i1 %19, label %if_cont3.i.i, label %exit
+
+if_cont3.i.i:                                     ; preds = %loop_body.i.i
+  %20 = getelementptr inbounds i8, i8* %4, i64 %18
+  store i8 48, i8* %20, align 1
+  %.pre841 = add i32 %.pre-phi, 1
+  br label %exit
+
+loop_body.i579:                                   ; preds = %loop_body.i579.preheader, %if_cont6.i
+  %v.027.i = phi i64 [ %21, %if_cont6.i ], [ %17, %loop_body.i579.preheader ]
+  %cur.026.i = phi i32 [ %cur.1.i, %if_cont6.i ], [ %.pre-phi, %loop_body.i579.preheader ]
+  %hit_non_zero.025.i = phi i1 [ %hit_non_zero.0..i, %if_cont6.i ], [ false, %loop_body.i579.preheader ]
+  %div.024.i = phi i64 [ %22, %if_cont6.i ], [ -8446744073709551616, %loop_body.i579.preheader ]
+  %21 = urem i64 %v.027.i, %div.024.i
+  %22 = udiv i64 %div.024.i, 10
+  %23 = icmp ule i64 %div.024.i, %v.027.i
+  %hit_non_zero.0..i = or i1 %hit_non_zero.025.i, %23
+  br i1 %hit_non_zero.0..i, label %if_then4.i, label %if_cont6.i
+
+if_then4.i:                                       ; preds = %loop_body.i579
+  %24 = sext i32 %cur.026.i to i64
+  %25 = icmp slt i64 %24, %0
+  br i1 %25, label %if_cont.i.i, label %if_cont6.i
+
+if_cont.i.i:                                      ; preds = %if_then4.i
+  %26 = udiv i64 %v.027.i, %div.024.i
+  %27 = trunc i64 %26 to i8
+  %28 = add i8 %27, 48
+  %29 = getelementptr inbounds i8, i8* %4, i64 %24
+  store i8 %28, i8* %29, align 1
+  %30 = add i32 %cur.026.i, 1
+  br label %if_cont6.i
+
+if_cont6.i:                                       ; preds = %if_then4.i, %if_cont.i.i, %loop_body.i579
+  %cur.1.i = phi i32 [ %cur.026.i, %loop_body.i579 ], [ %30, %if_cont.i.i ], [ 0, %if_then4.i ]
+  %31 = icmp ult i64 %div.024.i, 10
+  br i1 %31, label %exit, label %loop_body.i579
+
+exit:                                             ; preds = %if_cont3.i728.3, %if_cont3.i728.2, %if_cont3.i728.1, %if_cont3.i728, %loop_body.i725, %if_cont3.i692.3, %if_cont3.i692.2, %if_cont3.i692.1, %if_cont3.i692, %loop_body.i689, %if_cont3.i608, %loop_body.i606, %if_cont3.i647.5, %if_cont3.i647.4, %if_cont3.i647.3, %if_cont3.i647.2, %if_cont3.i647.1, %if_cont3.i647, %loop_body.i644, %if_cont3.i719, %loop_body.i716, %if_cont3.i820.3, %if_cont3.i820.2, %if_cont3.i820.1, %if_cont3.i820, %loop_body.i817, %if_cont3.i.i588, %loop_body.i.i587, %tailrecurse, %if_cont6.i603, %if_cont6.i, %if_cont3.i.i, %loop_body.i.i
+  %.ret.9.0 = phi i32 [ %.pre841, %if_cont3.i.i ], [ %.pre-phi, %loop_body.i.i ], [ %cur.1.i, %if_cont6.i ], [ %cur.1.i602, %if_cont6.i603 ], [ 0, %tailrecurse ], [ %.pre845, %if_cont3.i.i588 ], [ %.pre-phi844, %loop_body.i.i587 ], [ %.pre847, %if_cont3.i820.3 ], [ %.tr468, %loop_body.i817 ], [ %56, %if_cont3.i820 ], [ %268, %if_cont3.i820.1 ], [ %272, %if_cont3.i820.2 ], [ %.pre863, %if_cont3.i719 ], [ %cur.1.lcssa, %loop_body.i716 ], [ %.pre883, %if_cont3.i647.5 ], [ %.tr468, %loop_body.i644 ], [ %198, %if_cont3.i647 ], [ %328, %if_cont3.i647.1 ], [ %332, %if_cont3.i647.2 ], [ %336, %if_cont3.i647.3 ], [ %340, %if_cont3.i647.4 ], [ %.pre881, %if_cont3.i608 ], [ %cur.5.lcssa, %loop_body.i606 ], [ %.pre885, %if_cont3.i692.3 ], [ %.tr468, %loop_body.i689 ], [ %258, %if_cont3.i692 ], [ %345, %if_cont3.i692.1 ], [ %349, %if_cont3.i692.2 ], [ %.pre887, %if_cont3.i728.3 ], [ %.tr468, %loop_body.i725 ], [ %264, %if_cont3.i728 ], [ %354, %if_cont3.i728.1 ], [ %358, %if_cont3.i728.2 ]
+  ret i32 %.ret.9.0
+
+loop_body.i581:                                   ; preds = %tailrecurse
+  %32 = sext i32 %.tr468 to i64
+  %33 = icmp slt i64 %32, %0
+  br i1 %33, label %if_cont3.i583, label %print_string.exit584
+
+if_cont3.i583:                                    ; preds = %loop_body.i581
+  %34 = getelementptr inbounds i8, i8* %4, i64 %32
+  store i8 102, i8* %34, align 1
+  %.pre843 = add i32 %.tr468, 1
+  br label %print_string.exit584
+
+print_string.exit584:                             ; preds = %loop_body.i581, %if_cont3.i583
+  %.pre-phi844 = phi i32 [ %.pre843, %if_cont3.i583 ], [ %.tr468, %loop_body.i581 ]
+  %35 = getelementptr inbounds %TypeInfo, %TypeInfo* %.tr469, i64 1, i32 0
+  %36 = load i32, i32* %35, align 4
+  %37 = icmp eq i32 %36, 0
+  br i1 %37, label %loop_body.i.i587, label %loop_body.i597.preheader
+
+loop_body.i597.preheader:                         ; preds = %print_string.exit584
+  %38 = zext i32 %36 to i64
+  br label %loop_body.i597
+
+loop_body.i.i587:                                 ; preds = %print_string.exit584
+  %39 = sext i32 %.pre-phi844 to i64
+  %40 = icmp slt i64 %39, %0
+  br i1 %40, label %if_cont3.i.i588, label %exit
+
+if_cont3.i.i588:                                  ; preds = %loop_body.i.i587
+  %41 = getelementptr inbounds i8, i8* %4, i64 %39
+  store i8 48, i8* %41, align 1
+  %.pre845 = add i32 %.pre-phi844, 1
+  br label %exit
+
+loop_body.i597:                                   ; preds = %loop_body.i597.preheader, %if_cont6.i603
+  %v.027.i592 = phi i64 [ %42, %if_cont6.i603 ], [ %38, %loop_body.i597.preheader ]
+  %cur.026.i593 = phi i32 [ %cur.1.i602, %if_cont6.i603 ], [ %.pre-phi844, %loop_body.i597.preheader ]
+  %hit_non_zero.025.i594 = phi i1 [ %hit_non_zero.0..i596, %if_cont6.i603 ], [ false, %loop_body.i597.preheader ]
+  %div.024.i595 = phi i64 [ %43, %if_cont6.i603 ], [ -8446744073709551616, %loop_body.i597.preheader ]
+  %42 = urem i64 %v.027.i592, %div.024.i595
+  %43 = udiv i64 %div.024.i595, 10
+  %44 = icmp ule i64 %div.024.i595, %v.027.i592
+  %hit_non_zero.0..i596 = or i1 %hit_non_zero.025.i594, %44
+  br i1 %hit_non_zero.0..i596, label %if_then4.i598, label %if_cont6.i603
+
+if_then4.i598:                                    ; preds = %loop_body.i597
+  %45 = sext i32 %cur.026.i593 to i64
+  %46 = icmp slt i64 %45, %0
+  br i1 %46, label %if_cont.i.i599, label %if_cont6.i603
+
+if_cont.i.i599:                                   ; preds = %if_then4.i598
+  %47 = udiv i64 %v.027.i592, %div.024.i595
+  %48 = trunc i64 %47 to i8
+  %49 = add i8 %48, 48
+  %50 = getelementptr inbounds i8, i8* %4, i64 %45
+  store i8 %49, i8* %50, align 1
+  %51 = add i32 %cur.026.i593, 1
+  br label %if_cont6.i603
+
+if_cont6.i603:                                    ; preds = %if_then4.i598, %if_cont.i.i599, %loop_body.i597
+  %cur.1.i602 = phi i32 [ %cur.026.i593, %loop_body.i597 ], [ %51, %if_cont.i.i599 ], [ 0, %if_then4.i598 ]
+  %52 = icmp ult i64 %div.024.i595, 10
+  br i1 %52, label %exit, label %loop_body.i597
+
+loop_body.i817:                                   ; preds = %tailrecurse
+  %53 = sext i32 %.tr468 to i64
+  %54 = icmp slt i64 %53, %0
+  br i1 %54, label %if_cont3.i820, label %exit
+
+if_cont3.i820:                                    ; preds = %loop_body.i817
+  %55 = getelementptr inbounds i8, i8* %4, i64 %53
+  store i8 98, i8* %55, align 1
+  %56 = add i32 %.tr468, 1
+  %57 = sext i32 %56 to i64
+  %58 = icmp slt i64 %57, %0
+  br i1 %58, label %if_cont3.i820.1, label %exit
+
+loop_body.i808:                                   ; preds = %tailrecurse
+  %59 = sext i32 %.tr468 to i64
+  %60 = icmp slt i64 %59, %0
+  br i1 %60, label %if_cont3.i811, label %tailrecurse.backedge
+
+if_cont3.i811:                                    ; preds = %loop_body.i808
+  %61 = getelementptr inbounds i8, i8* %4, i64 %59
+  store i8 42, i8* %61, align 1
+  %.pre849 = add i32 %.tr468, 1
+  br label %tailrecurse.backedge
+
+tailrecurse.backedge:                             ; preds = %if_cont3.i665.1, %if_cont3.i665, %loop_body.i662, %if_cont3.i773, %loop_body.i770, %if_cont3.i811, %loop_body.i808
+  %.sink544 = phi i64 [ 1, %loop_body.i808 ], [ 1, %if_cont3.i811 ], [ 2, %loop_body.i770 ], [ 2, %if_cont3.i773 ], [ 2, %loop_body.i662 ], [ 2, %if_cont3.i665 ], [ 2, %if_cont3.i665.1 ]
+  %.tr468.be = phi i32 [ %.tr468, %loop_body.i808 ], [ %.pre849, %if_cont3.i811 ], [ %.ret.13.0.i781, %loop_body.i770 ], [ %.pre855, %if_cont3.i773 ], [ %cur.3.lcssa, %loop_body.i662 ], [ %182, %if_cont3.i665 ], [ %.pre869, %if_cont3.i665.1 ]
+  %62 = getelementptr inbounds %TypeInfo, %TypeInfo* %.tr469, i64 %.sink544
+  %.tr469.be.in = bitcast %TypeInfo* %62 to %TypeInfo**
+  %.tr469.be = load %TypeInfo*, %TypeInfo** %.tr469.be.in, align 8
+  br label %tailrecurse
+
+loop_body.i799:                                   ; preds = %tailrecurse
+  %63 = sext i32 %.tr468 to i64
+  %64 = icmp slt i64 %63, %0
+  br i1 %64, label %if_cont3.i802, label %print_string.exit803
+
+if_cont3.i802:                                    ; preds = %loop_body.i799
+  %65 = getelementptr inbounds i8, i8* %4, i64 %63
+  store i8 91, i8* %65, align 1
+  %.pre851 = add i32 %.tr468, 1
+  br label %print_string.exit803
+
+print_string.exit803:                             ; preds = %loop_body.i799, %if_cont3.i802
+  %.pre-phi852 = phi i32 [ %.pre851, %if_cont3.i802 ], [ %.tr468, %loop_body.i799 ]
+  %66 = getelementptr inbounds %TypeInfo, %TypeInfo* %.tr469, i64 2, i32 1
+  %67 = load i64, i64* %66, align 8
+  %68 = icmp eq i64 %67, 0
+  br i1 %68, label %loop_body.i.i777, label %loop_body.i787
+
+loop_body.i.i777:                                 ; preds = %print_string.exit803
+  %69 = sext i32 %.pre-phi852 to i64
+  %70 = icmp slt i64 %69, %0
+  br i1 %70, label %if_cont3.i.i778, label %loop_body.i770
+
+if_cont3.i.i778:                                  ; preds = %loop_body.i.i777
+  %71 = getelementptr inbounds i8, i8* %4, i64 %69
+  store i8 48, i8* %71, align 1
+  %.pre853 = add i32 %.pre-phi852, 1
+  br label %loop_body.i770
+
+loop_body.i787:                                   ; preds = %print_string.exit803, %if_cont6.i793
+  %v.027.i782 = phi i64 [ %72, %if_cont6.i793 ], [ %67, %print_string.exit803 ]
+  %cur.026.i783 = phi i32 [ %cur.1.i792, %if_cont6.i793 ], [ %.pre-phi852, %print_string.exit803 ]
+  %hit_non_zero.025.i784 = phi i1 [ %hit_non_zero.0..i786, %if_cont6.i793 ], [ false, %print_string.exit803 ]
+  %div.024.i785 = phi i64 [ %73, %if_cont6.i793 ], [ -8446744073709551616, %print_string.exit803 ]
+  %72 = urem i64 %v.027.i782, %div.024.i785
+  %73 = udiv i64 %div.024.i785, 10
+  %74 = icmp ule i64 %div.024.i785, %v.027.i782
+  %hit_non_zero.0..i786 = or i1 %hit_non_zero.025.i784, %74
+  br i1 %hit_non_zero.0..i786, label %if_then4.i788, label %if_cont6.i793
+
+if_then4.i788:                                    ; preds = %loop_body.i787
+  %75 = sext i32 %cur.026.i783 to i64
+  %76 = icmp slt i64 %75, %0
+  br i1 %76, label %if_cont.i.i789, label %if_cont6.i793
+
+if_cont.i.i789:                                   ; preds = %if_then4.i788
+  %77 = udiv i64 %v.027.i782, %div.024.i785
+  %78 = trunc i64 %77 to i8
+  %79 = add i8 %78, 48
+  %80 = getelementptr inbounds i8, i8* %4, i64 %75
+  store i8 %79, i8* %80, align 1
+  %81 = add i32 %cur.026.i783, 1
+  br label %if_cont6.i793
+
+if_cont6.i793:                                    ; preds = %if_then4.i788, %if_cont.i.i789, %loop_body.i787
+  %cur.1.i792 = phi i32 [ %cur.026.i783, %loop_body.i787 ], [ %81, %if_cont.i.i789 ], [ 0, %if_then4.i788 ]
+  %82 = icmp ult i64 %div.024.i785, 10
+  br i1 %82, label %loop_body.i770, label %loop_body.i787
+
+loop_body.i770:                                   ; preds = %loop_body.i.i777, %if_cont3.i.i778, %if_cont6.i793
+  %.ret.13.0.i781 = phi i32 [ %.pre853, %if_cont3.i.i778 ], [ %.pre-phi852, %loop_body.i.i777 ], [ %cur.1.i792, %if_cont6.i793 ]
+  %83 = sext i32 %.ret.13.0.i781 to i64
+  %84 = icmp slt i64 %83, %0
+  br i1 %84, label %if_cont3.i773, label %tailrecurse.backedge
+
+if_cont3.i773:                                    ; preds = %loop_body.i770
+  %85 = getelementptr inbounds i8, i8* %4, i64 %83
+  store i8 93, i8* %85, align 1
+  %.pre855 = add i32 %.ret.13.0.i781, 1
+  br label %tailrecurse.backedge
+
+loop_body.i761:                                   ; preds = %tailrecurse
+  %86 = sext i32 %.tr468 to i64
+  %87 = icmp slt i64 %86, %0
+  br i1 %87, label %if_cont3.i764, label %print_string.exit765
+
+if_cont3.i764:                                    ; preds = %loop_body.i761
+  %88 = getelementptr inbounds i8, i8* %4, i64 %86
+  store i8 115, i8* %88, align 1
+  %89 = add i32 %.tr468, 1
+  %90 = sext i32 %89 to i64
+  %91 = icmp slt i64 %90, %0
+  br i1 %91, label %if_cont3.i764.1, label %print_string.exit765
+
+print_string.exit765:                             ; preds = %loop_body.i761, %if_cont3.i764, %if_cont3.i764.1, %if_cont3.i764.2, %if_cont3.i764.3, %if_cont3.i764.4, %if_cont3.i764.5, %if_cont3.i764.6, %if_cont3.i764.7
+  %.pre-phi858 = phi i32 [ %.pre857, %if_cont3.i764.7 ], [ %.tr468, %loop_body.i761 ], [ %89, %if_cont3.i764 ], [ %279, %if_cont3.i764.1 ], [ %283, %if_cont3.i764.2 ], [ %287, %if_cont3.i764.3 ], [ %291, %if_cont3.i764.4 ], [ %295, %if_cont3.i764.5 ], [ %299, %if_cont3.i764.6 ]
+  %92 = getelementptr inbounds %TypeInfo, %TypeInfo* %.tr469, i64 2
+  %93 = bitcast %TypeInfo* %92 to i64*
+  %94 = load i64, i64* %93, align 8
+  %95 = icmp sgt i64 %94, 0
+  br i1 %95, label %loop_body.lr.ph, label %loop_body.i716
+
+loop_body.lr.ph:                                  ; preds = %print_string.exit765
+  %96 = getelementptr inbounds %TypeInfo, %TypeInfo* %.tr469, i64 2, i32 1
+  %97 = bitcast i64* %96 to %TypeInfoStructMember**
+  br label %loop_body
+
+loop_body.i752:                                   ; preds = %tailrecurse
+  %98 = sext i32 %.tr468 to i64
+  %99 = icmp slt i64 %98, %0
+  br i1 %99, label %if_cont3.i755, label %print_string.exit756
+
+if_cont3.i755:                                    ; preds = %loop_body.i752
+  %100 = getelementptr inbounds i8, i8* %4, i64 %98
+  store i8 102, i8* %100, align 1
+  %101 = add i32 %.tr468, 1
+  %102 = sext i32 %101 to i64
+  %103 = icmp slt i64 %102, %0
+  br i1 %103, label %if_cont3.i755.1, label %print_string.exit756
+
+print_string.exit756:                             ; preds = %loop_body.i752, %if_cont3.i755, %if_cont3.i755.1, %if_cont3.i755.2, %if_cont3.i755.3
+  %.pre-phi866 = phi i32 [ %.pre865, %if_cont3.i755.3 ], [ %.tr468, %loop_body.i752 ], [ %101, %if_cont3.i755 ], [ %363, %if_cont3.i755.1 ], [ %367, %if_cont3.i755.2 ]
+  %104 = getelementptr inbounds %TypeInfo, %TypeInfo* %.tr469, i64 1
+  %105 = bitcast %TypeInfo* %104 to i64*
+  %106 = load i64, i64* %105, align 8
+  %107 = icmp sgt i64 %106, 0
+  br i1 %107, label %loop_body37.lr.ph, label %loop_body.i662
+
+loop_body37.lr.ph:                                ; preds = %print_string.exit756
+  %108 = getelementptr inbounds %TypeInfo, %TypeInfo* %.tr469, i64 1, i32 1
+  %109 = bitcast i64* %108 to %TypeInfo***
+  br label %loop_body37
+
+loop_body:                                        ; preds = %loop_body.lr.ph, %if_cont31
+  %110 = phi i64 [ 0, %loop_body.lr.ph ], [ %148, %if_cont31 ]
+  %cur.1487 = phi i32 [ %.pre-phi858, %loop_body.lr.ph ], [ %cur.2, %if_cont31 ]
+  %i.0486 = phi i32 [ 0, %loop_body.lr.ph ], [ %147, %if_cont31 ]
+  %111 = load %TypeInfoStructMember*, %TypeInfoStructMember** %97, align 8
+  %.unpack236.elt = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %111, i64 %110, i32 0, i32 0
+  %.unpack236.unpack = load i64, i64* %.unpack236.elt, align 8
+  %.unpack236.elt243 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %111, i64 %110, i32 0, i32 1
+  %112 = bitcast i8** %.unpack236.elt243 to i64*
+  %.unpack236.unpack244256 = load i64, i64* %112, align 8
+  %.elt237 = getelementptr inbounds %TypeInfoStructMember, %TypeInfoStructMember* %111, i64 %110, i32 1
+  %.unpack238255466 = load %TypeInfo*, %TypeInfo** %.elt237, align 8
+  %113 = inttoptr i64 %.unpack236.unpack244256 to i8*
+  %114 = icmp eq i64 %.unpack236.unpack244256, 0
+  br i1 %114, label %loop_body.i734, label %loop_decide.preheader.i739
+
+loop_decide.preheader.i739:                       ; preds = %loop_body
+  %115 = icmp sgt i64 %.unpack236.unpack, 0
+  br i1 %115, label %loop_body.i743, label %loop_continue.i745
+
+loop_body.i743:                                   ; preds = %loop_decide.preheader.i739, %if_cont3.i746
+  %116 = phi i64 [ %125, %if_cont3.i746 ], [ 0, %loop_decide.preheader.i739 ]
+  %i.05.i742 = phi i32 [ %124, %if_cont3.i746 ], [ 0, %loop_decide.preheader.i739 ]
+  %117 = add i32 %i.05.i742, %cur.1487
+  %118 = sext i32 %117 to i64
+  %119 = icmp slt i64 %118, %0
+  br i1 %119, label %if_cont3.i746, label %loop_continue.i745
+
+loop_continue.i745:                               ; preds = %if_cont3.i746, %loop_body.i743, %loop_decide.preheader.i739
+  %i.0.lcssa.i744 = phi i32 [ 0, %loop_decide.preheader.i739 ], [ %124, %if_cont3.i746 ], [ %i.05.i742, %loop_body.i743 ]
+  %120 = add i32 %i.0.lcssa.i744, %cur.1487
+  br label %loop_body.i734
+
+if_cont3.i746:                                    ; preds = %loop_body.i743
+  %121 = getelementptr inbounds i8, i8* %113, i64 %116
+  %122 = load i8, i8* %121, align 1
+  %123 = getelementptr inbounds i8, i8* %4, i64 %118
+  store i8 %122, i8* %123, align 1
+  %124 = add i32 %i.05.i742, 1
+  %125 = sext i32 %124 to i64
+  %126 = icmp sgt i64 %.unpack236.unpack, %125
+  br i1 %126, label %loop_body.i743, label %loop_continue.i745
+
+loop_body.i734:                                   ; preds = %loop_continue.i745, %loop_body
+  %.ret.10.0.i741 = phi i32 [ %120, %loop_continue.i745 ], [ %cur.1487, %loop_body ]
+  %127 = sext i32 %.ret.10.0.i741 to i64
+  %128 = icmp slt i64 %127, %0
+  br i1 %128, label %if_cont3.i737, label %print_string.exit738
+
+if_cont3.i737:                                    ; preds = %loop_body.i734
+  %129 = getelementptr inbounds i8, i8* %4, i64 %127
+  store i8 58, i8* %129, align 1
+  %130 = add i32 %.ret.10.0.i741, 1
+  %131 = sext i32 %130 to i64
+  %132 = icmp slt i64 %131, %0
+  br i1 %132, label %if_cont3.i737.1, label %print_string.exit738
+
+print_string.exit738:                             ; preds = %loop_body.i734, %if_cont3.i737, %if_cont3.i737.1
+  %.pre-phi860 = phi i32 [ %.pre859, %if_cont3.i737.1 ], [ %.ret.10.0.i741, %loop_body.i734 ], [ %130, %if_cont3.i737 ]
+  %133 = tail call i32 @print_type(i64 %0, i64 %1, i32 %.pre-phi860, %TypeInfo* %.unpack238255466)
+  %134 = load i64, i64* %93, align 8
+  %135 = add i64 %134, -1
+  %136 = icmp sgt i64 %135, %110
+  br i1 %136, label %loop_body.i707, label %if_cont31
+
+loop_body.i716:                                   ; preds = %print_string.exit765, %if_cont31
+  %cur.1.lcssa = phi i32 [ %.pre-phi858, %print_string.exit765 ], [ %cur.2, %if_cont31 ]
+  %137 = sext i32 %cur.1.lcssa to i64
+  %138 = icmp slt i64 %137, %0
+  br i1 %138, label %if_cont3.i719, label %exit
+
+if_cont3.i719:                                    ; preds = %loop_body.i716
+  %139 = getelementptr inbounds i8, i8* %4, i64 %137
+  store i8 125, i8* %139, align 1
+  %.pre863 = add i32 %cur.1.lcssa, 1
+  br label %exit
+
+loop_body.i707:                                   ; preds = %print_string.exit738
+  %140 = sext i32 %133 to i64
+  %141 = icmp slt i64 %140, %0
+  br i1 %141, label %if_cont3.i710, label %print_string.exit711
+
+if_cont3.i710:                                    ; preds = %loop_body.i707
+  %142 = getelementptr inbounds i8, i8* %4, i64 %140
+  store i8 44, i8* %142, align 1
+  %143 = add i32 %133, 1
+  %144 = sext i32 %143 to i64
+  %145 = icmp slt i64 %144, %0
+  br i1 %145, label %if_cont3.i710.1, label %print_string.exit711
+
+print_string.exit711:                             ; preds = %loop_body.i707, %if_cont3.i710, %if_cont3.i710.1
+  %.pre-phi862 = phi i32 [ %.pre861, %if_cont3.i710.1 ], [ %133, %loop_body.i707 ], [ %143, %if_cont3.i710 ]
+  %.pre511 = load i64, i64* %93, align 8
+  br label %if_cont31
+
+if_cont31:                                        ; preds = %print_string.exit738, %print_string.exit711
+  %146 = phi i64 [ %.pre511, %print_string.exit711 ], [ %134, %print_string.exit738 ]
+  %cur.2 = phi i32 [ %.pre-phi862, %print_string.exit711 ], [ %133, %print_string.exit738 ]
+  %147 = add i32 %i.0486, 1
+  %148 = sext i32 %147 to i64
+  %149 = icmp sgt i64 %146, %148
+  br i1 %149, label %loop_body, label %loop_body.i716
+
+loop_body.i698:                                   ; preds = %tailrecurse
+  %150 = sext i32 %.tr468 to i64
+  %151 = icmp slt i64 %150, %0
+  br i1 %151, label %if_cont3.i701, label %print_string.exit702
+
+if_cont3.i701:                                    ; preds = %loop_body.i698
+  %152 = getelementptr inbounds i8, i8* %4, i64 %150
+  store i8 101, i8* %152, align 1
+  %153 = add i32 %.tr468, 1
+  %154 = sext i32 %153 to i64
+  %155 = icmp slt i64 %154, %0
+  br i1 %155, label %if_cont3.i701.1, label %print_string.exit702
+
+print_string.exit702:                             ; preds = %loop_body.i698, %if_cont3.i701, %if_cont3.i701.1, %if_cont3.i701.2, %if_cont3.i701.3, %if_cont3.i701.4
+  %.pre-phi872 = phi i32 [ %.pre871, %if_cont3.i701.4 ], [ %.tr468, %loop_body.i698 ], [ %153, %if_cont3.i701 ], [ %315, %if_cont3.i701.1 ], [ %319, %if_cont3.i701.2 ], [ %323, %if_cont3.i701.3 ]
+  %156 = getelementptr inbounds %TypeInfo, %TypeInfo* %.tr469, i64 2
+  %157 = bitcast %TypeInfo* %156 to %TypeInfo**
+  %158 = load %TypeInfo*, %TypeInfo** %157, align 8
+  %159 = tail call i32 @print_type(i64 %0, i64 %1, i32 %.pre-phi872, %TypeInfo* %158)
+  %160 = sext i32 %159 to i64
+  %161 = icmp slt i64 %160, %0
+  br i1 %161, label %if_cont3.i683, label %print_string.exit684
+
+if_cont3.i683:                                    ; preds = %print_string.exit702
+  %162 = getelementptr inbounds i8, i8* %4, i64 %160
+  store i8 32, i8* %162, align 1
+  %163 = add i32 %159, 1
+  %164 = sext i32 %163 to i64
+  %165 = icmp slt i64 %164, %0
+  br i1 %165, label %if_cont3.i683.1, label %print_string.exit684
+
+print_string.exit684:                             ; preds = %print_string.exit702, %if_cont3.i683, %if_cont3.i683.1
+  %.pre-phi874 = phi i32 [ %.pre873, %if_cont3.i683.1 ], [ %159, %print_string.exit702 ], [ %163, %if_cont3.i683 ]
+  %166 = getelementptr inbounds %TypeInfo, %TypeInfo* %.tr469, i64 2, i32 1
+  %167 = load i64, i64* %166, align 8
+  %168 = icmp sgt i64 %167, 0
+  br i1 %168, label %loop_body47.lr.ph, label %loop_body.i606
+
+loop_body47.lr.ph:                                ; preds = %print_string.exit684
+  %169 = getelementptr inbounds i64, i64* %166, i64 1
+  %170 = bitcast i64* %169 to %TypeInfoEnumVariant**
+  br label %loop_body47
+
+loop_body37:                                      ; preds = %loop_body37.lr.ph, %if_cont41
+  %171 = phi i64 [ 0, %loop_body37.lr.ph ], [ %193, %if_cont41 ]
+  %cur.3492 = phi i32 [ %.pre-phi866, %loop_body37.lr.ph ], [ %cur.4, %if_cont41 ]
+  %i6.0491 = phi i32 [ 0, %loop_body37.lr.ph ], [ %192, %if_cont41 ]
+  %172 = load %TypeInfo**, %TypeInfo*** %109, align 8
+  %173 = getelementptr inbounds %TypeInfo*, %TypeInfo** %172, i64 %171
+  %174 = load %TypeInfo*, %TypeInfo** %173, align 8
+  %175 = tail call i32 @print_type(i64 %0, i64 %1, i32 %cur.3492, %TypeInfo* %174)
+  %176 = load i64, i64* %105, align 8
+  %177 = add i64 %176, -1
+  %178 = icmp sgt i64 %177, %171
+  br i1 %178, label %loop_body.i653, label %if_cont41
+
+loop_body.i662:                                   ; preds = %print_string.exit756, %if_cont41
+  %cur.3.lcssa = phi i32 [ %.pre-phi866, %print_string.exit756 ], [ %cur.4, %if_cont41 ]
+  %179 = sext i32 %cur.3.lcssa to i64
+  %180 = icmp slt i64 %179, %0
+  br i1 %180, label %if_cont3.i665, label %tailrecurse.backedge
+
+if_cont3.i665:                                    ; preds = %loop_body.i662
+  %181 = getelementptr inbounds i8, i8* %4, i64 %179
+  store i8 41, i8* %181, align 1
+  %182 = add i32 %cur.3.lcssa, 1
+  %183 = sext i32 %182 to i64
+  %184 = icmp slt i64 %183, %0
+  br i1 %184, label %if_cont3.i665.1, label %tailrecurse.backedge
+
+loop_body.i653:                                   ; preds = %loop_body37
+  %185 = sext i32 %175 to i64
+  %186 = icmp slt i64 %185, %0
+  br i1 %186, label %if_cont3.i656, label %print_string.exit657
+
+if_cont3.i656:                                    ; preds = %loop_body.i653
+  %187 = getelementptr inbounds i8, i8* %4, i64 %185
+  store i8 44, i8* %187, align 1
+  %188 = add i32 %175, 1
+  %189 = sext i32 %188 to i64
+  %190 = icmp slt i64 %189, %0
+  br i1 %190, label %if_cont3.i656.1, label %print_string.exit657
+
+print_string.exit657:                             ; preds = %loop_body.i653, %if_cont3.i656, %if_cont3.i656.1
+  %.pre-phi868 = phi i32 [ %.pre867, %if_cont3.i656.1 ], [ %175, %loop_body.i653 ], [ %188, %if_cont3.i656 ]
+  %.pre510 = load i64, i64* %105, align 8
+  br label %if_cont41
+
+if_cont41:                                        ; preds = %loop_body37, %print_string.exit657
+  %191 = phi i64 [ %.pre510, %print_string.exit657 ], [ %176, %loop_body37 ]
+  %cur.4 = phi i32 [ %.pre-phi868, %print_string.exit657 ], [ %175, %loop_body37 ]
+  %192 = add i32 %i6.0491, 1
+  %193 = sext i32 %192 to i64
+  %194 = icmp sgt i64 %191, %193
+  br i1 %194, label %loop_body37, label %loop_body.i662
+
+loop_body.i644:                                   ; preds = %tailrecurse
+  %195 = sext i32 %.tr468 to i64
+  %196 = icmp slt i64 %195, %0
+  br i1 %196, label %if_cont3.i647, label %exit
+
+if_cont3.i647:                                    ; preds = %loop_body.i644
+  %197 = getelementptr inbounds i8, i8* %4, i64 %195
+  store i8 115, i8* %197, align 1
+  %198 = add i32 %.tr468, 1
+  %199 = sext i32 %198 to i64
+  %200 = icmp slt i64 %199, %0
+  br i1 %200, label %if_cont3.i647.1, label %exit
+
+loop_body47:                                      ; preds = %loop_body47.lr.ph, %if_cont51
+  %201 = phi i64 [ 0, %loop_body47.lr.ph ], [ %253, %if_cont51 ]
+  %i8.0489 = phi i32 [ 0, %loop_body47.lr.ph ], [ %252, %if_cont51 ]
+  %cur.5488 = phi i32 [ %.pre-phi874, %loop_body47.lr.ph ], [ %cur.6, %if_cont51 ]
+  %202 = load %TypeInfoEnumVariant*, %TypeInfoEnumVariant** %170, align 8
+  %.unpack120.elt = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %202, i64 %201, i32 0, i32 0
+  %.unpack120.unpack = load i64, i64* %.unpack120.elt, align 8
+  %.unpack120.elt123 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %202, i64 %201, i32 0, i32 1
+  %203 = bitcast i8** %.unpack120.elt123 to i64*
+  %.unpack120.unpack124131 = load i64, i64* %203, align 8
+  %.elt121 = getelementptr inbounds %TypeInfoEnumVariant, %TypeInfoEnumVariant* %202, i64 %201, i32 1
+  %.unpack122 = load i64, i64* %.elt121, align 8
+  %204 = inttoptr i64 %.unpack120.unpack124131 to i8*
+  %205 = icmp eq i64 %.unpack120.unpack124131, 0
+  br i1 %205, label %loop_body.i631, label %loop_decide.preheader.i
+
+loop_decide.preheader.i:                          ; preds = %loop_body47
+  %206 = icmp sgt i64 %.unpack120.unpack, 0
+  br i1 %206, label %loop_body.i636, label %loop_continue.i
+
+loop_body.i636:                                   ; preds = %loop_decide.preheader.i, %if_cont3.i638
+  %207 = phi i64 [ %216, %if_cont3.i638 ], [ 0, %loop_decide.preheader.i ]
+  %i.05.i635 = phi i32 [ %215, %if_cont3.i638 ], [ 0, %loop_decide.preheader.i ]
+  %208 = add i32 %i.05.i635, %cur.5488
+  %209 = sext i32 %208 to i64
+  %210 = icmp slt i64 %209, %0
+  br i1 %210, label %if_cont3.i638, label %loop_continue.i
+
+loop_continue.i:                                  ; preds = %if_cont3.i638, %loop_body.i636, %loop_decide.preheader.i
+  %i.0.lcssa.i637 = phi i32 [ 0, %loop_decide.preheader.i ], [ %215, %if_cont3.i638 ], [ %i.05.i635, %loop_body.i636 ]
+  %211 = add i32 %i.0.lcssa.i637, %cur.5488
+  br label %loop_body.i631
+
+if_cont3.i638:                                    ; preds = %loop_body.i636
+  %212 = getelementptr inbounds i8, i8* %204, i64 %207
+  %213 = load i8, i8* %212, align 1
+  %214 = getelementptr inbounds i8, i8* %4, i64 %209
+  store i8 %213, i8* %214, align 1
+  %215 = add i32 %i.05.i635, 1
+  %216 = sext i32 %215 to i64
+  %217 = icmp sgt i64 %.unpack120.unpack, %216
+  br i1 %217, label %loop_body.i636, label %loop_continue.i
+
+loop_body.i631:                                   ; preds = %loop_continue.i, %loop_body47
+  %.ret.10.0.i = phi i32 [ %211, %loop_continue.i ], [ %cur.5488, %loop_body47 ]
+  %218 = sext i32 %.ret.10.0.i to i64
+  %219 = icmp slt i64 %218, %0
+  br i1 %219, label %if_cont3.i633, label %print_string.exit634
+
+if_cont3.i633:                                    ; preds = %loop_body.i631
+  %220 = getelementptr inbounds i8, i8* %4, i64 %218
+  store i8 32, i8* %220, align 1
+  %221 = add i32 %.ret.10.0.i, 1
+  %222 = sext i32 %221 to i64
+  %223 = icmp slt i64 %222, %0
+  br i1 %223, label %if_cont3.i633.1, label %print_string.exit634
+
+print_string.exit634:                             ; preds = %loop_body.i631, %if_cont3.i633, %if_cont3.i633.1, %if_cont3.i633.2, %if_cont3.i633.3
+  %.pre-phi876 = phi i32 [ %.pre875, %if_cont3.i633.3 ], [ %.ret.10.0.i, %loop_body.i631 ], [ %221, %if_cont3.i633 ], [ %304, %if_cont3.i633.1 ], [ %308, %if_cont3.i633.2 ]
+  %224 = icmp eq i64 %.unpack122, 0
+  br i1 %224, label %loop_body.i.i612, label %loop_body.i622
+
+loop_body.i.i612:                                 ; preds = %print_string.exit634
+  %225 = sext i32 %.pre-phi876 to i64
+  %226 = icmp slt i64 %225, %0
+  br i1 %226, label %if_cont3.i.i613, label %print_u64.exit629
+
+if_cont3.i.i613:                                  ; preds = %loop_body.i.i612
+  %227 = getelementptr inbounds i8, i8* %4, i64 %225
+  store i8 48, i8* %227, align 1
+  %.pre877 = add i32 %.pre-phi876, 1
+  br label %print_u64.exit629
+
+loop_body.i622:                                   ; preds = %print_string.exit634, %if_cont6.i628
+  %v.027.i617 = phi i64 [ %228, %if_cont6.i628 ], [ %.unpack122, %print_string.exit634 ]
+  %cur.026.i618 = phi i32 [ %cur.1.i627, %if_cont6.i628 ], [ %.pre-phi876, %print_string.exit634 ]
+  %hit_non_zero.025.i619 = phi i1 [ %hit_non_zero.0..i621, %if_cont6.i628 ], [ false, %print_string.exit634 ]
+  %div.024.i620 = phi i64 [ %229, %if_cont6.i628 ], [ -8446744073709551616, %print_string.exit634 ]
+  %228 = urem i64 %v.027.i617, %div.024.i620
+  %229 = udiv i64 %div.024.i620, 10
+  %230 = icmp ule i64 %div.024.i620, %v.027.i617
+  %hit_non_zero.0..i621 = or i1 %hit_non_zero.025.i619, %230
+  br i1 %hit_non_zero.0..i621, label %if_then4.i623, label %if_cont6.i628
+
+if_then4.i623:                                    ; preds = %loop_body.i622
+  %231 = sext i32 %cur.026.i618 to i64
+  %232 = icmp slt i64 %231, %0
+  br i1 %232, label %if_cont.i.i624, label %if_cont6.i628
+
+if_cont.i.i624:                                   ; preds = %if_then4.i623
+  %233 = udiv i64 %v.027.i617, %div.024.i620
+  %234 = trunc i64 %233 to i8
+  %235 = add i8 %234, 48
+  %236 = getelementptr inbounds i8, i8* %4, i64 %231
+  store i8 %235, i8* %236, align 1
+  %237 = add i32 %cur.026.i618, 1
+  br label %if_cont6.i628
+
+if_cont6.i628:                                    ; preds = %if_then4.i623, %if_cont.i.i624, %loop_body.i622
+  %cur.1.i627 = phi i32 [ %cur.026.i618, %loop_body.i622 ], [ %237, %if_cont.i.i624 ], [ 0, %if_then4.i623 ]
+  %238 = icmp ult i64 %div.024.i620, 10
+  br i1 %238, label %print_u64.exit629, label %loop_body.i622
+
+print_u64.exit629:                                ; preds = %if_cont6.i628, %if_cont3.i.i613, %loop_body.i.i612
+  %.ret.13.0.i616 = phi i32 [ %.pre877, %if_cont3.i.i613 ], [ %.pre-phi876, %loop_body.i.i612 ], [ %cur.1.i627, %if_cont6.i628 ]
+  %239 = load i64, i64* %166, align 8
+  %240 = add i64 %239, -1
+  %241 = icmp sgt i64 %240, %201
+  br i1 %241, label %loop_body.i671, label %if_cont51
+
+loop_body.i606:                                   ; preds = %print_string.exit684, %if_cont51
+  %cur.5.lcssa = phi i32 [ %.pre-phi874, %print_string.exit684 ], [ %cur.6, %if_cont51 ]
+  %242 = sext i32 %cur.5.lcssa to i64
+  %243 = icmp slt i64 %242, %0
+  br i1 %243, label %if_cont3.i608, label %exit
+
+if_cont3.i608:                                    ; preds = %loop_body.i606
+  %244 = getelementptr inbounds i8, i8* %4, i64 %242
+  store i8 125, i8* %244, align 1
+  %.pre881 = add i32 %cur.5.lcssa, 1
+  br label %exit
+
+loop_body.i671:                                   ; preds = %print_u64.exit629
+  %245 = sext i32 %.ret.13.0.i616 to i64
+  %246 = icmp slt i64 %245, %0
+  br i1 %246, label %if_cont3.i674, label %print_string.exit675
+
+if_cont3.i674:                                    ; preds = %loop_body.i671
+  %247 = getelementptr inbounds i8, i8* %4, i64 %245
+  store i8 44, i8* %247, align 1
+  %248 = add i32 %.ret.13.0.i616, 1
+  %249 = sext i32 %248 to i64
+  %250 = icmp slt i64 %249, %0
+  br i1 %250, label %if_cont3.i674.1, label %print_string.exit675
+
+print_string.exit675:                             ; preds = %loop_body.i671, %if_cont3.i674, %if_cont3.i674.1
+  %.pre-phi880 = phi i32 [ %.pre879, %if_cont3.i674.1 ], [ %.ret.13.0.i616, %loop_body.i671 ], [ %248, %if_cont3.i674 ]
+  %.pre = load i64, i64* %166, align 8
   br label %if_cont51
 
-if_else50:                                        ; preds = %loop_body47
-  br label %if_cont51
+if_cont51:                                        ; preds = %print_u64.exit629, %print_string.exit675
+  %251 = phi i64 [ %.pre, %print_string.exit675 ], [ %239, %print_u64.exit629 ]
+  %cur.6 = phi i32 [ %.pre-phi880, %print_string.exit675 ], [ %.ret.13.0.i616, %print_u64.exit629 ]
+  %252 = add i32 %i8.0489, 1
+  %253 = sext i32 %252 to i64
+  %254 = icmp sgt i64 %251, %253
+  br i1 %254, label %loop_body47, label %loop_body.i606
 
-if_cont51:                                        ; preds = %if_else50, %if_then49
-  br label %loop_increment46
+loop_body.i689:                                   ; preds = %tailrecurse
+  %255 = sext i32 %.tr468 to i64
+  %256 = icmp slt i64 %255, %0
+  br i1 %256, label %if_cont3.i692, label %exit
 
-if_then52:                                        ; preds = %if_else44
-  %596 = load i32, i32* %cur, align 4
-  %597 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %597, { i64, i8* }* %65
-  %598 = bitcast { i64, i8* }* %65 to { i64, i64 }*
-  %599 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %598, i32 0, i32 0
-  %600 = load i64, i64* %599
-  %601 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %598, i32 0, i32 1
-  %602 = load i64, i64* %601
-  store %string { i64 4, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.315, i32 0, i32 0) }, %string* %66
-  %603 = bitcast %string* %66 to { i64, i64 }*
-  %604 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %603, i32 0, i32 0
-  %605 = load i64, i64* %604
-  %606 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %603, i32 0, i32 1
-  %607 = load i64, i64* %606
-  %608 = call i32 @print_string(i64 %600, i64 %602, i32 %596, i64 %605, i64 %607)
-  store i32 %608, i32* %.ret.9, align 4
+if_cont3.i692:                                    ; preds = %loop_body.i689
+  %257 = getelementptr inbounds i8, i8* %4, i64 %255
+  store i8 118, i8* %257, align 1
+  %258 = add i32 %.tr468, 1
+  %259 = sext i32 %258 to i64
+  %260 = icmp slt i64 %259, %0
+  br i1 %260, label %if_cont3.i692.1, label %exit
+
+loop_body.i725:                                   ; preds = %tailrecurse
+  %261 = sext i32 %.tr468 to i64
+  %262 = icmp slt i64 %261, %0
+  br i1 %262, label %if_cont3.i728, label %exit
+
+if_cont3.i728:                                    ; preds = %loop_body.i725
+  %263 = getelementptr inbounds i8, i8* %4, i64 %261
+  store i8 110, i8* %263, align 1
+  %264 = add i32 %.tr468, 1
+  %265 = sext i32 %264 to i64
+  %266 = icmp slt i64 %265, %0
+  br i1 %266, label %if_cont3.i728.1, label %exit
+
+if_cont3.i820.1:                                  ; preds = %if_cont3.i820
+  %267 = getelementptr inbounds i8, i8* %4, i64 %57
+  store i8 111, i8* %267, align 1
+  %268 = add i32 %.tr468, 2
+  %269 = sext i32 %268 to i64
+  %270 = icmp slt i64 %269, %0
+  br i1 %270, label %if_cont3.i820.2, label %exit
+
+if_cont3.i820.2:                                  ; preds = %if_cont3.i820.1
+  %271 = getelementptr inbounds i8, i8* %4, i64 %269
+  store i8 111, i8* %271, align 1
+  %272 = add i32 %.tr468, 3
+  %273 = sext i32 %272 to i64
+  %274 = icmp slt i64 %273, %0
+  br i1 %274, label %if_cont3.i820.3, label %exit
+
+if_cont3.i820.3:                                  ; preds = %if_cont3.i820.2
+  %275 = getelementptr inbounds i8, i8* %4, i64 %273
+  store i8 108, i8* %275, align 1
+  %.pre847 = add i32 %.tr468, 4
   br label %exit
 
-if_else53:                                        ; preds = %if_else44
-  %609 = load %TypeInfo*, %TypeInfo** %info, align 8
-  %610 = getelementptr inbounds %TypeInfo, %TypeInfo* %609, i32 0, i32 0
-  %611 = load i32, i32* %610, align 4
-  %612 = icmp eq i32 %611, 11
-  br i1 %612, label %if_then55, label %if_else56
+if_cont3.i737.1:                                  ; preds = %if_cont3.i737
+  %276 = getelementptr inbounds i8, i8* %4, i64 %131
+  store i8 32, i8* %276, align 1
+  %.pre859 = add i32 %.ret.10.0.i741, 2
+  br label %print_string.exit738
 
-if_cont54:                                        ; preds = %if_cont57
-  br label %if_cont45
+if_cont3.i710.1:                                  ; preds = %if_cont3.i710
+  %277 = getelementptr inbounds i8, i8* %4, i64 %144
+  store i8 32, i8* %277, align 1
+  %.pre861 = add i32 %133, 2
+  br label %print_string.exit711
 
-if_then55:                                        ; preds = %if_else53
-  %613 = load i32, i32* %cur, align 4
-  %614 = load { i64, i8* }, { i64, i8* }* %buf, align 8
-  store { i64, i8* } %614, { i64, i8* }* %67
-  %615 = bitcast { i64, i8* }* %67 to { i64, i64 }*
-  %616 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %615, i32 0, i32 0
-  %617 = load i64, i64* %616
-  %618 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %615, i32 0, i32 1
-  %619 = load i64, i64* %618
-  store %string { i64 4, i8* getelementptr inbounds ([5 x i8], [5 x i8]* @.str.288, i32 0, i32 0) }, %string* %68
-  %620 = bitcast %string* %68 to { i64, i64 }*
-  %621 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %620, i32 0, i32 0
-  %622 = load i64, i64* %621
-  %623 = getelementptr inbounds { i64, i64 }, { i64, i64 }* %620, i32 0, i32 1
-  %624 = load i64, i64* %623
-  %625 = call i32 @print_string(i64 %617, i64 %619, i32 %613, i64 %622, i64 %624)
-  store i32 %625, i32* %.ret.9, align 4
+if_cont3.i764.1:                                  ; preds = %if_cont3.i764
+  %278 = getelementptr inbounds i8, i8* %4, i64 %90
+  store i8 116, i8* %278, align 1
+  %279 = add i32 %.tr468, 2
+  %280 = sext i32 %279 to i64
+  %281 = icmp slt i64 %280, %0
+  br i1 %281, label %if_cont3.i764.2, label %print_string.exit765
+
+if_cont3.i764.2:                                  ; preds = %if_cont3.i764.1
+  %282 = getelementptr inbounds i8, i8* %4, i64 %280
+  store i8 114, i8* %282, align 1
+  %283 = add i32 %.tr468, 3
+  %284 = sext i32 %283 to i64
+  %285 = icmp slt i64 %284, %0
+  br i1 %285, label %if_cont3.i764.3, label %print_string.exit765
+
+if_cont3.i764.3:                                  ; preds = %if_cont3.i764.2
+  %286 = getelementptr inbounds i8, i8* %4, i64 %284
+  store i8 117, i8* %286, align 1
+  %287 = add i32 %.tr468, 4
+  %288 = sext i32 %287 to i64
+  %289 = icmp slt i64 %288, %0
+  br i1 %289, label %if_cont3.i764.4, label %print_string.exit765
+
+if_cont3.i764.4:                                  ; preds = %if_cont3.i764.3
+  %290 = getelementptr inbounds i8, i8* %4, i64 %288
+  store i8 99, i8* %290, align 1
+  %291 = add i32 %.tr468, 5
+  %292 = sext i32 %291 to i64
+  %293 = icmp slt i64 %292, %0
+  br i1 %293, label %if_cont3.i764.5, label %print_string.exit765
+
+if_cont3.i764.5:                                  ; preds = %if_cont3.i764.4
+  %294 = getelementptr inbounds i8, i8* %4, i64 %292
+  store i8 116, i8* %294, align 1
+  %295 = add i32 %.tr468, 6
+  %296 = sext i32 %295 to i64
+  %297 = icmp slt i64 %296, %0
+  br i1 %297, label %if_cont3.i764.6, label %print_string.exit765
+
+if_cont3.i764.6:                                  ; preds = %if_cont3.i764.5
+  %298 = getelementptr inbounds i8, i8* %4, i64 %296
+  store i8 32, i8* %298, align 1
+  %299 = add i32 %.tr468, 7
+  %300 = sext i32 %299 to i64
+  %301 = icmp slt i64 %300, %0
+  br i1 %301, label %if_cont3.i764.7, label %print_string.exit765
+
+if_cont3.i764.7:                                  ; preds = %if_cont3.i764.6
+  %302 = getelementptr inbounds i8, i8* %4, i64 %300
+  store i8 123, i8* %302, align 1
+  %.pre857 = add i32 %.tr468, 8
+  br label %print_string.exit765
+
+if_cont3.i633.1:                                  ; preds = %if_cont3.i633
+  %303 = getelementptr inbounds i8, i8* %4, i64 %222
+  store i8 58, i8* %303, align 1
+  %304 = add i32 %.ret.10.0.i, 2
+  %305 = sext i32 %304 to i64
+  %306 = icmp slt i64 %305, %0
+  br i1 %306, label %if_cont3.i633.2, label %print_string.exit634
+
+if_cont3.i633.2:                                  ; preds = %if_cont3.i633.1
+  %307 = getelementptr inbounds i8, i8* %4, i64 %305
+  store i8 58, i8* %307, align 1
+  %308 = add i32 %.ret.10.0.i, 3
+  %309 = sext i32 %308 to i64
+  %310 = icmp slt i64 %309, %0
+  br i1 %310, label %if_cont3.i633.3, label %print_string.exit634
+
+if_cont3.i633.3:                                  ; preds = %if_cont3.i633.2
+  %311 = getelementptr inbounds i8, i8* %4, i64 %309
+  store i8 32, i8* %311, align 1
+  %.pre875 = add i32 %.ret.10.0.i, 4
+  br label %print_string.exit634
+
+if_cont3.i674.1:                                  ; preds = %if_cont3.i674
+  %312 = getelementptr inbounds i8, i8* %4, i64 %249
+  store i8 32, i8* %312, align 1
+  %.pre879 = add i32 %.ret.13.0.i616, 2
+  br label %print_string.exit675
+
+if_cont3.i683.1:                                  ; preds = %if_cont3.i683
+  %313 = getelementptr inbounds i8, i8* %4, i64 %164
+  store i8 123, i8* %313, align 1
+  %.pre873 = add i32 %159, 2
+  br label %print_string.exit684
+
+if_cont3.i701.1:                                  ; preds = %if_cont3.i701
+  %314 = getelementptr inbounds i8, i8* %4, i64 %154
+  store i8 110, i8* %314, align 1
+  %315 = add i32 %.tr468, 2
+  %316 = sext i32 %315 to i64
+  %317 = icmp slt i64 %316, %0
+  br i1 %317, label %if_cont3.i701.2, label %print_string.exit702
+
+if_cont3.i701.2:                                  ; preds = %if_cont3.i701.1
+  %318 = getelementptr inbounds i8, i8* %4, i64 %316
+  store i8 117, i8* %318, align 1
+  %319 = add i32 %.tr468, 3
+  %320 = sext i32 %319 to i64
+  %321 = icmp slt i64 %320, %0
+  br i1 %321, label %if_cont3.i701.3, label %print_string.exit702
+
+if_cont3.i701.3:                                  ; preds = %if_cont3.i701.2
+  %322 = getelementptr inbounds i8, i8* %4, i64 %320
+  store i8 109, i8* %322, align 1
+  %323 = add i32 %.tr468, 4
+  %324 = sext i32 %323 to i64
+  %325 = icmp slt i64 %324, %0
+  br i1 %325, label %if_cont3.i701.4, label %print_string.exit702
+
+if_cont3.i701.4:                                  ; preds = %if_cont3.i701.3
+  %326 = getelementptr inbounds i8, i8* %4, i64 %324
+  store i8 32, i8* %326, align 1
+  %.pre871 = add i32 %.tr468, 5
+  br label %print_string.exit702
+
+if_cont3.i647.1:                                  ; preds = %if_cont3.i647
+  %327 = getelementptr inbounds i8, i8* %4, i64 %199
+  store i8 116, i8* %327, align 1
+  %328 = add i32 %.tr468, 2
+  %329 = sext i32 %328 to i64
+  %330 = icmp slt i64 %329, %0
+  br i1 %330, label %if_cont3.i647.2, label %exit
+
+if_cont3.i647.2:                                  ; preds = %if_cont3.i647.1
+  %331 = getelementptr inbounds i8, i8* %4, i64 %329
+  store i8 114, i8* %331, align 1
+  %332 = add i32 %.tr468, 3
+  %333 = sext i32 %332 to i64
+  %334 = icmp slt i64 %333, %0
+  br i1 %334, label %if_cont3.i647.3, label %exit
+
+if_cont3.i647.3:                                  ; preds = %if_cont3.i647.2
+  %335 = getelementptr inbounds i8, i8* %4, i64 %333
+  store i8 105, i8* %335, align 1
+  %336 = add i32 %.tr468, 4
+  %337 = sext i32 %336 to i64
+  %338 = icmp slt i64 %337, %0
+  br i1 %338, label %if_cont3.i647.4, label %exit
+
+if_cont3.i647.4:                                  ; preds = %if_cont3.i647.3
+  %339 = getelementptr inbounds i8, i8* %4, i64 %337
+  store i8 110, i8* %339, align 1
+  %340 = add i32 %.tr468, 5
+  %341 = sext i32 %340 to i64
+  %342 = icmp slt i64 %341, %0
+  br i1 %342, label %if_cont3.i647.5, label %exit
+
+if_cont3.i647.5:                                  ; preds = %if_cont3.i647.4
+  %343 = getelementptr inbounds i8, i8* %4, i64 %341
+  store i8 103, i8* %343, align 1
+  %.pre883 = add i32 %.tr468, 6
   br label %exit
 
-if_else56:                                        ; preds = %if_else53
-  br label %if_cont58
+if_cont3.i692.1:                                  ; preds = %if_cont3.i692
+  %344 = getelementptr inbounds i8, i8* %4, i64 %259
+  store i8 111, i8* %344, align 1
+  %345 = add i32 %.tr468, 2
+  %346 = sext i32 %345 to i64
+  %347 = icmp slt i64 %346, %0
+  br i1 %347, label %if_cont3.i692.2, label %exit
 
-if_cont57:                                        ; preds = %if_cont58
-  br label %if_cont54
+if_cont3.i692.2:                                  ; preds = %if_cont3.i692.1
+  %348 = getelementptr inbounds i8, i8* %4, i64 %346
+  store i8 105, i8* %348, align 1
+  %349 = add i32 %.tr468, 3
+  %350 = sext i32 %349 to i64
+  %351 = icmp slt i64 %350, %0
+  br i1 %351, label %if_cont3.i692.3, label %exit
 
-if_cont58:                                        ; preds = %if_else56
-  br label %if_cont57
+if_cont3.i692.3:                                  ; preds = %if_cont3.i692.2
+  %352 = getelementptr inbounds i8, i8* %4, i64 %350
+  store i8 100, i8* %352, align 1
+  %.pre885 = add i32 %.tr468, 4
+  br label %exit
+
+if_cont3.i728.1:                                  ; preds = %if_cont3.i728
+  %353 = getelementptr inbounds i8, i8* %4, i64 %265
+  store i8 117, i8* %353, align 1
+  %354 = add i32 %.tr468, 2
+  %355 = sext i32 %354 to i64
+  %356 = icmp slt i64 %355, %0
+  br i1 %356, label %if_cont3.i728.2, label %exit
+
+if_cont3.i728.2:                                  ; preds = %if_cont3.i728.1
+  %357 = getelementptr inbounds i8, i8* %4, i64 %355
+  store i8 108, i8* %357, align 1
+  %358 = add i32 %.tr468, 3
+  %359 = sext i32 %358 to i64
+  %360 = icmp slt i64 %359, %0
+  br i1 %360, label %if_cont3.i728.3, label %exit
+
+if_cont3.i728.3:                                  ; preds = %if_cont3.i728.2
+  %361 = getelementptr inbounds i8, i8* %4, i64 %359
+  store i8 108, i8* %361, align 1
+  %.pre887 = add i32 %.tr468, 4
+  br label %exit
+
+if_cont3.i755.1:                                  ; preds = %if_cont3.i755
+  %362 = getelementptr inbounds i8, i8* %4, i64 %102
+  store i8 110, i8* %362, align 1
+  %363 = add i32 %.tr468, 2
+  %364 = sext i32 %363 to i64
+  %365 = icmp slt i64 %364, %0
+  br i1 %365, label %if_cont3.i755.2, label %print_string.exit756
+
+if_cont3.i755.2:                                  ; preds = %if_cont3.i755.1
+  %366 = getelementptr inbounds i8, i8* %4, i64 %364
+  store i8 32, i8* %366, align 1
+  %367 = add i32 %.tr468, 3
+  %368 = sext i32 %367 to i64
+  %369 = icmp slt i64 %368, %0
+  br i1 %369, label %if_cont3.i755.3, label %print_string.exit756
+
+if_cont3.i755.3:                                  ; preds = %if_cont3.i755.2
+  %370 = getelementptr inbounds i8, i8* %4, i64 %368
+  store i8 40, i8* %370, align 1
+  %.pre865 = add i32 %.tr468, 4
+  br label %print_string.exit756
+
+if_cont3.i656.1:                                  ; preds = %if_cont3.i656
+  %371 = getelementptr inbounds i8, i8* %4, i64 %189
+  store i8 32, i8* %371, align 1
+  %.pre867 = add i32 %175, 2
+  br label %print_string.exit657
+
+if_cont3.i665.1:                                  ; preds = %if_cont3.i665
+  %372 = getelementptr inbounds i8, i8* %4, i64 %183
+  store i8 32, i8* %372, align 1
+  %.pre869 = add i32 %cur.3.lcssa, 2
+  br label %tailrecurse.backedge
 }
 
-declare double @log10(double)
+; Function Attrs: nofree
+declare double @log10(double) local_unnamed_addr #5
 
-declare double @pow(double, double)
+; Function Attrs: nofree
+declare double @pow(double, double) local_unnamed_addr #5
 
-declare double @floor(double)
+; Function Attrs: nofree nounwind
+declare noalias i8* @malloc(i64) local_unnamed_addr #2
 
-declare i8* @clang_parseTranslationUnit(i8*, i8*, i8*, i32, %CXUnsavedFile*, i32, i32)
+; Function Attrs: nounwind
+declare void @free(i8* nocapture) local_unnamed_addr #0
 
-declare i8* @malloc(i64)
-
-declare void @free(i8*)
-
-declare double @sin(double)
-
-declare double @cos(double)
-
-declare float @fabs(float)
-
-declare double @sqrt(double)
-
-declare i32 @rand()
-
-declare void @srand(i32)
-
-declare float @sinf(float)
-
-declare float @cosf(float)
-
-declare float @powf(float, float)
-
-declare float @sqrtf(float)
-
-declare float @floorf(float)
-
-; Function Attrs: alwaysinline
-define float @lerp(float, float, float) #2 {
+; Function Attrs: alwaysinline norecurse nounwind readnone
+define float @lerp(float %0, float %1, float %2) local_unnamed_addr #8 {
 entry:
-  %.ret.19 = alloca float, align 4
-  %fraction = alloca float, align 4
-  %b = alloca float, align 4
-  %a = alloca float, align 4
-  store float %2, float* %fraction
-  store float %1, float* %b
-  store float %0, float* %a
-  %3 = load float, float* %a, align 4
-  %4 = load float, float* %b, align 4
-  %5 = fsub float %4, %3
-  %6 = load float, float* %fraction, align 4
-  %7 = fmul float %6, %5
-  %8 = load float, float* %a, align 4
-  %9 = fadd float %8, %7
-  store float %9, float* %.ret.19, align 4
-  br label %exit
-
-exit:                                             ; preds = %entry
-  %10 = load float, float* %.ret.19, align 4
-  ret float %10
+  %3 = fsub float %1, %0
+  %4 = fmul float %3, %2
+  %5 = fadd float %4, %0
+  ret float %5
 }
 
-; Function Attrs: alwaysinline
-define i32 @max_u32(i32, i32) #2 {
+; Function Attrs: alwaysinline norecurse nounwind readnone
+define i32 @max_u32(i32 %0, i32 %1) local_unnamed_addr #8 {
 entry:
-  %.ret.20 = alloca i32, align 4
-  %b = alloca i32, align 4
-  %a = alloca i32, align 4
-  store i32 %1, i32* %b
-  store i32 %0, i32* %a
-  %2 = load i32, i32* %b, align 4
-  %3 = load i32, i32* %a, align 4
-  %4 = icmp ugt i32 %3, %2
-  br i1 %4, label %if_then, label %if_else
+  %2 = icmp ugt i32 %0, %1
+  %.ret.20.0 = select i1 %2, i32 %0, i32 %1
+  ret i32 %.ret.20.0
+}
+
+; Function Attrs: alwaysinline norecurse nounwind readnone
+define i32 @min_u32(i32 %0, i32 %1) local_unnamed_addr #8 {
+entry:
+  %2 = icmp ult i32 %0, %1
+  %.ret.21.0 = select i1 %2, i32 %0, i32 %1
+  ret i32 %.ret.21.0
+}
+
+; Function Attrs: nounwind
+define void @assert(i1 %0) local_unnamed_addr #0 {
+entry:
+  br i1 %0, label %if_cont, label %if_then
 
 if_then:                                          ; preds = %entry
-  %5 = load i32, i32* %a, align 4
-  store i32 %5, i32* %.ret.20, align 4
-  br label %exit
-
-if_else:                                          ; preds = %entry
+  tail call void @llvm.debugtrap()
   br label %if_cont
 
-exit:                                             ; preds = %if_cont, %if_then
-  %6 = load i32, i32* %.ret.20, align 4
-  ret i32 %6
-
-if_cont:                                          ; preds = %if_else
-  %7 = load i32, i32* %b, align 4
-  store i32 %7, i32* %.ret.20, align 4
-  br label %exit
-}
-
-; Function Attrs: alwaysinline
-define i32 @min_u32(i32, i32) #2 {
-entry:
-  %.ret.21 = alloca i32, align 4
-  %b = alloca i32, align 4
-  %a = alloca i32, align 4
-  store i32 %1, i32* %b
-  store i32 %0, i32* %a
-  %2 = load i32, i32* %b, align 4
-  %3 = load i32, i32* %a, align 4
-  %4 = icmp ult i32 %3, %2
-  br i1 %4, label %if_then, label %if_else
-
-if_then:                                          ; preds = %entry
-  %5 = load i32, i32* %a, align 4
-  store i32 %5, i32* %.ret.21, align 4
-  br label %exit
-
-if_else:                                          ; preds = %entry
-  br label %if_cont
-
-exit:                                             ; preds = %if_cont, %if_then
-  %6 = load i32, i32* %.ret.21, align 4
-  ret i32 %6
-
-if_cont:                                          ; preds = %if_else
-  %7 = load i32, i32* %b, align 4
-  store i32 %7, i32* %.ret.21, align 4
-  br label %exit
-}
-
-declare i32 @putchar(i32)
-
-declare i8* @memset(i8*, i32, i64)
-
-declare i32 @strcmp(i8*, i8*)
-
-declare i32 @system(i8*)
-
-declare i8* @fopen(i8*, i8*)
-
-declare i32 @fclose(i8*)
-
-declare i32 @fseek(i8*, i32, i32)
-
-declare i64 @fread(i8*, i64, i64, i8*)
-
-declare i32 @ftell(i8*)
-
-define void @assert(i1) {
-entry:
-  %cond = alloca i1, align 1
-  store i1 %0, i1* %cond
-  %1 = load i1, i1* %cond, align 1
-  %2 = xor i1 %1, true
-  br i1 %2, label %if_then, label %if_else
-
-if_then:                                          ; preds = %entry
-  call void @llvm.debugtrap()
-  br label %if_cont
-
-if_else:                                          ; preds = %entry
-  br label %if_cont
-
-exit:                                             ; preds = %if_cont
+if_cont:                                          ; preds = %entry, %if_then
   ret void
+}
 
-if_cont:                                          ; preds = %if_else, %if_then
+; Function Attrs: nofree nounwind
+define noalias i8* @mem_alloc(i64 %0) local_unnamed_addr #2 {
+entry:
+  %1 = tail call i8* @malloc(i64 %0)
+  ret i8* %1
+}
+
+; Function Attrs: nounwind
+define noalias i8* @mem_calloc(i64 %0, i64 %1) local_unnamed_addr #0 {
+entry:
+  %2 = mul i64 %1, %0
+  %3 = tail call i8* @malloc(i64 %2)
+  tail call void @llvm.memset.p0i8.i64(i8* align 1 %3, i8 0, i64 %2, i1 false)
+  ret i8* %3
+}
+
+; Function Attrs: nounwind
+define i8* @mem_realloc(i8* %0, i64 %1) local_unnamed_addr #0 {
+entry:
+  %2 = icmp eq i8* %0, null
+  %3 = tail call i8* @malloc(i64 %1)
+  br i1 %2, label %exit, label %if_cont
+
+exit:                                             ; preds = %entry, %mem_copy.exit
+  ret i8* %3
+
+if_cont:                                          ; preds = %entry
+  %4 = lshr i64 %1, 3
+  %5 = and i64 %1, 7
+  %6 = icmp eq i64 %4, 0
+  br i1 %6, label %loop_decide3.preheader.i, label %loop_body.i
+
+loop_decide3.preheader.i:                         ; preds = %loop_body.i, %if_cont
+  %dest.0.lcssa.i = phi i8* [ %3, %if_cont ], [ %13, %loop_body.i ]
+  %src.0.lcssa.i = phi i8* [ %0, %if_cont ], [ %16, %loop_body.i ]
+  %7 = icmp eq i64 %5, 0
+  br i1 %7, label %mem_copy.exit, label %loop_body5.i
+
+loop_body.i:                                      ; preds = %if_cont, %loop_body.i
+  %src.012.i = phi i8* [ %16, %loop_body.i ], [ %0, %if_cont ]
+  %dest.011.i = phi i8* [ %13, %loop_body.i ], [ %3, %if_cont ]
+  %i.010.i = phi i64 [ %17, %loop_body.i ], [ 0, %if_cont ]
+  %8 = bitcast i8* %dest.011.i to i64*
+  %9 = bitcast i8* %src.012.i to i64*
+  %10 = load i64, i64* %9, align 8
+  store i64 %10, i64* %8, align 8
+  %11 = ptrtoint i8* %dest.011.i to i64
+  %12 = add i64 %11, 8
+  %13 = inttoptr i64 %12 to i8*
+  %14 = ptrtoint i8* %src.012.i to i64
+  %15 = add i64 %14, 8
+  %16 = inttoptr i64 %15 to i8*
+  %17 = add nuw nsw i64 %i.010.i, 1
+  %exitcond15.i = icmp eq i64 %17, %4
+  br i1 %exitcond15.i, label %loop_decide3.preheader.i, label %loop_body.i
+
+loop_body5.i:                                     ; preds = %loop_decide3.preheader.i, %loop_body5.i
+  %i1.09.i = phi i64 [ %25, %loop_body5.i ], [ 0, %loop_decide3.preheader.i ]
+  %src.18.i = phi i8* [ %24, %loop_body5.i ], [ %src.0.lcssa.i, %loop_decide3.preheader.i ]
+  %dest.17.i = phi i8* [ %21, %loop_body5.i ], [ %dest.0.lcssa.i, %loop_decide3.preheader.i ]
+  %18 = load i8, i8* %src.18.i, align 1
+  store i8 %18, i8* %dest.17.i, align 1
+  %19 = ptrtoint i8* %dest.17.i to i64
+  %20 = add i64 %19, 1
+  %21 = inttoptr i64 %20 to i8*
+  %22 = ptrtoint i8* %src.18.i to i64
+  %23 = add i64 %22, 1
+  %24 = inttoptr i64 %23 to i8*
+  %25 = add nuw nsw i64 %i1.09.i, 1
+  %exitcond.i = icmp eq i64 %25, %5
+  br i1 %exitcond.i, label %mem_copy.exit, label %loop_body5.i
+
+mem_copy.exit:                                    ; preds = %loop_body5.i, %loop_decide3.preheader.i
+  tail call void @free(i8* nonnull %0)
   br label %exit
 }
 
-define i8* @mem_alloc(i64) {
+; Function Attrs: nofree norecurse nounwind
+define void @mem_copy(i8* %0, i8* readonly %1, i64 %2) local_unnamed_addr #7 {
 entry:
-  %.ret.22 = alloca i8*, align 8
-  %size = alloca i64, align 8
-  store i64 %0, i64* %size
-  %1 = load i64, i64* %size, align 8
-  %2 = load i8* (i64)*, i8* (i64)** getelementptr inbounds (%_Context, %_Context* @_context, i32 0, i32 0), align 8
-  %3 = call i8* %2(i64 %1)
-  store i8* %3, i8** %.ret.22, align 8
-  br label %exit
+  %3 = lshr i64 %2, 3
+  %4 = and i64 %2, 7
+  %5 = icmp eq i64 %3, 0
+  br i1 %5, label %loop_decide3.preheader, label %loop_body
 
-exit:                                             ; preds = %entry
-  %4 = load i8*, i8** %.ret.22, align 8
+loop_decide3.preheader:                           ; preds = %loop_body, %entry
+  %dest.0.lcssa = phi i8* [ %0, %entry ], [ %12, %loop_body ]
+  %src.0.lcssa = phi i8* [ %1, %entry ], [ %15, %loop_body ]
+  %6 = icmp eq i64 %4, 0
+  br i1 %6, label %loop_continue6, label %loop_body5
+
+loop_body:                                        ; preds = %entry, %loop_body
+  %src.012 = phi i8* [ %15, %loop_body ], [ %1, %entry ]
+  %dest.011 = phi i8* [ %12, %loop_body ], [ %0, %entry ]
+  %i.010 = phi i64 [ %16, %loop_body ], [ 0, %entry ]
+  %7 = bitcast i8* %dest.011 to i64*
+  %8 = bitcast i8* %src.012 to i64*
+  %9 = load i64, i64* %8, align 8
+  store i64 %9, i64* %7, align 8
+  %10 = ptrtoint i8* %dest.011 to i64
+  %11 = add i64 %10, 8
+  %12 = inttoptr i64 %11 to i8*
+  %13 = ptrtoint i8* %src.012 to i64
+  %14 = add i64 %13, 8
+  %15 = inttoptr i64 %14 to i8*
+  %16 = add nuw nsw i64 %i.010, 1
+  %exitcond15 = icmp eq i64 %16, %3
+  br i1 %exitcond15, label %loop_decide3.preheader, label %loop_body
+
+loop_body5:                                       ; preds = %loop_decide3.preheader, %loop_body5
+  %i1.09 = phi i64 [ %24, %loop_body5 ], [ 0, %loop_decide3.preheader ]
+  %src.18 = phi i8* [ %23, %loop_body5 ], [ %src.0.lcssa, %loop_decide3.preheader ]
+  %dest.17 = phi i8* [ %20, %loop_body5 ], [ %dest.0.lcssa, %loop_decide3.preheader ]
+  %17 = load i8, i8* %src.18, align 1
+  store i8 %17, i8* %dest.17, align 1
+  %18 = ptrtoint i8* %dest.17 to i64
+  %19 = add i64 %18, 1
+  %20 = inttoptr i64 %19 to i8*
+  %21 = ptrtoint i8* %src.18 to i64
+  %22 = add i64 %21, 1
+  %23 = inttoptr i64 %22 to i8*
+  %24 = add nuw nsw i64 %i1.09, 1
+  %exitcond = icmp eq i64 %24, %4
+  br i1 %exitcond, label %loop_continue6, label %loop_body5
+
+loop_continue6:                                   ; preds = %loop_body5, %loop_decide3.preheader
+  ret void
+}
+
+; Function Attrs: nounwind
+define void @mem_free(i8* nocapture %0) local_unnamed_addr #0 {
+entry:
+  tail call void @free(i8* %0)
+  ret void
+}
+
+; Function Attrs: alwaysinline norecurse nounwind readnone
+define i8* @ptr_shift_bytes(i8* %0, i64 %1) local_unnamed_addr #8 {
+entry:
+  %2 = ptrtoint i8* %0 to i64
+  %3 = add i64 %2, %1
+  %4 = inttoptr i64 %3 to i8*
   ret i8* %4
 }
 
-define i8* @mem_calloc(i64, i64) {
+; Function Attrs: alwaysinline norecurse nounwind readnone
+define i1 @is_flag_u32(i32 %0, i32 %1) local_unnamed_addr #8 {
 entry:
-  %.ret.23 = alloca i8*, align 8
-  %size = alloca i64, align 8
-  %num = alloca i64, align 8
-  %tmp = alloca i8*, align 8
-  store i64 %1, i64* %size
-  store i64 %0, i64* %num
-  %2 = load i64, i64* %num, align 8
-  %3 = load i64, i64* %size, align 8
-  %4 = mul i64 %3, %2
-  %5 = load i8* (i64)*, i8* (i64)** getelementptr inbounds (%_Context, %_Context* @_context, i32 0, i32 0), align 8
-  %6 = call i8* %5(i64 %4)
-  store i8* %6, i8** %tmp
-  %7 = load i64, i64* %num, align 8
-  %8 = load i64, i64* %size, align 8
-  %9 = mul i64 %8, %7
-  %10 = load i8*, i8** %tmp, align 8
-  %11 = call i8* @memset(i8* %10, i32 0, i64 %9)
-  store i8* %11, i8** %.ret.23, align 8
-  br label %exit
-
-exit:                                             ; preds = %entry
-  %12 = load i8*, i8** %.ret.23, align 8
-  ret i8* %12
+  %2 = and i32 %1, %0
+  %3 = icmp ne i32 %2, 0
+  ret i1 %3
 }
 
-define i8* @mem_realloc(i8*, i64) {
+; Function Attrs: alwaysinline nounwind readonly
+define %string @cstr_to_str(i8* %0) local_unnamed_addr #9 {
 entry:
-  %.ret.24 = alloca i8*, align 8
-  %size = alloca i64, align 8
-  %ptr = alloca i8*, align 8
-  %tmp = alloca i8*, align 8
-  store i64 %1, i64* %size
-  store i8* %0, i8** %ptr
-  %2 = load i8*, i8** %ptr, align 8
-  %3 = icmp eq i8* %2, null
-  br i1 %3, label %if_then, label %if_else
-
-if_then:                                          ; preds = %entry
-  %4 = load i64, i64* %size, align 8
-  %5 = load i8* (i64)*, i8* (i64)** getelementptr inbounds (%_Context, %_Context* @_context, i32 0, i32 0), align 8
-  %6 = call i8* %5(i64 %4)
-  store i8* %6, i8** %.ret.24, align 8
-  br label %exit
-
-if_else:                                          ; preds = %entry
-  br label %if_cont
-
-exit:                                             ; preds = %if_cont, %if_then
-  %7 = load i8*, i8** %.ret.24, align 8
-  ret i8* %7
-
-if_cont:                                          ; preds = %if_else
-  %8 = load i64, i64* %size, align 8
-  %9 = load i8* (i64)*, i8* (i64)** getelementptr inbounds (%_Context, %_Context* @_context, i32 0, i32 0), align 8
-  %10 = call i8* %9(i64 %8)
-  store i8* %10, i8** %tmp
-  %11 = load i64, i64* %size, align 8
-  %12 = load i8*, i8** %ptr, align 8
-  %13 = load i8*, i8** %tmp, align 8
-  call void @mem_copy(i8* %13, i8* %12, i64 %11)
-  %14 = load i8*, i8** %ptr, align 8
-  %15 = load void (i8*)*, void (i8*)** getelementptr inbounds (%_Context, %_Context* @_context, i32 0, i32 1), align 8
-  call void %15(i8* %14)
-  %16 = load i8*, i8** %tmp, align 8
-  store i8* %16, i8** %.ret.24, align 8
-  br label %exit
+  %1 = tail call i64 @strlen(i8* %0)
+  %2 = insertvalue %string undef, i64 %1, 0
+  %3 = insertvalue %string %2, i8* %0, 1
+  ret %string %3
 }
 
-define void @mem_copy(i8*, i8*, i64) {
-entry:
-  %size = alloca i64, align 8
-  %src = alloca i8*, align 8
-  %dest = alloca i8*, align 8
-  %m = alloca i64, align 8
-  %d = alloca i64, align 8
-  %i = alloca i64, align 8
-  %tmp = alloca i64*, align 8
-  %i1 = alloca i64, align 8
-  %tmp2 = alloca i8*, align 8
-  store i64 %2, i64* %size
-  store i8* %1, i8** %src
-  store i8* %0, i8** %dest
-  %3 = load i64, i64* %size, align 8
-  %4 = udiv i64 %3, 8
-  store i64 %4, i64* %m
-  %5 = load i64, i64* %m, align 8
-  %6 = mul i64 %5, 8
-  %7 = load i64, i64* %size, align 8
-  %8 = sub i64 %7, %6
-  store i64 %8, i64* %d
-  store i64 0, i64* %i
-  br label %loop_decide
+; Function Attrs: nounwind readnone speculatable willreturn
+declare double @llvm.floor.f64(double) #10
 
-loop_decide:                                      ; preds = %loop_increment, %entry
-  %9 = load i64, i64* %m, align 8
-  %10 = load i64, i64* %i, align 8
-  %11 = icmp ult i64 %10, %9
-  br i1 %11, label %loop_body, label %loop_continue
+; Function Attrs: argmemonly nounwind willreturn
+declare void @llvm.lifetime.start.p0i8(i64 immarg, i8* nocapture) #1
 
-exit:                                             ; preds = %loop_continue6
-  ret void
-
-loop_increment:                                   ; preds = %loop_body
-  %12 = load i64, i64* %i, align 8
-  %13 = add i64 %12, 1
-  store i64 %13, i64* %i, align 8
-  br label %loop_decide
-
-loop_body:                                        ; preds = %loop_decide
-  %14 = load i8*, i8** %dest, align 8
-  %15 = bitcast i8* %14 to i64*
-  store i64* %15, i64** %tmp
-  %16 = load i8*, i8** %src, align 8
-  %17 = bitcast i8* %16 to i64*
-  %18 = load i64, i64* %17, align 8
-  %19 = load i64*, i64** %tmp, align 8
-  store i64 %18, i64* %19, align 8
-  %20 = load i8*, i8** %dest, align 8
-  %21 = call i8* @ptr_shift_bytes(i8* %20, i64 8)
-  store i8* %21, i8** %dest, align 8
-  %22 = load i8*, i8** %src, align 8
-  %23 = call i8* @ptr_shift_bytes(i8* %22, i64 8)
-  store i8* %23, i8** %src, align 8
-  br label %loop_increment
-
-loop_continue:                                    ; preds = %loop_decide
-  store i64 0, i64* %i1
-  br label %loop_decide3
-
-loop_decide3:                                     ; preds = %loop_increment4, %loop_continue
-  %24 = load i64, i64* %d, align 8
-  %25 = load i64, i64* %i1, align 8
-  %26 = icmp ult i64 %25, %24
-  br i1 %26, label %loop_body5, label %loop_continue6
-
-loop_increment4:                                  ; preds = %loop_body5
-  %27 = load i64, i64* %i1, align 8
-  %28 = add i64 %27, 1
-  store i64 %28, i64* %i1, align 8
-  br label %loop_decide3
-
-loop_body5:                                       ; preds = %loop_decide3
-  %29 = load i8*, i8** %dest, align 8
-  store i8* %29, i8** %tmp2
-  %30 = load i8*, i8** %src, align 8
-  %31 = load i8, i8* %30, align 1
-  %32 = load i8*, i8** %dest, align 8
-  store i8 %31, i8* %32, align 1
-  %33 = load i8*, i8** %dest, align 8
-  %34 = call i8* @ptr_shift_bytes(i8* %33, i64 1)
-  store i8* %34, i8** %dest, align 8
-  %35 = load i8*, i8** %src, align 8
-  %36 = call i8* @ptr_shift_bytes(i8* %35, i64 1)
-  store i8* %36, i8** %src, align 8
-  br label %loop_increment4
-
-loop_continue6:                                   ; preds = %loop_decide3
-  br label %exit
-}
-
-define void @mem_free(i8*) {
-entry:
-  %ptr = alloca i8*, align 8
-  store i8* %0, i8** %ptr
-  %1 = load i8*, i8** %ptr, align 8
-  %2 = load void (i8*)*, void (i8*)** getelementptr inbounds (%_Context, %_Context* @_context, i32 0, i32 1), align 8
-  call void %2(i8* %1)
-  br label %exit
-
-exit:                                             ; preds = %entry
-  ret void
-}
-
-; Function Attrs: alwaysinline
-define i8* @ptr_shift_bytes(i8*, i64) #2 {
-entry:
-  %.ret.27 = alloca i8*, align 8
-  %bytes = alloca i64, align 8
-  %ptr = alloca i8*, align 8
-  store i64 %1, i64* %bytes
-  store i8* %0, i8** %ptr
-  %2 = load i64, i64* %bytes, align 8
-  %3 = load i8*, i8** %ptr, align 8
-  %4 = ptrtoint i8* %3 to i64
-  %5 = add i64 %4, %2
-  %6 = inttoptr i64 %5 to i8*
-  store i8* %6, i8** %.ret.27, align 8
-  br label %exit
-
-exit:                                             ; preds = %entry
-  %7 = load i8*, i8** %.ret.27, align 8
-  ret i8* %7
-}
-
-; Function Attrs: alwaysinline
-define i1 @is_flag_u32(i32, i32) #2 {
-entry:
-  %.ret.25 = alloca i1, align 1
-  %flag = alloca i32, align 4
-  %v = alloca i32, align 4
-  store i32 %1, i32* %flag
-  store i32 %0, i32* %v
-  %2 = load i32, i32* %flag, align 4
-  %3 = load i32, i32* %v, align 4
-  %4 = and i32 %3, %2
-  %5 = icmp ugt i32 %4, 0
-  store i1 %5, i1* %.ret.25, align 1
-  br label %exit
-
-exit:                                             ; preds = %entry
-  %6 = load i1, i1* %.ret.25, align 1
-  ret i1 %6
-}
-
-; Function Attrs: alwaysinline
-define void @cstr_to_str(%string* noalias sret, i8*) #2 {
-entry:
-  %.ret.26 = alloca %string, align 8
-  %cstr = alloca i8*, align 8
-  %.compound.157 = alloca %string, align 8
-  store i8* %1, i8** %cstr
-  %2 = load i8*, i8** %cstr, align 8
-  %3 = load i8*, i8** %cstr, align 8
-  %4 = call i64 @strlen(i8* %3)
-  %5 = getelementptr inbounds %string, %string* %.compound.157, i32 0, i32 0
-  store i64 %4, i64* %5
-  %6 = getelementptr inbounds %string, %string* %.compound.157, i32 0, i32 1
-  store i8* %2, i8** %6
-  %7 = load %string, %string* %.compound.157
-  store %string %7, %string* %.ret.26, align 8
-  br label %exit
-
-exit:                                             ; preds = %entry
-  %8 = load %string, %string* %.ret.26, align 8
-  store %string %8, %string* %0
-  ret void
-}
+; Function Attrs: argmemonly nounwind willreturn
+declare void @llvm.lifetime.end.p0i8(i64 immarg, i8* nocapture) #1
 
 attributes #0 = { nounwind }
-attributes #1 = { argmemonly nounwind }
-attributes #2 = { alwaysinline }
+attributes #1 = { argmemonly nounwind willreturn }
+attributes #2 = { nofree nounwind }
+attributes #3 = { argmemonly nofree nounwind readonly }
+attributes #4 = { norecurse nounwind readonly }
+attributes #5 = { nofree }
+attributes #6 = { nofree norecurse nounwind writeonly }
+attributes #7 = { nofree norecurse nounwind }
+attributes #8 = { alwaysinline norecurse nounwind readnone }
+attributes #9 = { alwaysinline nounwind readonly }
+attributes #10 = { nounwind readnone speculatable willreturn }
 

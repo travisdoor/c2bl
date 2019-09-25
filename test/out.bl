@@ -1,1 +1,26 @@
 // generated from test/testfile.h
+CXIndex :: *u8;
+CXType :: *u8;
+CXCursor :: *u8;
+clang_getTypedefDeclUnderlyingType :: fn (C: CXCursor) CXType #extern;
+foo :: fn (number: s32, c: s8) s32 #extern;
+bar :: fn () s32 #extern;
+bar2 :: fn (ptr: *u8, i: **s32) s32 #extern;
+
+Bar :: enum {
+    A :: 10,
+    B :: 11,
+    C :: 12,
+};
+
+Bar2 :: ;
+
+E_Foo :: enum {
+    I :: 10,
+    J :: 11,
+    K :: 12,
+};
+
+Foo :: ;
+Int :: s32;
+Homo :: ;
