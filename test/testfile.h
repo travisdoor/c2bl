@@ -13,15 +13,21 @@ bar(void);
 
 int
 bar2(void *ptr, long **i);
-enum Bar;
-struct Homo;
-enum Bar { A = 10, B, C };
-typedef enum Bar Bar2;
-typedef enum E_Foo { I = 10, J, K } Foo;
+
 typedef int Int;
 
-typedef struct {
-        int       a;
-        char      b;
-        long long c;
-} Homo;
+enum Month;
+enum Month;
+enum Month;
+
+typedef enum Day2 Day;
+
+enum Day2 {
+	Sunday,
+	Monday
+};
+
+typedef enum Month2 {
+	January,
+	February
+} Month;

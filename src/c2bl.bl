@@ -27,10 +27,15 @@
 //*****************************************************************************
 
 #load "std/print.bl"
+#load "std/memory.bl"
 #load "clang.bl"
+#load "decl_array.bl"
+#load "decl.bl"
 
-test_file :=  "test/testfile.h";
-//test_file :=  "/Users/travis/Develop/llvm-project/clang/include/clang-c/Index.h";
+//test_file :=  "test/testfile.h";
+test_file :=  "/Users/travis/Develop/llvm-project/clang/include/clang-c/Index.h";
+
+decl_cache := {:DeclArray: 0};
 
 main :: fn () u32 {
     idx := clang_createIndex(0, 0);
@@ -51,8 +56,15 @@ main :: fn () u32 {
 
     cursor := clang_getTranslationUnitCursor(tu);
 
+    decl_array_init(&decl_cache);
+    defer decl_array_terminate(&decl_cache);
+
     print("// generated from %\n", test_file);
-    return clang_visitChildren(cursor, &visitor, null);
+    clang_visitChildren(cursor, &visitor, null);
+
+    emit_decl_cache();
+    
+    return 0;
 };
 
 visitor :: fn (cursor: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
@@ -61,85 +73,30 @@ visitor :: fn (cursor: CXCursor, parent: CXCursor, client_data: CXClientData) CX
         return CXChildVisitResult.Continue;
     }
 
-    if cursor.kind == CXCursorKind.FunctionDecl {
-        emit_fn_proto(cursor);
-    } else if cursor.kind == CXCursorKind.TypedefDecl {
-        emit_typedef(cursor);
-    } else if cursor.kind == CXCursorKind.EnumDecl {
-        emit_enum(cursor);
-    } else if cursor.kind == CXCursorKind.EnumConstantDecl {
-        emit_variant(cursor);
-    } else {
-        eprint("Unknown node %\n", cursor.kind);
+    if cursor.kind != CXCursorKind.FunctionDecl && !clang_isCursorDefinition(cursor)  {
+        return CXChildVisitResult.Continue;
+    }
+
+    cursor = clang_getCanonicalCursor(cursor);
+    hash := decl_hash_from_cursor(cursor);
+
+    if clang_isDeclaration(cursor.kind) {
+        if !decl_array_contains(&decl_cache, hash) {
+            decl_array_push(&decl_cache, decl_new(cursor));
+        }
     }
 
     return CXChildVisitResult.Continue;
 };
 
-emit_enum :: fn (cursor: CXCursor) {
-    if !clang_isCursorDefinition(cursor) { return; }
-
-    tmp : string;
-    get_string(clang_getCursorSpelling(cursor), &tmp);
-    if tmp.len == 0 { return; }
-    print("\n% :: enum {\n", tmp);
-    clang_visitChildren(cursor, &visitor, null);
-    print("};\n\n", tmp);
-};
-
-emit_variant :: fn (cursor: CXCursor) {
-    tmp : string;
-    get_string(clang_getCursorSpelling(cursor), &tmp);
-    value :=  clang_getEnumConstantDeclValue(cursor);
-    print("    % :: %,\n", tmp, value);
-};
-
-emit_typedef :: fn (cursor: CXCursor) {
-    if !clang_isCursorDefinition(cursor) { return; }
-
-    tmp : string;
-    get_string(clang_getCursorSpelling(cursor), &tmp);
-    print("% :: ", tmp);
-    t := clang_getTypedefDeclUnderlyingType(cursor);
-    emit_type(t, true);
-    print(";\n", tmp);
-};
-
-emit_fn_proto :: fn (cursor: CXCursor) {
-    tmp : string;
-    get_string(clang_getCursorSpelling(cursor), &tmp);
-    print("% :: fn (", tmp);
-
-    argc : u32 = auto clang_Cursor_getNumArguments(cursor);
-    loop i : u32 = 0; i < argc; i += 1 {
-        emit_arg(clang_Cursor_getArgument(cursor, i), i);
-
-        if i < argc - 1 { print(", "); }
+emit_decl_cache :: fn () {
+    loop i := 0; i < decl_cache.data.len; i += 1 {
+        decl_emit(decl_cache.data[i]);
+        //eprint("%\n", ^decl_cache.data[i]);
     }
-        
-
-    print(") ");
-
-    t := clang_getCursorResultType(cursor);
-    emit_type(t, true);
-    print(" #extern;\n", tmp);
 };
 
-emit_arg :: fn (cursor: CXCursor, i: u32) {
-    tmp : string;
-
-    get_string(clang_getCursorSpelling(cursor), &tmp);
-    if tmp.len > 0 {
-        print("%: ", tmp);
-    } else {
-        print("_%: ", i);
-    }
-
-    t := clang_getCursorType(cursor);
-    emit_type(t, true);
-};
-
-emit_type :: fn (t: CXType, ignore_void: bool) {
+_emit_type :: fn (t: CXType, ignore_void: bool) {
     if t.kind == CXTypeKind.Bool       { print("bool"); return; }
     if t.kind == CXTypeKind.Char_U     { print("u8");   return; }
     if t.kind == CXTypeKind.UChar      { print("u8");   return; }
@@ -162,14 +119,7 @@ emit_type :: fn (t: CXType, ignore_void: bool) {
 
     tmp : string;
 
-    if t.kind == CXTypeKind.Elaborated {
-        //emit_enum(clang_getTypeDeclaration(t));
-        return;
-    }
-
     if t.kind == CXTypeKind.Typedef {
-        get_string(clang_getTypedefName(t), &tmp);
-        print("%", tmp);
         return;
     }
 
@@ -185,7 +135,7 @@ emit_type :: fn (t: CXType, ignore_void: bool) {
     if t.kind == CXTypeKind.Pointer {
         print("*");
         t = clang_getPointeeType(t);
-        emit_type(t, false);
+        //emit_type(t, false);
         return;
     }
 
@@ -193,11 +143,7 @@ emit_type :: fn (t: CXType, ignore_void: bool) {
     print("<INVALID_TYPE>");
 };
 
-
-get_string :: fn (cxstring: CXString, tmp_out: *string) {
-    tmp_out.ptr = cxstring.data;
-    tmp_out.len = auto strlen(cxstring.data);
-};
+#private
 
 build_TU_flags :: fn (flags: ...CXTranslationUnit_Flags) u32 {
     result : u32 = 0;
