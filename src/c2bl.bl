@@ -29,13 +29,10 @@
 #load "std/print.bl"
 #load "std/memory.bl"
 #load "clang.bl"
-#load "decl_array.bl"
-#load "decl.bl"
 
 //test_file :=  "test/testfile.h";
-test_file :=  "/Users/travis/Develop/llvm-project/clang/include/clang-c/Index.h";
-
-decl_cache := {:DeclArray: 0};
+test_file := "/usr/local/include/json-c/json_object.h";
+//test_file :=  "/Users/travis/Develop/llvm-project/clang/include/clang-c/Index.h";
 
 main :: fn () u32 {
     idx := clang_createIndex(0, 0);
@@ -56,74 +53,65 @@ main :: fn () u32 {
 
     cursor := clang_getTranslationUnitCursor(tu);
 
-    decl_array_init(&decl_cache);
-    defer decl_array_terminate(&decl_cache);
-
     print("// generated from %\n", test_file);
     clang_visitChildren(cursor, &visitor, null);
-
-    emit_decl_cache();
     
     return 0;
 };
 
-visitor :: fn (cursor: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
-    loc := clang_getCursorLocation(cursor);
+visitor :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
+    loc := clang_getCursorLocation(c);
     if clang_Location_isFromMainFile(loc) == 0 { 
         return CXChildVisitResult.Continue;
     }
 
-    if cursor.kind != CXCursorKind.FunctionDecl && !clang_isCursorDefinition(cursor)  {
-        return CXChildVisitResult.Continue;
-    }
-
-    cursor = clang_getCanonicalCursor(cursor);
-    hash := decl_hash_from_cursor(cursor);
-
-    if clang_isDeclaration(cursor.kind) {
-        if !decl_array_contains(&decl_cache, hash) {
-            decl_array_push(&decl_cache, decl_new(cursor));
+    if c.kind == CXCursorKind.StructDecl {
+        if clang_isCursorDefinition(c) {
+            spelling := clang_getCursorSpelling(c);
+            name := {:string: auto strlen(spelling.data), spelling.data};
+            print("% :: struct {\n", name);
+            clang_visitChildren(c, &visitor, null);
         }
+
+    } else if c.kind == CXCursorKind.FieldDecl {
+        spelling := clang_getCursorSpelling(c);
+        name := {:string: auto strlen(spelling.data), spelling.data};
+        print("    %", name);
+
+        T := clang_getCursorType(c);
+        emit_type(T, true);
+        print(",\n", name);
+    } else {
+        error_cursor(c);
     }
 
     return CXChildVisitResult.Continue;
 };
 
-emit_decl_cache :: fn () {
-    loop i := 0; i < decl_cache.data.len; i += 1 {
-        decl_emit(decl_cache.data[i]);
-        //eprint("%\n", ^decl_cache.data[i]);
-    }
-};
+#private
 
-_emit_type :: fn (t: CXType, ignore_void: bool) {
-    if t.kind == CXTypeKind.Bool       { print("bool"); return; }
-    if t.kind == CXTypeKind.Char_U     { print("u8");   return; }
-    if t.kind == CXTypeKind.UChar      { print("u8");   return; }
-    if t.kind == CXTypeKind.Char16     { print("u16");  return; }
-    if t.kind == CXTypeKind.Char32     { print("u32");  return; }
-    if t.kind == CXTypeKind.UShort     { print("u16");  return; }
-    if t.kind == CXTypeKind.UInt       { print("u32");  return; }
-    if t.kind == CXTypeKind.ULong      { print("u32");  return; }
-    if t.kind == CXTypeKind.ULongLong  { print("u64");  return; }
-    if t.kind == CXTypeKind.Char_S     { print("s8");   return; }
-    if t.kind == CXTypeKind.SChar      { print("s8");   return; }
-    if t.kind == CXTypeKind.WChar      { print("s16");  return; }
-    if t.kind == CXTypeKind.Short      { print("s16");  return; }
-    if t.kind == CXTypeKind.Int        { print("s32");  return; }
-    if t.kind == CXTypeKind.Long       { print("s32");  return; }
-    if t.kind == CXTypeKind.LongLong   { print("s64");  return; }
-    if t.kind == CXTypeKind.Float      { print("f32");  return; }
-    if t.kind == CXTypeKind.Double     { print("f64");  return; }
-    if t.kind == CXTypeKind.NullPtr    { print("null"); return; }
+emit_type :: fn (T: CXType, ignore_void: bool) {
+    if T.kind == CXTypeKind.Bool       { print("bool"); return; }
+    if T.kind == CXTypeKind.Char_U     { print("u8");   return; }
+    if T.kind == CXTypeKind.UChar      { print("u8");   return; }
+    if T.kind == CXTypeKind.Char16     { print("u16");  return; }
+    if T.kind == CXTypeKind.Char32     { print("u32");  return; }
+    if T.kind == CXTypeKind.UShort     { print("u16");  return; }
+    if T.kind == CXTypeKind.UInt       { print("u32");  return; }
+    if T.kind == CXTypeKind.ULong      { print("u32");  return; }
+    if T.kind == CXTypeKind.ULongLong  { print("u64");  return; }
+    if T.kind == CXTypeKind.Char_S     { print("s8");   return; }
+    if T.kind == CXTypeKind.SChar      { print("s8");   return; }
+    if T.kind == CXTypeKind.WChar      { print("s16");  return; }
+    if T.kind == CXTypeKind.Short      { print("s16");  return; }
+    if T.kind == CXTypeKind.Int        { print("s32");  return; }
+    if T.kind == CXTypeKind.Long       { print("s32");  return; }
+    if T.kind == CXTypeKind.LongLong   { print("s64");  return; }
+    if T.kind == CXTypeKind.Float      { print("f32");  return; }
+    if T.kind == CXTypeKind.Double     { print("f64");  return; }
+    if T.kind == CXTypeKind.NullPtr    { print("null"); return; }
 
-    tmp : string;
-
-    if t.kind == CXTypeKind.Typedef {
-        return;
-    }
-
-    if t.kind == CXTypeKind.Void {
+    if T.kind == CXTypeKind.Void {
         if ignore_void {
             return;
         } else {
@@ -132,18 +120,15 @@ _emit_type :: fn (t: CXType, ignore_void: bool) {
         }
     }
 
-    if t.kind == CXTypeKind.Pointer {
+    if T.kind == CXTypeKind.Pointer {
         print("*");
-        t = clang_getPointeeType(t);
-        //emit_type(t, false);
+        emit_type(clang_getPointeeType(T), false);
         return;
     }
 
-    eprint("Invalid type %\n", t);
     print("<INVALID_TYPE>");
+    eprint("<INVALID_TYPE>: %\n", T.kind);
 };
-
-#private
 
 build_TU_flags :: fn (flags: ...CXTranslationUnit_Flags) u32 {
     result : u32 = 0;
@@ -153,4 +138,11 @@ build_TU_flags :: fn (flags: ...CXTranslationUnit_Flags) u32 {
     }
 
     return result;
+};
+
+error_cursor :: fn (c: CXCursor) {
+    location := clang_getCursorLocation(c);
+    line : u32;
+    clang_getExpansionLocation(location, null, &line, null, null);
+    print("%: %\n", line, c.kind);
 };

@@ -27,6 +27,17 @@ CXClientData :: *u8;
 CXModule :: *u8;
 
 /**
+ * \defgroup CINDEX_FILES File manipulation routines
+ *
+ * @{
+ */
+
+/**
+ * A particular source file that is part of a translation unit.
+ */
+CXFile :: *u8; 
+
+/**
  * Visitor invoked for each cursor found by a traversal.
  *
  * This visitor function will be invoked for each cursor found by
@@ -1693,3 +1704,57 @@ clang_isDeclaration :: fn (CK: CXCursorKind) bool #extern;
  * \returns The canonical cursor for the entity referred to by the given cursor.
  */
 clang_getCanonicalCursor :: fn (C: CXCursor) CXCursor #extern;
+
+/**
+ * Retrieve the file, line, column, and offset represented by
+ * the given source location.
+ *
+ * If the location refers into a macro expansion, retrieves the
+ * location of the macro expansion.
+ *
+ * \param location the location within a source file that will be decomposed
+ * into its parts.
+ *
+ * \param file [out] if non-NULL, will be set to the file to which the given
+ * source location points.
+ *
+ * \param line [out] if non-NULL, will be set to the line to which the given
+ * source location points.
+ *
+ * \param column [out] if non-NULL, will be set to the column to which the given
+ * source location points.
+ *
+ * \param offset [out] if non-NULL, will be set to the offset into the
+ * buffer to which the given source location points.
+ */
+clang_getExpansionLocation :: fn (location: CXSourceLocation, file: *CXFile, line: *u32, column: *u32, offset: *u32) #extern;
+
+/**
+ *  For a cursor that is either a reference to or a declaration
+ *  of some entity, retrieve a cursor that describes the definition of
+ *  that entity.
+ *
+ *  Some entities can be declared multiple times within a translation
+ *  unit, but only one of those declarations can also be a
+ *  definition. For example, given:
+ *
+ *  \code
+ *  int f(int, int);
+ *  int g(int x, int y) { return f(x, y); }
+ *  int f(int a, int b) { return a + b; }
+ *  int f(int, int);
+ *  \endcode
+ *
+ *  there are three declarations of the function "f", but only the
+ *  second one is a definition. The clang_getCursorDefinition()
+ *  function will take any cursor pointing to a declaration of "f"
+ *  (the first or fourth lines of the example) or a cursor referenced
+ *  that uses "f" (the call to "f' inside "g") and will return a
+ *  declaration cursor pointing to the definition (the second "f"
+ *  declaration).
+ *
+ *  If given a cursor for which there is no corresponding definition,
+ *  e.g., because there is no definition of that entity within this
+ *  translation unit, returns a NULL cursor.
+ */
+clang_getCursorDefinition :: fn (C: CXCursor) CXCursor #extern;
