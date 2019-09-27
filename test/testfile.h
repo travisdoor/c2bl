@@ -33,7 +33,7 @@ typedef enum {
 	February
 } Month;
 
-typedef struct Person {
+typedef struct Person_S {
     int age;
     const char *name;
 } Person;
