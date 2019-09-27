@@ -20,14 +20,19 @@ enum Month;
 enum Month;
 enum Month;
 
-typedef enum Day2 Day;
+typedef enum Day2 Day2;
 
 enum Day2 {
 	Sunday,
 	Monday
 };
 
-typedef enum Month2 {
+typedef enum Month {
 	January,
 	February
 } Month;
+
+struct Person {
+    int age;
+    const char *name;
+};
