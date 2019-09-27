@@ -2,3 +2,7 @@
 .DS_Store
 bin/
 build/
+/c2bl
+/c2bl.o
+/test/out.bl
+*.swp
