@@ -29,10 +29,13 @@
 #load "std/print.bl"
 #load "std/memory.bl"
 #load "clang.bl"
+#load "symbol_cache.bl"
 
 test_file :=  "test/testfile.h";
 //test_file := "/usr/local/include/json-c/json_object.h";
 //test_file :=  "/Users/travis/Develop/llvm-project/clang/include/clang-c/Index.h";
+
+symbol_cache := {:SymbolCache: 0};
 
 main :: fn () u32 {
     idx := clang_createIndex(0, 0);
@@ -53,61 +56,70 @@ main :: fn () u32 {
 
     cursor := clang_getTranslationUnitCursor(tu);
 
+    sc_init(&symbol_cache);
+    defer sc_terminate(&symbol_cache);
+
     print("// generated from %\n", test_file);
-    clang_visitChildren(cursor, &emit_block, null);
+    clang_visitChildren(cursor, &emit_top_level, null);
     
     return 0;
 };
 
-emit_block :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
+emit_top_level :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
     loc := clang_getCursorLocation(c);
     if clang_Location_isFromMainFile(loc) == 0 { 
         return CXChildVisitResult.Continue;
     }
 
-    if c.kind == CXCursorKind.StructDecl {
-        if clang_isCursorDefinition(c) {
-            if clang_isDeclaration(c.kind) { emit_decl_name(c); }
-            print("struct {\n");
-            clang_visitChildren(c, &emit_block_struct, null);
-            print("};\n");
+    if clang_isCursorDefinition(c) || c.kind == CXCursorKind.FunctionDecl {
+        if emit_decl_name(c) {
+            emit_decl(c);
+            print(";\n");
         }
-
-    } else if c.kind == CXCursorKind.TypedefDecl {
-        cc := clang_getCanonicalCursor(c);
-        if clang_equalCursors(c, cc) && clang_isCursorDefinition(c) && clang_isDeclaration(c.kind) {
-                emit_decl_name(c);
-                emit_typedef(c);
-        } 
-
-    } else if c.kind == CXCursorKind.EnumDecl {
-        if clang_isCursorDefinition(c) {
-            if clang_isDeclaration(c.kind) { emit_decl_name(c); }
-            print("enum {\n");
-            print("}\n");
-        }
-
-    } else if c.kind == CXCursorKind.FunctionDecl {
-        emit_decl_name(c);
-        print("fn () #extern;\n");
-
-    } else {
-        error_cursor(c);
     }
 
     return CXChildVisitResult.Continue;
 };
 
-emit_decl_name :: fn (c: CXCursor) #inline {
+emit_decl :: fn (c: CXCursor) {
+    if c.kind == CXCursorKind.StructDecl {        
+        print("struct {\n");
+        clang_visitChildren(c, &emit_block_struct, null);
+        print("}");
+
+    } else if c.kind == CXCursorKind.TypedefDecl {
+        emit_typedef(c);
+
+    } else if c.kind == CXCursorKind.EnumDecl {
+        print("enum {\n");
+        print("}");
+
+    } else if c.kind == CXCursorKind.FunctionDecl {
+        print("fn () #extern");
+
+    } else {
+        error_cursor(c);
+    }
+};
+
+emit_decl_name :: fn (c: CXCursor) bool #inline {
     spelling := clang_getCursorSpelling(c);
     name := {:string: auto strlen(spelling.data), spelling.data};
+    if name.len == 0 { return false; }
+
+    hash := hash_string(name);
+
+    if sc_contains(&symbol_cache, hash) { return false; }
     print("% :: ", name);
+
+    sc_push(&symbol_cache, hash);
+
+    return true;
 };
 
 emit_typedef :: fn (c: CXCursor) {
     T := clang_getTypedefDeclUnderlyingType(c);
     emit_type(T, true);
-    print(";\n");
 };
 
 emit_block_struct :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
@@ -154,10 +166,7 @@ emit_type :: fn (T: CXType, ignore_void: bool) {
 
     if T.kind == CXTypeKind.Elaborated {
         c := clang_getTypeDeclaration(T);
-
-        spelling := clang_getCursorSpelling(c);
-        name := {:string: auto strlen(spelling.data), spelling.data};
-        print("%", name);
+        emit_decl(c);
         return;
     }
 
@@ -186,4 +195,13 @@ error_cursor :: fn (c: CXCursor) {
     line : u32;
     clang_getExpansionLocation(location, null, &line, null, null);
     eprint("%: %\n", line, c.kind);
+};
+
+hash_string :: fn (s: string) u32 {
+    hash : u32 = 5381;
+    loop i := 0; i < s.len; i += 1 {
+        hash = ((hash << 5) + hash) + auto s[i];
+    }
+
+    return hash;
 };
