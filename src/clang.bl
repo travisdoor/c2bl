@@ -59,8 +59,8 @@ CXCursorVisitor :: * fn (CXCursor, CXCursor, CXClientData) CXChildVisitResult;
  * yet been saved to disk.
  */
 CXUnsavedFile :: struct {
-    Filename: *u8,
-    Contents: *u8,
+    Filename: *u8;
+    Contents: *u8;
     Length: u64
 };
 
@@ -73,7 +73,7 @@ CXUnsavedFile :: struct {
  * with the string data, call \c clang_disposeString() to free the string.
  */
 CXString :: struct {
-    data: *u8, 
+    data: *u8; 
     private_flags: s32
 };
 
@@ -85,7 +85,7 @@ CXString :: struct {
  * to map a source location to a particular file, line, and column.
  */
 CXSourceLocation :: struct {
-  ptr_data: [2]*u8,
+  ptr_data: [2]*u8;
   int_data: u32
 };
 
@@ -94,7 +94,7 @@ CXSourceLocation :: struct {
  *
  */
 CXType :: struct {
-    kind: CXTypeKind,
+    kind: CXTypeKind;
     data: [2]*u8
 };
 
@@ -117,8 +117,8 @@ CXType :: struct {
  * source code into the AST.
  */
 CXCursor :: struct {
-    kind: CXCursorKind,
-    xdata: s32,
+    kind: CXCursorKind;
+    xdata: s32;
     data: [3]*u8
 };
 
@@ -132,7 +132,7 @@ CXErrorCode :: enum {
     /**
     * No error.
     */
-    Success :: 0,
+    Success :: 0;
 
     /**
     * A generic error code, no further details are available.
@@ -140,18 +140,18 @@ CXErrorCode :: enum {
     * Errors of this kind can get their own specific error codes in future
     * libclang versions.
     */
-    Failure :: 1,
+    Failure :: 1;
 
     /**
     * libclang crashed while performing the requested operation.
     */
-    Crashed :: 2,
+    Crashed :: 2;
 
     /**
     * The function detected that the arguments violate the function
     * contract.
     */
-    InvalidArguments :: 3,
+    InvalidArguments :: 3;
 
     /**
     * An AST deserialization error has occurred.
@@ -171,7 +171,7 @@ CXTranslationUnit_Flags :: enum {
     * Used to indicate that no special translation-unit options are
     * needed.
     */
-    None :: 0x0,
+    None :: 0x0;
 
     /**
     * Used to indicate that the parser should construct a "detailed"
@@ -183,7 +183,7 @@ CXTranslationUnit_Flags :: enum {
     * applications that require more detailed information about the
     * behavior of the preprocessor.
     */
-    DetailedPreprocessingRecord :: 0x01,
+    DetailedPreprocessingRecord :: 0x01;
 
     /**
     * Used to indicate that the translation unit is incomplete.
@@ -196,7 +196,7 @@ CXTranslationUnit_Flags :: enum {
     * C++. This option is typically used when parsing a header with the
     * intent of producing a precompiled header.
     */
-    Incomplete :: 0x02,
+    Incomplete :: 0x02;
 
     /**
     * Used to indicate that the translation unit should be built with an
@@ -212,7 +212,7 @@ CXTranslationUnit_Flags :: enum {
     * clang_reparseTranslationUnit() will re-use the implicit
     * precompiled header to improve parsing performance.
     */
-    PrecompiledPreamble :: 0x04,
+    PrecompiledPreamble :: 0x04;
 
     /**
     * Used to indicate that the translation unit should cache some
@@ -222,7 +222,7 @@ CXTranslationUnit_Flags :: enum {
     * introduces some overhead to reparsing but improves the performance of
     * code-completion operations.
     */
-    CacheCompletionResults :: 0x08,
+    CacheCompletionResults :: 0x08;
 
     /**
     * Used to indicate that the translation unit will be serialized with
@@ -231,7 +231,7 @@ CXTranslationUnit_Flags :: enum {
     * This option is typically used when parsing a header with the intent of
     * producing a precompiled header.
     */
-    ForSerialization :: 0x10,
+    ForSerialization :: 0x10;
 
     /**
     * DEPRECATED: Enabled chained precompiled preambles in C++.
@@ -239,7 +239,7 @@ CXTranslationUnit_Flags :: enum {
     * Note: this is a *temporary* option that is available only while
     * we are testing C++ precompiled preamble support. It is deprecated.
     */
-    CXXChainedPCH :: 0x20,
+    CXXChainedPCH :: 0x20;
 
     /**
     * Used to indicate that function/method bodies should be skipped while
@@ -248,14 +248,14 @@ CXTranslationUnit_Flags :: enum {
     * This option can be used to search for declarations/definitions while
     * ignoring the usages.
     */
-    SkipFunctionBodies :: 0x40,
+    SkipFunctionBodies :: 0x40;
 
     /**
     * Used to indicate that brief documentation comments should be
     * included into the set of code completions returned from this translation
     * unit.
     */
-    IncludeBriefCommentsInCodeCompletion :: 0x80,
+    IncludeBriefCommentsInCodeCompletion :: 0x80;
 
     /**
     * Used to indicate that the precompiled preamble should be created on
@@ -263,7 +263,7 @@ CXTranslationUnit_Flags :: enum {
     * trades runtime on the first parse (serializing the preamble takes time) for
     * reduced runtime on the second parse (can now reuse the preamble).
     */
-    CreatePreambleOnFirstParse :: 0x100,
+    CreatePreambleOnFirstParse :: 0x100;
 
     /**
     * Do not stop processing when fatal errors are encountered.
@@ -274,12 +274,12 @@ CXTranslationUnit_Flags :: enum {
     * purposes of an IDE, this is undesirable behavior and as much information
     * as possible should be reported. Use this flag to enable this behavior.
     */
-    KeepGoing :: 0x200,
+    KeepGoing :: 0x200;
 
     /**
     * Sets the preprocessor in a mode for parsing a single file only.
     */
-    SingleFileParse :: 0x400,
+    SingleFileParse :: 0x400;
 
     /**
     * Used in combination with SkipFunctionBodies to
@@ -287,17 +287,17 @@ CXTranslationUnit_Flags :: enum {
     *
     * The function bodies of the main file are not skipped.
     */
-    LimitSkipFunctionBodiesToPreamble :: 0x800,
+    LimitSkipFunctionBodiesToPreamble :: 0x800;
 
     /**
     * Used to indicate that attributed types should be included in CXType.
     */
-    IncludeAttributedTypes :: 0x1000,
+    IncludeAttributedTypes :: 0x1000;
 
     /**
     * Used to indicate that implicit attributes should be visited.
     */
-    VisitImplicitAttributes :: 0x2000,
+    VisitImplicitAttributes :: 0x2000;
 
     /**
     * Used to indicate that non-errors from included files should be ignored.
@@ -342,144 +342,144 @@ CXTypeKind :: enum {
     /**
     * Represents an invalid type (e.g., where no type is available).
     */
-    Invalid :: 0,
+    Invalid :: 0;
 
     /**
     * A type whose specific kind is not exposed via this
     * interface.
     */
-    Unexposed :: 1,
+    Unexposed :: 1;
 
     /* Builtin types */
-    Void :: 2,
-    Bool :: 3,
-    Char_U :: 4,
-    UChar :: 5,
-    Char16 :: 6,
-    Char32 :: 7,
-    UShort :: 8,
-    UInt :: 9,
-    ULong :: 10,
-    ULongLong :: 11,
-    UInt128 :: 12,
-    Char_S :: 13,
-    SChar :: 14,
-    WChar :: 15,
-    Short :: 16,
-    Int :: 17,
-    Long :: 18,
-    LongLong :: 19,
-    Int128 :: 20,
-    Float :: 21,
-    Double :: 22,
-    LongDouble :: 23,
-    NullPtr :: 24,
-    Overload :: 25,
-    Dependent :: 26,
-    ObjCId :: 27,
-    ObjCClass :: 28,
-    ObjCSel :: 29,
-    Float128 :: 30,
-    Half :: 31,
-    Float16 :: 32,
-    ShortAccum :: 33,
-    Accum :: 34,
-    LongAccum :: 35,
-    UShortAccum :: 36,
-    UAccum :: 37,
-    ULongAccum :: 38,
-    FirstBuiltin :: Void,
-    LastBuiltin :: ULongAccum,
+    Void :: 2;
+    Bool :: 3;
+    Char_U :: 4;
+    UChar :: 5;
+    Char16 :: 6;
+    Char32 :: 7;
+    UShort :: 8;
+    UInt :: 9;
+    ULong :: 10;
+    ULongLong :: 11;
+    UInt128 :: 12;
+    Char_S :: 13;
+    SChar :: 14;
+    WChar :: 15;
+    Short :: 16;
+    Int :: 17;
+    Long :: 18;
+    LongLong :: 19;
+    Int128 :: 20;
+    Float :: 21;
+    Double :: 22;
+    LongDouble :: 23;
+    NullPtr :: 24;
+    Overload :: 25;
+    Dependent :: 26;
+    ObjCId :: 27;
+    ObjCClass :: 28;
+    ObjCSel :: 29;
+    Float128 :: 30;
+    Half :: 31;
+    Float16 :: 32;
+    ShortAccum :: 33;
+    Accum :: 34;
+    LongAccum :: 35;
+    UShortAccum :: 36;
+    UAccum :: 37;
+    ULongAccum :: 38;
+    FirstBuiltin :: Void;
+    LastBuiltin :: ULongAccum;
 
-    Complex :: 100,
-    Pointer :: 101,
-    BlockPointer :: 102,
-    LValueReference :: 103,
-    RValueReference :: 104,
-    Record :: 105,
-    Enum :: 106,
-    Typedef :: 107,
-    ObjCInterface :: 108,
-    ObjCObjectPointer :: 109,
-    FunctionNoProto :: 110,
-    FunctionProto :: 111,
-    ConstantArray :: 112,
-    Vector :: 113,
-    IncompleteArray :: 114,
-    VariableArray :: 115,
-    DependentSizedArray :: 116,
-    MemberPointer :: 117,
-    Auto :: 118,
+    Complex :: 100;
+    Pointer :: 101;
+    BlockPointer :: 102;
+    LValueReference :: 103;
+    RValueReference :: 104;
+    Record :: 105;
+    Enum :: 106;
+    Typedef :: 107;
+    ObjCInterface :: 108;
+    ObjCObjectPointer :: 109;
+    FunctionNoProto :: 110;
+    FunctionProto :: 111;
+    ConstantArray :: 112;
+    Vector :: 113;
+    IncompleteArray :: 114;
+    VariableArray :: 115;
+    DependentSizedArray :: 116;
+    MemberPointer :: 117;
+    Auto :: 118;
 
     /**
     * Represents a type that was referred to using an elaborated type keyword.
     *
     * E.g., struct S, or via a qualified name, e.g., N::M::type, or both.
     */
-    Elaborated :: 119,
+    Elaborated :: 119;
 
     /* OpenCL PipeType. */
-    Pipe :: 120,
+    Pipe :: 120;
 
     /* OpenCL builtin types. */
-    OCLImage1dRO :: 121,
-    OCLImage1dArrayRO :: 122,
-    OCLImage1dBufferRO :: 123,
-    OCLImage2dRO :: 124,
-    OCLImage2dArrayRO :: 125,
-    OCLImage2dDepthRO :: 126,
-    OCLImage2dArrayDepthRO :: 127,
-    OCLImage2dMSAARO :: 128,
-    OCLImage2dArrayMSAARO :: 129,
-    OCLImage2dMSAADepthRO :: 130,
-    OCLImage2dArrayMSAADepthRO :: 131,
-    OCLImage3dRO :: 132,
-    OCLImage1dWO :: 133,
-    OCLImage1dArrayWO :: 134,
-    OCLImage1dBufferWO :: 135,
-    OCLImage2dWO :: 136,
-    OCLImage2dArrayWO :: 137,
-    OCLImage2dDepthWO :: 138,
-    OCLImage2dArrayDepthWO :: 139,
-    OCLImage2dMSAAWO :: 140,
-    OCLImage2dArrayMSAAWO :: 141,
-    OCLImage2dMSAADepthWO :: 142,
-    OCLImage2dArrayMSAADepthWO :: 143,
-    OCLImage3dWO :: 144,
-    OCLImage1dRW :: 145,
-    OCLImage1dArrayRW :: 146,
-    OCLImage1dBufferRW :: 147,
-    OCLImage2dRW :: 148,
-    OCLImage2dArrayRW :: 149,
-    OCLImage2dDepthRW :: 150,
-    OCLImage2dArrayDepthRW :: 151,
-    OCLImage2dMSAARW :: 152,
-    OCLImage2dArrayMSAARW :: 153,
-    OCLImage2dMSAADepthRW :: 154,
-    OCLImage2dArrayMSAADepthRW :: 155,
-    OCLImage3dRW :: 156,
-    OCLSampler :: 157,
-    OCLEvent :: 158,
-    OCLQueue :: 159,
-    OCLReserveID :: 160,
+    OCLImage1dRO :: 121;
+    OCLImage1dArrayRO :: 122;
+    OCLImage1dBufferRO :: 123;
+    OCLImage2dRO :: 124;
+    OCLImage2dArrayRO :: 125;
+    OCLImage2dDepthRO :: 126;
+    OCLImage2dArrayDepthRO :: 127;
+    OCLImage2dMSAARO :: 128;
+    OCLImage2dArrayMSAARO :: 129;
+    OCLImage2dMSAADepthRO :: 130;
+    OCLImage2dArrayMSAADepthRO :: 131;
+    OCLImage3dRO :: 132;
+    OCLImage1dWO :: 133;
+    OCLImage1dArrayWO :: 134;
+    OCLImage1dBufferWO :: 135;
+    OCLImage2dWO :: 136;
+    OCLImage2dArrayWO :: 137;
+    OCLImage2dDepthWO :: 138;
+    OCLImage2dArrayDepthWO :: 139;
+    OCLImage2dMSAAWO :: 140;
+    OCLImage2dArrayMSAAWO :: 141;
+    OCLImage2dMSAADepthWO :: 142;
+    OCLImage2dArrayMSAADepthWO :: 143;
+    OCLImage3dWO :: 144;
+    OCLImage1dRW :: 145;
+    OCLImage1dArrayRW :: 146;
+    OCLImage1dBufferRW :: 147;
+    OCLImage2dRW :: 148;
+    OCLImage2dArrayRW :: 149;
+    OCLImage2dDepthRW :: 150;
+    OCLImage2dArrayDepthRW :: 151;
+    OCLImage2dMSAARW :: 152;
+    OCLImage2dArrayMSAARW :: 153;
+    OCLImage2dMSAADepthRW :: 154;
+    OCLImage2dArrayMSAADepthRW :: 155;
+    OCLImage3dRW :: 156;
+    OCLSampler :: 157;
+    OCLEvent :: 158;
+    OCLQueue :: 159;
+    OCLReserveID :: 160;
 
-    ObjCObject :: 161,
-    ObjCTypeParam :: 162,
-    Attributed :: 163,
+    ObjCObject :: 161;
+    ObjCTypeParam :: 162;
+    Attributed :: 163;
 
-    OCLIntelSubgroupAVCMcePayload :: 164,
-    OCLIntelSubgroupAVCImePayload :: 165,
-    OCLIntelSubgroupAVCRefPayload :: 166,
-    OCLIntelSubgroupAVCSicPayload :: 167,
-    OCLIntelSubgroupAVCMceResult :: 168,
-    OCLIntelSubgroupAVCImeResult :: 169,
-    OCLIntelSubgroupAVCRefResult :: 170,
-    OCLIntelSubgroupAVCSicResult :: 171,
-    OCLIntelSubgroupAVCImeResultSingleRefStreamout :: 172,
-    OCLIntelSubgroupAVCImeResultDualRefStreamout :: 173,
-    OCLIntelSubgroupAVCImeSingleRefStreamin :: 174,
+    OCLIntelSubgroupAVCMcePayload :: 164;
+    OCLIntelSubgroupAVCImePayload :: 165;
+    OCLIntelSubgroupAVCRefPayload :: 166;
+    OCLIntelSubgroupAVCSicPayload :: 167;
+    OCLIntelSubgroupAVCMceResult :: 168;
+    OCLIntelSubgroupAVCImeResult :: 169;
+    OCLIntelSubgroupAVCRefResult :: 170;
+    OCLIntelSubgroupAVCSicResult :: 171;
+    OCLIntelSubgroupAVCImeResultSingleRefStreamout :: 172;
+    OCLIntelSubgroupAVCImeResultDualRefStreamout :: 173;
+    OCLIntelSubgroupAVCImeSingleRefStreamin :: 174;
 
-    OCLIntelSubgroupAVCImeDualRefStreamin :: 175,
+    OCLIntelSubgroupAVCImeDualRefStreamin :: 175;
 
     ExtVector :: 176
 };
@@ -498,95 +498,95 @@ CXCursorKind :: enum {
     * spelling, find their definitions, etc. However, the specific kind
     * of the declaration is not reported.
     */
-    UnexposedDecl                 :: 1,
+    UnexposedDecl                 :: 1;
     /** A C or C++ struct. */
-    StructDecl                    :: 2,
+    StructDecl                    :: 2;
     /** A C or C++ union. */
-    UnionDecl                     :: 3,
+    UnionDecl                     :: 3;
     /** A C++ class. */
-    ClassDecl                     :: 4,
+    ClassDecl                     :: 4;
     /** An enumeration. */
-    EnumDecl                      :: 5,
+    EnumDecl                      :: 5;
     /**
     * A field (in C) or non-static data member (in C++) in a
     * struct, union, or C++ class.
     */
-    FieldDecl                     :: 6,
+    FieldDecl                     :: 6;
     /** An enumerator constant. */
-    EnumConstantDecl              :: 7,
+    EnumConstantDecl              :: 7;
     /** A function. */
-    FunctionDecl                  :: 8,
+    FunctionDecl                  :: 8;
     /** A variable. */
-    VarDecl                       :: 9,
+    VarDecl                       :: 9;
     /** A function or method parameter. */
-    ParmDecl                      :: 10,
+    ParmDecl                      :: 10;
     /** An Objective-C \@interface. */
-    ObjCInterfaceDecl             :: 11,
+    ObjCInterfaceDecl             :: 11;
     /** An Objective-C \@interface for a category. */
-    ObjCCategoryDecl              :: 12,
+    ObjCCategoryDecl              :: 12;
     /** An Objective-C \@protocol declaration. */
-    ObjCProtocolDecl              :: 13,
+    ObjCProtocolDecl              :: 13;
     /** An Objective-C \@property declaration. */
-    ObjCPropertyDecl              :: 14,
+    ObjCPropertyDecl              :: 14;
     /** An Objective-C instance variable. */
-    ObjCIvarDecl                  :: 15,
+    ObjCIvarDecl                  :: 15;
     /** An Objective-C instance method. */
-    ObjCInstanceMethodDecl        :: 16,
+    ObjCInstanceMethodDecl        :: 16;
     /** An Objective-C class method. */
-    ObjCClassMethodDecl           :: 17,
+    ObjCClassMethodDecl           :: 17;
     /** An Objective-C \@implementation. */
-    ObjCImplementationDecl        :: 18,
+    ObjCImplementationDecl        :: 18;
     /** An Objective-C \@implementation for a category. */
-    ObjCCategoryImplDecl          :: 19,
+    ObjCCategoryImplDecl          :: 19;
     /** A typedef. */
-    TypedefDecl                   :: 20,
+    TypedefDecl                   :: 20;
     /** A C++ class method. */
-    CXXMethod                     :: 21,
+    CXXMethod                     :: 21;
     /** A C++ namespace. */
-    Namespace                     :: 22,
+    Namespace                     :: 22;
     /** A linkage specification, e.g. 'extern "C"'. */
-    LinkageSpec                   :: 23,
+    LinkageSpec                   :: 23;
     /** A C++ constructor. */
-    Constructor                   :: 24,
+    Constructor                   :: 24;
     /** A C++ destructor. */
-    Destructor                    :: 25,
+    Destructor                    :: 25;
     /** A C++ conversion function. */
-    ConversionFunction            :: 26,
+    ConversionFunction            :: 26;
     /** A C++ template type parameter. */
-    TemplateTypeParameter         :: 27,
+    TemplateTypeParameter         :: 27;
     /** A C++ non-type template parameter. */
-    NonTypeTemplateParameter      :: 28,
+    NonTypeTemplateParameter      :: 28;
     /** A C++ template template parameter. */
-    TemplateTemplateParameter     :: 29,
+    TemplateTemplateParameter     :: 29;
     /** A C++ function template. */
-    FunctionTemplate              :: 30,
+    FunctionTemplate              :: 30;
     /** A C++ class template. */
-    ClassTemplate                 :: 31,
+    ClassTemplate                 :: 31;
     /** A C++ class template partial specialization. */
-    ClassTemplatePartialSpecialization :: 32,
+    ClassTemplatePartialSpecialization :: 32;
     /** A C++ namespace alias declaration. */
-    NamespaceAlias                :: 33,
+    NamespaceAlias                :: 33;
     /** A C++ using directive. */
-    UsingDirective                :: 34,
+    UsingDirective                :: 34;
     /** A C++ using declaration. */
-    UsingDeclaration              :: 35,
+    UsingDeclaration              :: 35;
     /** A C++ alias declaration */
-    TypeAliasDecl                 :: 36,
+    TypeAliasDecl                 :: 36;
     /** An Objective-C \@synthesize definition. */
-    ObjCSynthesizeDecl            :: 37,
+    ObjCSynthesizeDecl            :: 37;
     /** An Objective-C \@dynamic definition. */
-    ObjCDynamicDecl               :: 38,
+    ObjCDynamicDecl               :: 38;
     /** An access specifier. */
-    CXXAccessSpecifier            :: 39,
+    CXXAccessSpecifier            :: 39;
 
-    FirstDecl                     :: UnexposedDecl,
-    LastDecl                      :: CXXAccessSpecifier,
+    FirstDecl                     :: UnexposedDecl;
+    LastDecl                      :: CXXAccessSpecifier;
 
     /* References */
-    FirstRef                      :: 40, /* Decl references */
-    ObjCSuperClassRef             :: 40,
-    ObjCProtocolRef               :: 41,
-    ObjCClassRef                  :: 42,
+    FirstRef                      :: 40; /* Decl references */
+    ObjCSuperClassRef             :: 40;
+    ObjCProtocolRef               :: 41;
+    ObjCClassRef                  :: 42;
     /**
     * A reference to a type declaration.
     *
@@ -602,22 +602,22 @@ CXCursorKind :: enum {
     * while the type of the variable "size" is referenced. The cursor
     * referenced by the type of size is the typedef for size_type.
     */
-    TypeRef                       :: 43,
-    CXXBaseSpecifier              :: 44,
+    TypeRef                       :: 43;
+    CXXBaseSpecifier              :: 44;
     /**
     * A reference to a class template, function template, template
     * template parameter, or class template partial specialization.
     */
-    TemplateRef                   :: 45,
+    TemplateRef                   :: 45;
     /**
     * A reference to a namespace or namespace alias.
     */
-    NamespaceRef                  :: 46,
+    NamespaceRef                  :: 46;
     /**
     * A reference to a member of a struct, union, or class that occurs in
     * some non-expression context, e.g., a designated initializer.
     */
-    MemberRef                     :: 47,
+    MemberRef                     :: 47;
     /**
     * A reference to a labeled statement.
     *
@@ -633,7 +633,7 @@ CXCursorKind :: enum {
     *
     * A label reference cursor refers to a label statement.
     */
-    LabelRef                      :: 48,
+    LabelRef                      :: 48;
 
     /**
     * A reference to a set of overloaded functions or function templates
@@ -671,26 +671,26 @@ CXCursorKind :: enum {
     * \c clang_getOverloadedDecl() can be used to retrieve the definitions
     * referenced by this cursor.
     */
-    OverloadedDeclRef             :: 49,
+    OverloadedDeclRef             :: 49;
 
     /**
     * A reference to a variable that occurs in some non-expression
     * context, e.g., a C++ lambda capture list.
     */
-    VariableRef                   :: 50,
+    VariableRef                   :: 50;
 
-    LastRef                       :: VariableRef,
+    LastRef                       :: VariableRef;
 
     /* Error conditions */
-    FirstInvalid                  :: 70,
-    InvalidFile                   :: 70,
-    NoDeclFound                   :: 71,
-    NotImplemented                :: 72,
-    InvalidCode                   :: 73,
-    LastInvalid                   :: InvalidCode,
+    FirstInvalid                  :: 70;
+    InvalidFile                   :: 70;
+    NoDeclFound                   :: 71;
+    NotImplemented                :: 72;
+    InvalidCode                   :: 73;
+    LastInvalid                   :: InvalidCode;
 
     /* Expressions */
-    FirstExpr                     :: 100,
+    FirstExpr                     :: 100;
 
     /**
     * An expression whose specific kind is not exposed via this
@@ -701,104 +701,104 @@ CXCursorKind :: enum {
     * spelling, children, etc. However, the specific kind of the
     * expression is not reported.
     */
-    UnexposedExpr                 :: 100,
+    UnexposedExpr                 :: 100;
 
     /**
     * An expression that refers to some value declaration, such
     * as a function, variable, or enumerator.
     */
-    DeclRefExpr                   :: 101,
+    DeclRefExpr                   :: 101;
 
     /**
     * An expression that refers to a member of a struct, union,
     * class, Objective-C class, etc.
     */
-    MemberRefExpr                 :: 102,
+    MemberRefExpr                 :: 102;
 
     /** An expression that calls a function. */
-    CallExpr                      :: 103,
+    CallExpr                      :: 103;
 
     /** An expression that sends a message to an Objective-C
     object or class. */
-    ObjCMessageExpr               :: 104,
+    ObjCMessageExpr               :: 104;
 
     /** An expression that represents a block literal. */
-    BlockExpr                     :: 105,
+    BlockExpr                     :: 105;
 
     /** An integer literal.
     */
-    IntegerLiteral                :: 106,
+    IntegerLiteral                :: 106;
 
     /** A floating point number literal.
     */
-    FloatingLiteral               :: 107,
+    FloatingLiteral               :: 107;
 
     /** An imaginary number literal.
     */
-    ImaginaryLiteral              :: 108,
+    ImaginaryLiteral              :: 108;
 
     /** A string literal.
     */
-    StringLiteral                 :: 109,
+    StringLiteral                 :: 109;
 
     /** A character literal.
     */
-    CharacterLiteral              :: 110,
+    CharacterLiteral              :: 110;
 
     /** A parenthesized expression, e.g. "(1)".
     *
     * This AST node is only formed if full location information is requested.
     */
-    ParenExpr                     :: 111,
+    ParenExpr                     :: 111;
 
     /** This represents the unary-expression's (except sizeof and
     * alignof).
     */
-    UnaryOperator                 :: 112,
+    UnaryOperator                 :: 112;
 
     /** [C99 6.5.2.1] Array Subscripting.
     */
-    ArraySubscriptExpr            :: 113,
+    ArraySubscriptExpr            :: 113;
 
     /** A builtin binary operation expression such as "x + y" or
     * "x <:: y".
     */
-    BinaryOperator                :: 114,
+    BinaryOperator                :: 114;
 
     /** Compound assignment such as "+::".
     */
-    CompoundAssignOperator        :: 115,
+    CompoundAssignOperator        :: 115;
 
     /** The ?: ternary operator.
     */
-    ConditionalOperator           :: 116,
+    ConditionalOperator           :: 116;
 
     /** An explicit cast in C (C99 6.5.4) or a C-style cast in C++
     * (C++ [expr.cast]), which uses the syntax (Type)expr.
     *
     * For example: (int)f.
     */
-    CStyleCastExpr                :: 117,
+    CStyleCastExpr                :: 117;
 
     /** [C99 6.5.2.5]
     */
-    CompoundLiteralExpr           :: 118,
+    CompoundLiteralExpr           :: 118;
 
     /** Describes an C or C++ initializer list.
     */
-    InitListExpr                  :: 119,
+    InitListExpr                  :: 119;
 
     /** The GNU address of label extension, representing &&label.
     */
-    AddrLabelExpr                 :: 120,
+    AddrLabelExpr                 :: 120;
 
     /** This is the GNU Statement Expression extension: ({int X::4; X;})
     */
-    StmtExpr                      :: 121,
+    StmtExpr                      :: 121;
 
     /** Represents a C11 generic selection.
     */
-    GenericSelectionExpr          :: 122,
+    GenericSelectionExpr          :: 122;
 
     /** Implements the GNU __null extension, which is a name for a null
     * pointer constant that has integral type (e.g., int or long) and is the same
@@ -808,23 +808,23 @@ CXCursorKind :: enum {
     * NULL as __null in C++ rather than using 0 (which is an integer that may not
     * match the size of a pointer).
     */
-    GNUNullExpr                   :: 123,
+    GNUNullExpr                   :: 123;
 
     /** C++'s static_cast<> expression.
     */
-    CXXStaticCastExpr             :: 124,
+    CXXStaticCastExpr             :: 124;
 
     /** C++'s dynamic_cast<> expression.
     */
-    CXXDynamicCastExpr            :: 125,
+    CXXDynamicCastExpr            :: 125;
 
     /** C++'s reinterpret_cast<> expression.
     */
-    CXXReinterpretCastExpr        :: 126,
+    CXXReinterpretCastExpr        :: 126;
 
     /** C++'s const_cast<> expression.
     */
-    CXXConstCastExpr              :: 127,
+    CXXConstCastExpr              :: 127;
 
     /** Represents an explicit C++ type conversion that uses "functional"
     * notion (C++ [expr.type.conv]).
@@ -834,60 +834,60 @@ CXCursorKind :: enum {
     *   x :: int(0.5);
     * \endcode
     */
-    CXXFunctionalCastExpr         :: 128,
+    CXXFunctionalCastExpr         :: 128;
 
     /** A C++ typeid expression (C++ [expr.typeid]).
     */
-    CXXTypeidExpr                 :: 129,
+    CXXTypeidExpr                 :: 129;
 
     /** [C++ 2.13.5] C++ Boolean Literal.
     */
-    CXXBoolLiteralExpr            :: 130,
+    CXXBoolLiteralExpr            :: 130;
 
     /** [C++0x 2.14.7] C++ Pointer Literal.
     */
-    CXXNullPtrLiteralExpr         :: 131,
+    CXXNullPtrLiteralExpr         :: 131;
 
     /** Represents the "this" expression in C++
     */
-    CXXThisExpr                   :: 132,
+    CXXThisExpr                   :: 132;
 
     /** [C++ 15] C++ Throw Expression.
     *
     * This handles 'throw' and 'throw' assignment-expression. When
     * assignment-expression isn't present, Op will be null.
     */
-    CXXThrowExpr                  :: 133,
+    CXXThrowExpr                  :: 133;
 
     /** A new expression for memory allocation and constructor calls, e.g:
     * "new CXXNewExpr(foo)".
     */
-    CXXNewExpr                    :: 134,
+    CXXNewExpr                    :: 134;
 
     /** A delete expression for memory deallocation and destructor calls,
     * e.g. "delete[] pArray".
     */
-    CXXDeleteExpr                 :: 135,
+    CXXDeleteExpr                 :: 135;
 
     /** A unary expression. (noexcept, sizeof, or other traits)
     */
-    UnaryExpr                     :: 136,
+    UnaryExpr                     :: 136;
 
     /** An Objective-C string literal i.e. @"foo".
     */
-    ObjCStringLiteral             :: 137,
+    ObjCStringLiteral             :: 137;
 
     /** An Objective-C \@encode expression.
     */
-    ObjCEncodeExpr                :: 138,
+    ObjCEncodeExpr                :: 138;
 
     /** An Objective-C \@selector expression.
     */
-    ObjCSelectorExpr              :: 139,
+    ObjCSelectorExpr              :: 139;
 
     /** An Objective-C \@protocol expression.
     */
-    ObjCProtocolExpr              :: 140,
+    ObjCProtocolExpr              :: 140;
 
     /** An Objective-C "bridged" cast expression, which casts between
     * Objective-C pointers and C pointers, transferring ownership in the process.
@@ -896,7 +896,7 @@ CXCursorKind :: enum {
     *   NSString *str :: (__bridge_transfer NSString *)CFCreateString();
     * \endcode
     */
-    ObjCBridgedCastExpr           :: 141,
+    ObjCBridgedCastExpr           :: 141;
 
     /** Represents a C++0x pack expansion that produces a sequence of
     * expressions.
@@ -911,7 +911,7 @@ CXCursorKind :: enum {
     * }
     * \endcode
     */
-    PackExpansionExpr             :: 142,
+    PackExpansionExpr             :: 142;
 
     /** Represents an expression that computes the length of a parameter
     * pack.
@@ -923,7 +923,7 @@ CXCursorKind :: enum {
     * };
     * \endcode
     */
-    SizeOfPackExpr                :: 143,
+    SizeOfPackExpr                :: 143;
 
     /* Represents a C++ lambda expression that produces a local function
     * object.
@@ -937,33 +937,33 @@ CXCursorKind :: enum {
     * }
     * \endcode
     */
-    LambdaExpr                    :: 144,
+    LambdaExpr                    :: 144;
 
     /** Objective-c Boolean Literal.
     */
-    ObjCBoolLiteralExpr           :: 145,
+    ObjCBoolLiteralExpr           :: 145;
 
     /** Represents the "self" expression in an Objective-C method.
     */
-    ObjCSelfExpr                  :: 146,
+    ObjCSelfExpr                  :: 146;
 
     /** OpenMP 4.0 [2.4, Array Section].
     */
-    OMPArraySectionExpr           :: 147,
+    OMPArraySectionExpr           :: 147;
 
     /** Represents an @available(...) check.
     */
-    ObjCAvailabilityCheckExpr     :: 148,
+    ObjCAvailabilityCheckExpr     :: 148;
 
     /**
     * Fixed point literal
     */
-    FixedPointLiteral             :: 149,
+    FixedPointLiteral             :: 149;
 
-    LastExpr                      :: FixedPointLiteral,
+    LastExpr                      :: FixedPointLiteral;
 
     /* Statements */
-    FirstStmt                     :: 200,
+    FirstStmt                     :: 200;
     /**
     * A statement whose specific kind is not exposed via this
     * interface.
@@ -973,7 +973,7 @@ CXCursorKind :: enum {
     * children, etc. However, the specific kind of the statement is not
     * reported.
     */
-    UnexposedStmt                 :: 200,
+    UnexposedStmt                 :: 200;
 
     /** A labelled statement in a function.
     *
@@ -986,332 +986,332 @@ CXCursorKind :: enum {
     * \endcode
     *
     */
-    LabelStmt                     :: 201,
+    LabelStmt                     :: 201;
 
     /** A group of statements like { stmt stmt }.
     *
     * This cursor kind is used to describe compound statements, e.g. function
     * bodies.
     */
-    CompoundStmt                  :: 202,
+    CompoundStmt                  :: 202;
 
     /** A case statement.
     */
-    CaseStmt                      :: 203,
+    CaseStmt                      :: 203;
 
     /** A default statement.
     */
-    DefaultStmt                   :: 204,
+    DefaultStmt                   :: 204;
 
     /** An if statement
     */
-    IfStmt                        :: 205,
+    IfStmt                        :: 205;
 
     /** A switch statement.
     */
-    SwitchStmt                    :: 206,
+    SwitchStmt                    :: 206;
 
     /** A while statement.
     */
-    WhileStmt                     :: 207,
+    WhileStmt                     :: 207;
 
     /** A do statement.
     */
-    DoStmt                        :: 208,
+    DoStmt                        :: 208;
 
     /** A for statement.
     */
-    ForStmt                       :: 209,
+    ForStmt                       :: 209;
 
     /** A goto statement.
     */
-    GotoStmt                      :: 210,
+    GotoStmt                      :: 210;
 
     /** An indirect goto statement.
     */
-    IndirectGotoStmt              :: 211,
+    IndirectGotoStmt              :: 211;
 
     /** A continue statement.
     */
-    ContinueStmt                  :: 212,
+    ContinueStmt                  :: 212;
 
     /** A break statement.
     */
-    BreakStmt                     :: 213,
+    BreakStmt                     :: 213;
 
     /** A return statement.
     */
-    ReturnStmt                    :: 214,
+    ReturnStmt                    :: 214;
 
     /** A GCC inline assembly statement extension.
     */
-    GCCAsmStmt                    :: 215,
-    AsmStmt                       :: GCCAsmStmt,
+    GCCAsmStmt                    :: 215;
+    AsmStmt                       :: GCCAsmStmt;
 
     /** Objective-C's overall \@try-\@catch-\@finally statement.
     */
-    ObjCAtTryStmt                 :: 216,
+    ObjCAtTryStmt                 :: 216;
 
     /** Objective-C's \@catch statement.
     */
-    ObjCAtCatchStmt               :: 217,
+    ObjCAtCatchStmt               :: 217;
 
     /** Objective-C's \@finally statement.
     */
-    ObjCAtFinallyStmt             :: 218,
+    ObjCAtFinallyStmt             :: 218;
 
     /** Objective-C's \@throw statement.
     */
-    ObjCAtThrowStmt               :: 219,
+    ObjCAtThrowStmt               :: 219;
 
     /** Objective-C's \@synchronized statement.
     */
-    ObjCAtSynchronizedStmt        :: 220,
+    ObjCAtSynchronizedStmt        :: 220;
 
     /** Objective-C's autorelease pool statement.
     */
-    ObjCAutoreleasePoolStmt       :: 221,
+    ObjCAutoreleasePoolStmt       :: 221;
 
     /** Objective-C's collection statement.
     */
-    ObjCForCollectionStmt         :: 222,
+    ObjCForCollectionStmt         :: 222;
 
     /** C++'s catch statement.
     */
-    CXXCatchStmt                  :: 223,
+    CXXCatchStmt                  :: 223;
 
     /** C++'s try statement.
     */
-    CXXTryStmt                    :: 224,
+    CXXTryStmt                    :: 224;
 
     /** C++'s for (* : *) statement.
     */
-    CXXForRangeStmt               :: 225,
+    CXXForRangeStmt               :: 225;
 
     /** Windows Structured Exception Handling's try statement.
     */
-    SEHTryStmt                    :: 226,
+    SEHTryStmt                    :: 226;
 
     /** Windows Structured Exception Handling's except statement.
     */
-    SEHExceptStmt                 :: 227,
+    SEHExceptStmt                 :: 227;
 
     /** Windows Structured Exception Handling's finally statement.
     */
-    SEHFinallyStmt                :: 228,
+    SEHFinallyStmt                :: 228;
 
     /** A MS inline assembly statement extension.
     */
-    MSAsmStmt                     :: 229,
+    MSAsmStmt                     :: 229;
 
     /** The null statement ";": C99 6.8.3p3.
     *
     * This cursor kind is used to describe the null statement.
     */
-    NullStmt                      :: 230,
+    NullStmt                      :: 230;
 
     /** Adaptor class for mixing declarations with statements and
     * expressions.
     */
-    DeclStmt                      :: 231,
+    DeclStmt                      :: 231;
 
     /** OpenMP parallel directive.
     */
-    OMPParallelDirective          :: 232,
+    OMPParallelDirective          :: 232;
 
     /** OpenMP SIMD directive.
     */
-    OMPSimdDirective              :: 233,
+    OMPSimdDirective              :: 233;
 
     /** OpenMP for directive.
     */
-    OMPForDirective               :: 234,
+    OMPForDirective               :: 234;
 
     /** OpenMP sections directive.
     */
-    OMPSectionsDirective          :: 235,
+    OMPSectionsDirective          :: 235;
 
     /** OpenMP section directive.
     */
-    OMPSectionDirective           :: 236,
+    OMPSectionDirective           :: 236;
 
     /** OpenMP single directive.
     */
-    OMPSingleDirective            :: 237,
+    OMPSingleDirective            :: 237;
 
     /** OpenMP parallel for directive.
     */
-    OMPParallelForDirective       :: 238,
+    OMPParallelForDirective       :: 238;
 
     /** OpenMP parallel sections directive.
     */
-    OMPParallelSectionsDirective  :: 239,
+    OMPParallelSectionsDirective  :: 239;
 
     /** OpenMP task directive.
     */
-    OMPTaskDirective              :: 240,
+    OMPTaskDirective              :: 240;
 
     /** OpenMP master directive.
     */
-    OMPMasterDirective            :: 241,
+    OMPMasterDirective            :: 241;
 
     /** OpenMP critical directive.
     */
-    OMPCriticalDirective          :: 242,
+    OMPCriticalDirective          :: 242;
 
     /** OpenMP taskyield directive.
     */
-    OMPTaskyieldDirective         :: 243,
+    OMPTaskyieldDirective         :: 243;
 
     /** OpenMP barrier directive.
     */
-    OMPBarrierDirective           :: 244,
+    OMPBarrierDirective           :: 244;
 
     /** OpenMP taskwait directive.
     */
-    OMPTaskwaitDirective          :: 245,
+    OMPTaskwaitDirective          :: 245;
 
     /** OpenMP flush directive.
     */
-    OMPFlushDirective             :: 246,
+    OMPFlushDirective             :: 246;
 
     /** Windows Structured Exception Handling's leave statement.
     */
-    SEHLeaveStmt                  :: 247,
+    SEHLeaveStmt                  :: 247;
 
     /** OpenMP ordered directive.
     */
-    OMPOrderedDirective           :: 248,
+    OMPOrderedDirective           :: 248;
 
     /** OpenMP atomic directive.
     */
-    OMPAtomicDirective            :: 249,
+    OMPAtomicDirective            :: 249;
 
     /** OpenMP for SIMD directive.
     */
-    OMPForSimdDirective           :: 250,
+    OMPForSimdDirective           :: 250;
 
     /** OpenMP parallel for SIMD directive.
     */
-    OMPParallelForSimdDirective   :: 251,
+    OMPParallelForSimdDirective   :: 251;
 
     /** OpenMP target directive.
     */
-    OMPTargetDirective            :: 252,
+    OMPTargetDirective            :: 252;
 
     /** OpenMP teams directive.
     */
-    OMPTeamsDirective             :: 253,
+    OMPTeamsDirective             :: 253;
 
     /** OpenMP taskgroup directive.
     */
-    OMPTaskgroupDirective         :: 254,
+    OMPTaskgroupDirective         :: 254;
 
     /** OpenMP cancellation point directive.
     */
-    OMPCancellationPointDirective :: 255,
+    OMPCancellationPointDirective :: 255;
 
     /** OpenMP cancel directive.
     */
-    OMPCancelDirective            :: 256,
+    OMPCancelDirective            :: 256;
 
     /** OpenMP target data directive.
     */
-    OMPTargetDataDirective        :: 257,
+    OMPTargetDataDirective        :: 257;
 
     /** OpenMP taskloop directive.
     */
-    OMPTaskLoopDirective          :: 258,
+    OMPTaskLoopDirective          :: 258;
 
     /** OpenMP taskloop simd directive.
     */
-    OMPTaskLoopSimdDirective      :: 259,
+    OMPTaskLoopSimdDirective      :: 259;
 
     /** OpenMP distribute directive.
     */
-    OMPDistributeDirective        :: 260,
+    OMPDistributeDirective        :: 260;
 
     /** OpenMP target enter data directive.
     */
-    OMPTargetEnterDataDirective   :: 261,
+    OMPTargetEnterDataDirective   :: 261;
 
     /** OpenMP target exit data directive.
     */
-    OMPTargetExitDataDirective    :: 262,
+    OMPTargetExitDataDirective    :: 262;
 
     /** OpenMP target parallel directive.
     */
-    OMPTargetParallelDirective    :: 263,
+    OMPTargetParallelDirective    :: 263;
 
     /** OpenMP target parallel for directive.
     */
-    OMPTargetParallelForDirective :: 264,
+    OMPTargetParallelForDirective :: 264;
 
     /** OpenMP target update directive.
     */
-    OMPTargetUpdateDirective      :: 265,
+    OMPTargetUpdateDirective      :: 265;
 
     /** OpenMP distribute parallel for directive.
     */
-    OMPDistributeParallelForDirective :: 266,
+    OMPDistributeParallelForDirective :: 266;
 
     /** OpenMP distribute parallel for simd directive.
     */
-    OMPDistributeParallelForSimdDirective :: 267,
+    OMPDistributeParallelForSimdDirective :: 267;
 
     /** OpenMP distribute simd directive.
     */
-    OMPDistributeSimdDirective :: 268,
+    OMPDistributeSimdDirective :: 268;
 
     /** OpenMP target parallel for simd directive.
     */
-    OMPTargetParallelForSimdDirective :: 269,
+    OMPTargetParallelForSimdDirective :: 269;
 
     /** OpenMP target simd directive.
     */
-    OMPTargetSimdDirective :: 270,
+    OMPTargetSimdDirective :: 270;
 
     /** OpenMP teams distribute directive.
     */
-    OMPTeamsDistributeDirective :: 271,
+    OMPTeamsDistributeDirective :: 271;
 
     /** OpenMP teams distribute simd directive.
     */
-    OMPTeamsDistributeSimdDirective :: 272,
+    OMPTeamsDistributeSimdDirective :: 272;
 
     /** OpenMP teams distribute parallel for simd directive.
     */
-    OMPTeamsDistributeParallelForSimdDirective :: 273,
+    OMPTeamsDistributeParallelForSimdDirective :: 273;
 
     /** OpenMP teams distribute parallel for directive.
     */
-    OMPTeamsDistributeParallelForDirective :: 274,
+    OMPTeamsDistributeParallelForDirective :: 274;
 
     /** OpenMP target teams directive.
     */
-    OMPTargetTeamsDirective :: 275,
+    OMPTargetTeamsDirective :: 275;
 
     /** OpenMP target teams distribute directive.
     */
-    OMPTargetTeamsDistributeDirective :: 276,
+    OMPTargetTeamsDistributeDirective :: 276;
 
     /** OpenMP target teams distribute parallel for directive.
     */
-    OMPTargetTeamsDistributeParallelForDirective :: 277,
+    OMPTargetTeamsDistributeParallelForDirective :: 277;
 
     /** OpenMP target teams distribute parallel for simd directive.
     */
-    OMPTargetTeamsDistributeParallelForSimdDirective :: 278,
+    OMPTargetTeamsDistributeParallelForSimdDirective :: 278;
 
     /** OpenMP target teams distribute simd directive.
     */
-    OMPTargetTeamsDistributeSimdDirective :: 279,
+    OMPTargetTeamsDistributeSimdDirective :: 279;
 
     /** C++2a std::bit_cast expression.
     */
-    BuiltinBitCastExpr :: 280,
+    BuiltinBitCastExpr :: 280;
 
-    LastStmt :: BuiltinBitCastExpr,
+    LastStmt :: BuiltinBitCastExpr;
 
     /**
     * Cursor that represents the translation unit itself.
@@ -1319,84 +1319,84 @@ CXCursorKind :: enum {
     * The translation unit cursor exists primarily to act as the root
     * cursor for traversing the contents of a translation unit.
     */
-    TranslationUnit               :: 300,
+    TranslationUnit               :: 300;
 
     /* Attributes */
-    FirstAttr                     :: 400,
+    FirstAttr                     :: 400;
     /**
     * An attribute whose specific kind is not exposed via this
     * interface.
     */
-    UnexposedAttr                 :: 400,
+    UnexposedAttr                 :: 400;
 
-    IBActionAttr                  :: 401,
-    IBOutletAttr                  :: 402,
-    IBOutletCollectionAttr        :: 403,
-    CXXFinalAttr                  :: 404,
-    CXXOverrideAttr               :: 405,
-    AnnotateAttr                  :: 406,
-    AsmLabelAttr                  :: 407,
-    PackedAttr                    :: 408,
-    PureAttr                      :: 409,
-    ConstAttr                     :: 410,
-    NoDuplicateAttr               :: 411,
-    CUDAConstantAttr              :: 412,
-    CUDADeviceAttr                :: 413,
-    CUDAGlobalAttr                :: 414,
-    CUDAHostAttr                  :: 415,
-    CUDASharedAttr                :: 416,
-    VisibilityAttr                :: 417,
-    DLLExport                     :: 418,
-    DLLImport                     :: 419,
-    NSReturnsRetained             :: 420,
-    NSReturnsNotRetained          :: 421,
-    NSReturnsAutoreleased         :: 422,
-    NSConsumesSelf                :: 423,
-    NSConsumed                    :: 424,
-    ObjCException                 :: 425,
-    ObjCNSObject                  :: 426,
-    ObjCIndependentClass          :: 427,
-    ObjCPreciseLifetime           :: 428,
-    ObjCReturnsInnerPointer       :: 429,
-    ObjCRequiresSuper             :: 430,
-    ObjCRootClass                 :: 431,
-    ObjCSubclassingRestricted     :: 432,
-    ObjCExplicitProtocolImpl      :: 433,
-    ObjCDesignatedInitializer     :: 434,
-    ObjCRuntimeVisible            :: 435,
-    ObjCBoxable                   :: 436,
-    FlagEnum                      :: 437,
-    ConvergentAttr                :: 438,
-    WarnUnusedAttr                :: 439,
-    WarnUnusedResultAttr          :: 440,
-    AlignedAttr                   :: 441,
-    LastAttr                      :: AlignedAttr,
+    IBActionAttr                  :: 401;
+    IBOutletAttr                  :: 402;
+    IBOutletCollectionAttr        :: 403;
+    CXXFinalAttr                  :: 404;
+    CXXOverrideAttr               :: 405;
+    AnnotateAttr                  :: 406;
+    AsmLabelAttr                  :: 407;
+    PackedAttr                    :: 408;
+    PureAttr                      :: 409;
+    ConstAttr                     :: 410;
+    NoDuplicateAttr               :: 411;
+    CUDAConstantAttr              :: 412;
+    CUDADeviceAttr                :: 413;
+    CUDAGlobalAttr                :: 414;
+    CUDAHostAttr                  :: 415;
+    CUDASharedAttr                :: 416;
+    VisibilityAttr                :: 417;
+    DLLExport                     :: 418;
+    DLLImport                     :: 419;
+    NSReturnsRetained             :: 420;
+    NSReturnsNotRetained          :: 421;
+    NSReturnsAutoreleased         :: 422;
+    NSConsumesSelf                :: 423;
+    NSConsumed                    :: 424;
+    ObjCException                 :: 425;
+    ObjCNSObject                  :: 426;
+    ObjCIndependentClass          :: 427;
+    ObjCPreciseLifetime           :: 428;
+    ObjCReturnsInnerPointer       :: 429;
+    ObjCRequiresSuper             :: 430;
+    ObjCRootClass                 :: 431;
+    ObjCSubclassingRestricted     :: 432;
+    ObjCExplicitProtocolImpl      :: 433;
+    ObjCDesignatedInitializer     :: 434;
+    ObjCRuntimeVisible            :: 435;
+    ObjCBoxable                   :: 436;
+    FlagEnum                      :: 437;
+    ConvergentAttr                :: 438;
+    WarnUnusedAttr                :: 439;
+    WarnUnusedResultAttr          :: 440;
+    AlignedAttr                   :: 441;
+    LastAttr                      :: AlignedAttr;
 
     /* Preprocessing */
-    PreprocessingDirective        :: 500,
-    MacroDefinition               :: 501,
-    MacroExpansion                :: 502,
-    MacroInstantiation            :: MacroExpansion,
-    InclusionDirective            :: 503,
-    FirstPreprocessing            :: PreprocessingDirective,
-    LastPreprocessing             :: InclusionDirective,
+    PreprocessingDirective        :: 500;
+    MacroDefinition               :: 501;
+    MacroExpansion                :: 502;
+    MacroInstantiation            :: MacroExpansion;
+    InclusionDirective            :: 503;
+    FirstPreprocessing            :: PreprocessingDirective;
+    LastPreprocessing             :: InclusionDirective;
 
     /* Extra Declarations */
     /**
     * A module import declaration.
     */
-    ModuleImportDecl              :: 600,
-    TypeAliasTemplateDecl         :: 601,
+    ModuleImportDecl              :: 600;
+    TypeAliasTemplateDecl         :: 601;
     /**
     * A static_assert or _Static_assert node
     */
-    StaticAssert                  :: 602,
+    StaticAssert                  :: 602;
     /**
     * a friend declaration.
     */
-    FriendDecl                    :: 603,
-    FirstExtraDecl                :: ModuleImportDecl,
-    LastExtraDecl                 :: FriendDecl,
+    FriendDecl                    :: 603;
+    FirstExtraDecl                :: ModuleImportDecl;
+    LastExtraDecl                 :: FriendDecl;
 
     /**
     * A code completion overload candidate.

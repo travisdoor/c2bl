@@ -139,7 +139,7 @@ emit_block_struct :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientDat
 
     T := clang_getCursorType(c);
     emit_type(T, true);
-    print(",\n");
+    print(";\n");
 
     return CXChildVisitResult.Continue;
 };
@@ -148,7 +148,7 @@ emit_block_enum :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData)
     spelling := clang_getCursorSpelling(c);
     name := {:string: auto strlen(spelling.data), spelling.data};
     value :=  clang_getEnumConstantDeclValue(c);
-    print("    % :: %,\n", name, value);
+    print("    % :: %;\n", name, value);
 
     return CXChildVisitResult.Continue;
 };
