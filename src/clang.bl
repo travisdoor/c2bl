@@ -322,17 +322,17 @@ CXChildVisitResult :: enum {
     /**
     * Terminates the cursor traversal.
     */
-    Break,
+    Break;
     /**
     * Continues the cursor traversal with the next sibling of
     * the cursor just visited, without visiting its children.
     */
-    Continue,
+    Continue;
     /**
     * Recursively traverse the children of this cursor, using
     * the same visitor and client data.
     */
-    Recurse
+    Recurse;
 };
 
 /**

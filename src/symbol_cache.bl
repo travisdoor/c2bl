@@ -67,6 +67,10 @@ ensure_space :: fn (sc: *SymbolCache, space: s64) {
         return;
     }
 
+    prev_allocated :: sc.allocated;
     sc.allocated *= 2;
-    sc.data.ptr = auto mem_realloc(auto sc.data.ptr, sc.allocated * sizeof(u32));
+    new_data := mem_alloc(sc.allocated * sizeof(u32));
+    mem_copy(new_data, auto sc.data.ptr, prev_allocated);
+    
+    sc.data.ptr = auto new_data;
 };

@@ -91,24 +91,31 @@ emit_top_level :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) 
 };
 
 emit_decl :: fn (c: CXCursor) {
-    if c.kind == CXCursorKind.StructDecl {        
-        print("struct {\n");
-        clang_visitChildren(c, &emit_block_struct, null);
-        print("}");
+    switch c.kind {
+        CXCursorKind.StructDecl {        
+            print("struct {\n");
+            clang_visitChildren(c, &emit_block_struct, null);
+            print("}");
+        }
 
-    } else if c.kind == CXCursorKind.TypedefDecl {
-        emit_typedef(c);
+        CXCursorKind.TypedefDecl {
+            emit_typedef(c);
+        }
 
-    } else if c.kind == CXCursorKind.EnumDecl {
-        print("enum {\n");
-        clang_visitChildren(c, &emit_block_enum, null);
-        print("}");
+        CXCursorKind.EnumDecl {
+            print("enum {\n");
+            clang_visitChildren(c, &emit_block_enum, null);
+            print("}");
+        }
 
-    } else if c.kind == CXCursorKind.FunctionDecl {
-        emit_fn(c);
-        print(" #extern");
-    } else {
-        error_cursor(c);
+        CXCursorKind.FunctionDecl {
+            emit_fn(c);
+            print(" #extern");
+        }
+
+        default {
+            error_cursor(c);
+        }
     }
 };
 
@@ -184,85 +191,80 @@ emit_arg :: fn (c: CXCursor, i: u32) {
 };
 
 emit_type :: fn (T: CXType, ignore_void: bool) {
-    if T.kind == CXTypeKind.Bool       { print("bool"); return; }
-    if T.kind == CXTypeKind.Char_U     { print("u8");   return; }
-    if T.kind == CXTypeKind.UChar      { print("u8");   return; }
-    if T.kind == CXTypeKind.Char16     { print("u16");  return; }
-    if T.kind == CXTypeKind.Char32     { print("u32");  return; }
-    if T.kind == CXTypeKind.UShort     { print("u16");  return; }
-    if T.kind == CXTypeKind.UInt       { print("u32");  return; }
-    if T.kind == CXTypeKind.ULong      { print("u32");  return; }
-    if T.kind == CXTypeKind.ULongLong  { print("u64");  return; }
-    if T.kind == CXTypeKind.Char_S     { print("s8");   return; }
-    if T.kind == CXTypeKind.SChar      { print("s8");   return; }
-    if T.kind == CXTypeKind.WChar      { print("s16");  return; }
-    if T.kind == CXTypeKind.Short      { print("s16");  return; }
-    if T.kind == CXTypeKind.Int        { print("s32");  return; }
-    if T.kind == CXTypeKind.Long       { print("s32");  return; }
-    if T.kind == CXTypeKind.LongLong   { print("s64");  return; }
-    if T.kind == CXTypeKind.Float      { print("f32");  return; }
-    if T.kind == CXTypeKind.Double     { print("f64");  return; }
-    if T.kind == CXTypeKind.NullPtr    { print("null"); return; }
+    switch T.kind {
+        CXTypeKind.Bool       { print("bool"); }
+        CXTypeKind.Char_U     { print("u8");   }
+        CXTypeKind.UChar      { print("u8");   }
+        CXTypeKind.Char16     { print("u16");  }
+        CXTypeKind.Char32     { print("u32");  }
+        CXTypeKind.UShort     { print("u16");  }
+        CXTypeKind.UInt       { print("u32");  }
+        CXTypeKind.ULong      { print("u32");  }
+        CXTypeKind.ULongLong  { print("u64");  }
+        CXTypeKind.Char_S     { print("s8");   }
+        CXTypeKind.SChar      { print("s8");   }
+        CXTypeKind.WChar      { print("s16");  }
+        CXTypeKind.Short      { print("s16");  }
+        CXTypeKind.Int        { print("s32");  }
+        CXTypeKind.Long       { print("s32");  }
+        CXTypeKind.LongLong   { print("s64");  }
+        CXTypeKind.Float      { print("f32");  }
+        CXTypeKind.Double     { print("f64");  }
+        CXTypeKind.NullPtr    { print("null"); }
 
-    if T.kind == CXTypeKind.Void {
-        if ignore_void {
-            return;
-        } else {
-            print("u8");
-            return;
+        CXTypeKind.Void {
+            if !ignore_void {
+                print("u8");
+            }
+        }
+
+        CXTypeKind.Elaborated {
+            c := clang_getTypeDeclaration(T);
+            spelling := clang_getCursorSpelling(c);
+            name := {:string: auto strlen(spelling.data), spelling.data};
+            print("%", name);
+        }
+
+        CXTypeKind.Typedef {
+            c := clang_getTypeDeclaration(T);
+            spelling := clang_getCursorSpelling(c);
+            name := {:string: auto strlen(spelling.data), spelling.data};
+            print("%", name);
+        }
+
+        CXTypeKind.FunctionProto {
+            argc := clang_getNumArgTypes(T);
+
+            print("fn (");
+            loop i := 0; i < argc; i += 1 {
+                T_arg := clang_getArgType(T, i);
+                print("_%: ", i);
+                emit_type(T_arg, true);
+                if i < argc - 1 { print(", "); }
+            }
+            print(") ");
+
+            T_result := clang_getResultType(T);
+            emit_type(T_result, true);
+        }
+
+        CXTypeKind.ConstantArray {
+            l := clang_getNumElements(T);
+            print("[%]", l);
+            T_elem := clang_getArrayElementType(T);
+            emit_type(T_elem, true);
+        }
+
+        CXTypeKind.Pointer {
+            print("*");
+            emit_type(clang_getPointeeType(T), false);
+        }
+
+        default {
+            print("/* INVALID_TYPE */");
+            eprint("ERROR: INVALID_TYPE: %\n", T.kind);
         }
     }
-
-    if T.kind == CXTypeKind.Elaborated {
-        c := clang_getTypeDeclaration(T);
-        spelling := clang_getCursorSpelling(c);
-        name := {:string: auto strlen(spelling.data), spelling.data};
-        print("%", name);
-        return;
-    }
-
-    if T.kind == CXTypeKind.Typedef {
-        c := clang_getTypeDeclaration(T);
-        spelling := clang_getCursorSpelling(c);
-        name := {:string: auto strlen(spelling.data), spelling.data};
-        print("%", name);
-        return;
-    }
-
-    if T.kind == CXTypeKind.FunctionProto {
-        argc := clang_getNumArgTypes(T);
-
-        print("fn (");
-        loop i := 0; i < argc; i += 1 {
-            T_arg := clang_getArgType(T, i);
-            print("_%: ", i);
-            emit_type(T_arg, true);
-            if i < argc - 1 { print(", "); }
-        }
-        print(") ");
-
-        T_result := clang_getResultType(T);
-        emit_type(T_result, true);
-        
-        return;
-    }
-
-    if T.kind == CXTypeKind.ConstantArray {
-        l := clang_getNumElements(T);
-        print("[%]", l);
-        T_elem := clang_getArrayElementType(T);
-        emit_type(T_elem, true);
-        return;
-    }
-
-    if T.kind == CXTypeKind.Pointer {
-        print("*");
-        emit_type(clang_getPointeeType(T), false);
-        return;
-    }
-
-    print("/* INVALID_TYPE */");
-    eprint("ERROR: INVALID_TYPE: %\n", T.kind);
 };
 
 build_TU_flags :: fn (flags: ...CXTranslationUnit_Flags) u32 {
