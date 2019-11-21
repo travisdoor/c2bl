@@ -26,16 +26,17 @@
 // SOFTWARE.
 //*****************************************************************************
 
-#load "std/print.bl"
-#load "std/memory.bl"
+#load "std/basic.bl"
+#load "std/debug.bl"
 #load "clang.bl"
 #load "symbol_cache.bl"
 
 symbol_cache := {:SymbolCache: 0};
+ENABLE_CACHE :: false;
 
 main :: fn (args: []*u8) u32 {
     if args.len < 2 {
-        eprint("No input file!");
+        print_err("No input file!");
         return -1;
     }
 
@@ -55,8 +56,7 @@ main :: fn (args: []*u8) u32 {
     defer clang_disposeTranslationUnit(tu);
 
     if result != CXErrorCode.Success {
-        eprint("Error: %\n", result);
-        abort();
+        panic("Error: %\n", result);
     }
 
     cursor := clang_getTranslationUnitCursor(tu);
@@ -76,7 +76,9 @@ emit_top_level :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) 
         return CXChildVisitResult.Continue;
     }
 
-    if clang_isCursorDefinition(c) || c.kind == CXCursorKind.FunctionDecl {
+    if clang_isCursorDefinition(c)
+        || c.kind == CXCursorKind.FunctionDecl
+    {
         if emit_decl_name(c) {
             emit_decl(c);
             if (c.kind == CXCursorKind.FunctionDecl) {
@@ -124,12 +126,14 @@ emit_decl_name :: fn (c: CXCursor) bool #inline {
     name := {:string: auto strlen(spelling.data), spelling.data};
     if name.len == 0 { return false; }
 
-    hash := hash_string(name);
+    if ENABLE_CACHE {
+        hash := hash_string(name);
+        if sc_contains(&symbol_cache, hash) { return false; }
 
-    if sc_contains(&symbol_cache, hash) { return false; }
+        sc_push(&symbol_cache, hash);
+    }
+
     print("% :: ", name);
-
-    sc_push(&symbol_cache, hash);
 
     return true;
 };
@@ -202,7 +206,7 @@ emit_type :: fn (T: CXType, ignore_void: bool) {
         CXTypeKind.ULong      { print("u32");  }
         CXTypeKind.ULongLong  { print("u64");  }
         CXTypeKind.Char_S     { print("s8");   }
-        CXTypeKind.SChar      { print("s8");   }
+        CXTypeKind.SChar      { print("u8");   }
         CXTypeKind.WChar      { print("s16");  }
         CXTypeKind.Short      { print("s16");  }
         CXTypeKind.Int        { print("s32");  }
