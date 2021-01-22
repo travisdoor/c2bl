@@ -1,7 +1,7 @@
 //*****************************************************************************
 // c2bl
 //
-// File:   symbol_cache.bl
+// File:   build.bl
 // Author: Martin Dorazil
 // Date:   9/19/2019
 //
@@ -26,51 +26,10 @@
 // SOFTWARE.
 //*****************************************************************************
 
-SymbolCache :: struct {
-    data: []u32;
-    allocated: usize
-};
-
-sc_init :: fn (sc: *SymbolCache) {
-    sc.data.len = 0;
-    sc.data.ptr = null;
-    sc.allocated = 0;
-};
-
-sc_terminate :: fn (sc: *SymbolCache) {
-    mem_free(auto sc.data.ptr);
-};
-
-sc_push :: fn (sc: *SymbolCache, v: u32) {
-    sc.data.len += 1;
-    ensure_space(sc, auto sc.data.len);
-
-    sc.data[sc.data.len - 1] = v;
-};
-
-sc_contains :: fn (sc: *SymbolCache, v: u32) bool {
-    loop i := 0; i < sc.data.len; i += 1 {
-        if sc.data[i] == v { return true; }
-    }
-
-    return false;
-};
-
-#private
-
-ensure_space :: fn (sc: *SymbolCache, space: s64) {
-    if sc.allocated >= auto space { return; }
-    if sc.allocated == 0 {
-        sc.allocated = 16;
-
-        sc.data.ptr = auto mem_alloc(sc.allocated * sizeof(u32));
-        return;
-    }
-
-    prev_allocated :: sc.allocated;
-    sc.allocated *= 2;
-    new_data := mem_alloc(sc.allocated * sizeof(u32));
-    mem_copy(new_data, auto sc.data.ptr, prev_allocated);
-    
-    sc.data.ptr = auto new_data;
-};
+build :: fn () #build_entry {
+    exe :: add_executable("c2bl");
+    set_output_dir(exe, "bin");
+    set_copy_deps(exe, true);
+    add_unit(exe, "src/main.bl");
+    set_module_dir(exe, "_modules", ModuleImportPolicy.BundleLatest);
+}

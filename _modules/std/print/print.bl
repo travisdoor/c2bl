@@ -1,0 +1,587 @@
+//************************************************************************************************
+// bl
+//
+// File:   print.bl 
+// Author: Martin Dorazil
+// Date:   3/8/19
+//
+// Copyright 2019 Martin Dorazil
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//************************************************************************************************
+
+#import "std/string"
+#load "std/math.bl"
+
+//! =====
+//! Print
+//! =====
+//! 
+//! ::
+//! 
+//!     #import "std/print"
+//! 
+//! Printing functions collection.
+
+/// Size of buffer used by `print` function, this is maximum text legth
+/// which can be printed at once.
+PRINT_MAX_LENGTH :: 4096;
+
+/// Write string to the standart output (stdout). Format string can include
+/// format specifiers `%` which are replaced by corresponding argument value
+/// passed in `args`. Value-string conversion is done automatically, we can
+/// pass values of any type as an arguments, even structures or arrays.
+/// 
+/// The `print` function accepts C-like escape sequences as `\n`, `\t`, `\r`, etc.
+/// 
+/// Pointers to :ref:`Error` are dereferenced automatically; so the `print` function
+/// can print out errors directly.
+/// 
+/// Count of printed bytes is returned.
+/// 
+/// Example
+/// -------
+/// .. literalinclude:: /examples/docs/007.bl
+///    :language: bl
+print :: fn (format: string, args: ...) s32 {
+    buf: [PRINT_MAX_LENGTH]u8 #noinit;
+    w := _print_impl(buf, format, args);
+    __os_write(OS_STDOUT, buf.ptr, auto w);
+    return w;
+};
+
+/// Write string to the error output (stderr).
+/// See also :ref:`print`.
+eprint :: fn (format: string, args: ...) s32 {
+    buf: [PRINT_MAX_LENGTH]u8 #noinit;
+    w := _print_impl(buf, format, args);
+    __os_write(OS_STDERR, buf.ptr, auto w);
+    return w;
+};
+
+/// Write string to the input buffer. When passed buffer has not enough space to handle whole
+/// resulting string, function will print just part fitting into the buffer.  
+/// 
+/// Returns count of characters written into buffer, this count does not include terminal
+/// character written at the end of the result string.
+/// 
+/// See also :ref:`print`.
+bprint :: fn (buf: []u8, format: string, args: ...) s32 {
+    w :: _print_impl(buf, format, args);
+    print_char(buf, w, '\0');
+    return w;
+};
+
+/// Same as :ref:`bprint` but with specified `offset` in output `buf`.
+///     
+/// When passed buffer has not enough space to handle whole resulting 
+/// string, function will print just part fitting into the buffer.  
+boprint :: fn (buf: []u8, offset: s32, format: string, args: ...) s32 {
+    w :: _print_impl(buf, format, args, offset);
+    print_char(buf, w, '\0');
+    return w;
+};
+
+/// Create new dynamic string with variable content.
+/// This instance must be freed by `string_delete` call.
+sprint :: fn (args: ...) string {
+    tmp := string_new();
+    loop i := 0; i < args.len; i += 1 {
+        string_append(&tmp, args[i]);
+    }
+
+    return tmp;
+};
+
+/// Structure to hold information about custom real print formatting. Use
+/// :ref:`fmt_real` function to create formatted printable value.
+FmtReal :: struct {
+    /// Count of trailing zeros. When this value is less than
+    /// zero, default (6) trailing will be used.
+    trailing: s8;
+    /// Value.
+    v: Any;
+}
+
+/// Create formatted printable object for real number. Created :ref:`FmtReal` object
+/// is valid for direct printing.
+/// 
+/// Arguments
+/// ---------
+/// * `v` Value to be formatted.
+/// * `trailing` Count of trailing zeros. When this value is less than
+///   zero, default (6) trailing will be used.
+fmt_real :: fn (v: Any, trailing: s8) FmtReal #inline {
+    if v.type_info.kind != TypeKind.Real {
+        panic("Invalid format input, got % but expected is Real number!", v.type_info.kind);
+    }
+
+    return {:FmtReal: trailing, v};
+}
+
+/// Number base used for formatted printing.
+FmtIntBase :: enum u8 {
+    /// Format as binary number.
+    Bin;
+    /// Format as decimal number.
+    Dec;
+    /// Format as octal number.
+    Oct;
+    /// Format as haxadecimal number.
+    Hex;
+}
+
+/// Specify number printing format. Use :ref:`fmt_int` helper function
+/// to create instance of this type.
+FmtInt :: struct {
+    /// Numeric base.
+    base: FmtIntBase;
+    /// Prints prefix based on desired numeric base.
+    /// 
+    ///   * `0b` for binary.
+    ///   * `0` for octal.
+    ///   * `0x` for hexadecimal.
+    /// 
+    print_prefix: bool;
+    /// Printed value.
+    v: Any;
+}
+
+/// Create formatted printable object for number. Created :ref:`FmtInt` object
+/// is valid for direct printing.
+/// 
+/// Arguments
+/// ---------
+/// * `v` Value to be formatted.
+/// * `base` Numeric base. 
+/// * `print_prefix` Prints numeric base prefix when `true`
+fmt_int :: fn (v: Any, base: FmtIntBase, print_prefix := true) FmtInt #inline {
+    if v.type_info.kind != TypeKind.Int {
+        panic("Invalid format input, got % but expected is Integer number!", v.type_info.kind);
+    }
+
+    return {:FmtInt: base, print_prefix, v};
+}
+
+#private
+DEFAULT_REAL_TRAILING :: 6;
+_print_impl :: fn (buf: []u8, format: string, args: []Any, cur := 0) s32 {
+    argi := 0;
+    if cur >= buf.len { return cur; }
+    loop i := 0; i < format.len; i += 1 {
+        c := format[i];
+
+        if c == '%' {
+            // print argument if there is one
+            if argi < args.len {
+                cur = print_any(buf, cur, &args[argi]); 
+                argi += 1;
+            } else {
+                cur = print_string(buf, cur, "(null)");
+            }
+        } else {
+            cur = print_char(buf, cur, c);
+        }
+    }
+
+    return cur;
+};
+
+print_any :: fn (buf: []u8, cur: s32, any: *Any) s32 {
+    if any.type_info.kind == TypeKind.Int {
+        // Integer
+        info := cast(*TypeInfoInt) any.type_info;
+
+        if info.is_signed {
+            int := s64_from_u8_ptr(any.data, info.bit_count);
+            if int < 0 { // negative number
+                cur = print_string(buf, cur, "-");
+                int = -int;
+            }
+
+            return print_u64(buf, cur, auto int, FmtIntBase.Dec, 1);
+        } else {
+            int := u64_from_u8_ptr(any.data, info.bit_count);
+            return print_u64(buf, cur, int, FmtIntBase.Dec, 1);
+        } 
+
+    } else if any.type_info.kind == TypeKind.Real {
+        // Real
+        info := cast(*TypeInfoReal) any.type_info;
+
+        real := f64_from_u8_ptr(any.data, info.bit_count);
+        if real < 0. {
+            cur = print_string(buf, cur, "-");
+            real = -real;
+        }
+        return print_f64(buf, cur, real, -1);
+    } else if any.type_info.kind == TypeKind.String {
+        str := ^ cast(*string) any.data;
+        return print_string(buf, cur, str);
+    } else if any.type_info.kind == TypeKind.Array {
+        info := cast(*TypeInfoArray) any.type_info;
+        if info.len == 0 {
+            return print_string(buf, cur, "[]");
+        }
+
+        elem_size := info.elem_type.size_bytes;
+        tmp : Any;
+        tmp.type_info = info.elem_type;
+        cur = print_string(buf, cur, "[");
+
+        loop i : usize = 0; i < auto info.len; i += 1 {
+            tmp.data = cast(*u8) (cast(usize) any.data + i * elem_size);
+            cur = print_any(buf, cur, &tmp);
+
+            if i < auto info.len - 1 {
+                cur = print_string(buf, cur, ", ");
+            }
+        }
+        return print_string(buf, cur, "]");
+    } else if any.type_info.kind == TypeKind.Struct {
+        // Print formated values first.
+        if any.type_info == typeinfo(FmtReal) {
+            // Real formated
+            fmt :: cast(*FmtReal) any.data;
+            info := cast(*TypeInfoReal) fmt.v.type_info;
+            real := f64_from_u8_ptr(fmt.v.data, info.bit_count);
+            if real < 0. {
+                cur = print_string(buf, cur, "-");
+                real = -real;
+            }
+            return print_f64(buf, cur, real, auto fmt.trailing);
+        } else if any.type_info == typeinfo(FmtInt) {
+            // Int formated
+            fmt :: cast(*FmtInt) any.data;
+            info := cast(*TypeInfoInt) fmt.v.type_info;
+            int := s64_from_u8_ptr(fmt.v.data, info.bit_count);
+            if int < 0 { // negative number
+                cur = print_string(buf, cur, "-");
+                int = -int;
+            }
+            return print_u64(buf, cur, auto int, fmt.base, 1, fmt.print_prefix);
+        }
+        
+        info := cast(*TypeInfoStruct) any.type_info;
+        tmp : Any;
+        if (!info.is_slice) && (!info.is_dynamic_array) {
+            cur = print_string(buf, cur, info.name);
+            cur = print_string(buf, cur, " {");
+            loop i := 0; i < info.members.len; i += 1 {
+                member := info.members[i];
+                cur = print_string(buf, cur, member.name);
+                cur = print_string(buf, cur, " = ");
+                tmp.data = cast(*u8) (cast(usize) any.data + auto member.offset_bytes);
+                tmp.type_info = member.base_type;
+                cur = print_any(buf, cur, &tmp);
+
+                if i < info.members.len - 1 {
+                    cur = print_string(buf, cur, ", ");
+                }
+            }
+            return print_string(buf, cur, "}");
+        }
+
+        // we are printing slice
+        len := u64_from_u8_ptr(cast(*u8) (cast(usize) any.data + auto info.members[0].offset_bytes), 64);
+        ptr := ptr_from_ptr(cast(*u8) (cast(usize) any.data + auto info.members[1].offset_bytes));
+
+        if len == 0 {
+            return print_string(buf, cur, "[]");
+        }
+
+        if ptr == null {
+            return print_string(buf, cur, "[<null>]");
+        }
+
+        cur = print_string(buf, cur, "[");
+        elem_type := (cast(*TypeInfoPtr)info.members[1].base_type).pointee_type;
+        elem_size := elem_type.size_bytes;
+        tmp.type_info = elem_type;
+
+        if elem_size > 0 {
+            loop i : usize = 0; i < len; i += 1 {
+                tmp.data = cast(*u8) (cast(usize) ptr + i * elem_size);
+                cur = print_any(buf, cur, &tmp);
+
+                if i < len - 1 {
+                    cur = print_string(buf, cur, ", ");
+                }
+            }
+        }
+        return print_string(buf, cur, "]");
+
+    } else if any.type_info.kind == TypeKind.Ptr {
+        if any.type_info == typeinfo(Error) {
+            // Error
+            err := ^ cast(**_Error) any.data;
+            if !err {
+                return print_string(buf, cur, "null");
+            }
+
+            if err.code == ERR_UNKNOWN {
+                return print_string(buf, cur, err.msg);
+            }
+
+            cur = print_string(buf, cur, err.msg);
+            cur = print_string(buf, cur, " (");
+            if err.code < 0 { 
+                cur = print_string(buf, cur, "-");
+                cur = print_u64(buf, cur, auto err.code * -1, FmtIntBase.Dec, 1);
+            } else {
+                cur = print_u64(buf, cur, auto err.code, FmtIntBase.Dec, 1);
+            }
+            return print_string(buf, cur, ")");
+        } else {
+            // Pointer
+            ptr := ^ cast(*u64) any.data;
+            if ptr == 0 {
+                return print_string(buf, cur, "null");
+            }
+            return print_u64(buf, cur, ptr, FmtIntBase.Hex, 1);
+        }
+    } else if any.type_info.kind == TypeKind.Bool {
+        // Bool
+        b := ^ cast(*bool) any.data;
+        if b { return print_string(buf, cur, "true"); }
+        else { return print_string(buf, cur, "false"); }
+    } else if any.type_info.kind == TypeKind.Enum {
+        // Enum 
+        info := cast(*TypeInfoEnum) any.type_info;
+        info_base_type := cast(*TypeInfoInt) info.base_type;
+
+        value := s64_from_u8_ptr(any.data, info_base_type.bit_count); 
+
+        loop i := 0; i < info.variants.len; i += 1 {
+            if info.variants[i].value == value {
+                cur = print_string(buf, cur, info.name);
+                cur = print_string(buf, cur, ".");
+                return print_string(buf, cur, info.variants[i].name);
+            }
+        }
+
+        if value < 0 { // negative number
+            cur = print_string(buf, cur, "-");
+            value = -value;
+        }
+        return print_u64(buf, cur, auto value, FmtIntBase.Dec, 1);
+    } else if any.type_info.kind == TypeKind.Type {
+        // Type
+        return print_type(buf, cur, cast(*TypeInfo) any.data);
+    } else if any.type_info.kind == TypeKind.Fn {
+        // Fn
+        return print_type(buf, cur, cast(*TypeInfo) any.data);
+
+    } else { 
+        print("unknown %\n", ^any.type_info);
+        return print_string(buf, cur, "<unknown>");
+    }
+
+
+    // TODO: support more types
+
+    return cur;
+};
+
+print_type :: fn (buf: []u8, cur: s32, info: *TypeInfo) s32 {
+    if info.kind == TypeKind.Int {
+        c := cast(*TypeInfoInt) info;
+        if c.is_signed {
+            cur = print_string(buf, cur, "s");
+        } else {
+            cur = print_string(buf, cur, "u");
+        }
+        return print_u64(buf, cur, auto c.bit_count, FmtIntBase.Dec, 1);
+    } else if info.kind == TypeKind.Real {
+        c := cast(*TypeInfoReal) info;
+        cur = print_string(buf, cur, "f");
+        return print_u64(buf, cur, auto c.bit_count, FmtIntBase.Dec, 1);
+    } else if info.kind == TypeKind.Bool{
+        return print_string(buf, cur, "bool");
+    } else if info.kind == TypeKind.Ptr {
+        c := cast(*TypeInfoPtr) info;
+        cur = print_string(buf, cur, "*");
+        return print_type(buf, cur, c.pointee_type);
+    } else if info.kind == TypeKind.Array {
+        c := cast(*TypeInfoArray) info;
+        cur = print_string(buf, cur, "[");
+        cur = print_u64(buf, cur, auto c.len, FmtIntBase.Dec, 1);
+        cur = print_string(buf, cur, "]");
+
+        return print_type(buf, cur, c.elem_type);
+    } else if info.kind == TypeKind.Struct {
+        c := cast(*TypeInfoStruct) info;
+        cur = print_string(buf, cur, "struct {");
+
+        loop i := 0; i < c.members.len; i += 1 {
+            member := c.members[i];
+            cur = print_string(buf, cur, member.name);
+            cur = print_string(buf, cur, ": ");
+            cur = print_type(buf, cur, member.base_type);
+
+            if i < c.members.len - 1 { cur = print_string(buf, cur, ", "); }
+        }
+        return print_string(buf, cur, "}");
+    } else if info.kind == TypeKind.Fn {
+        c := cast(*TypeInfoFn) info;
+        cur = print_string(buf, cur, "fn (");
+
+        loop i := 0; i < c.args.len; i += 1 {
+            arg := c.args[i];
+            cur = print_string(buf, cur, arg.name);
+            cur = print_string(buf, cur, ": ");
+            cur = print_type(buf, cur, arg.base_type);
+
+            if i < c.args.len - 1 { cur = print_string(buf, cur, ", "); }
+        }
+
+        cur = print_string(buf, cur, ") ");
+        return print_type(buf, cur, c.ret_type);
+    } else if info.kind == TypeKind.Enum {
+        c := cast(*TypeInfoEnum) info;
+        //cur = print_string(buf, cur, c.name);
+        cur = print_string(buf, cur, "enum ");
+        cur = print_type(buf, cur, c.base_type);
+        cur = print_string(buf, cur, " {");
+
+        loop i := 0; i < c.variants.len; i += 1 {
+            variant := c.variants[i];
+            cur = print_string(buf, cur, variant.name);
+            cur = print_string(buf, cur, " :: ");
+            cur = print_u64(buf, cur, auto variant.value, FmtIntBase.Dec, 1);
+
+            if i < c.variants.len - 1 { cur = print_string(buf, cur, ", "); }
+        }
+        return print_string(buf, cur, "}");
+    } else if info.kind == TypeKind.String {
+        return print_string(buf, cur, "string");
+    } else if info.kind == TypeKind.Void {
+        return print_string(buf, cur, "void");
+    } else if info.kind == TypeKind.Null {
+        return print_string(buf, cur, "null");
+    } 
+    return 0;
+};
+
+print_string :: fn (buf: []u8, cur: s32, str: string) s32 {
+    if str.ptr == null { return cur; }
+    i := 0;
+    loop ; i < str.len; i += 1 {
+        bi := cur + i;
+        if bi >= buf.len { break; }
+
+        buf[bi] = str[i];
+    }
+    return cur + i;
+};
+
+print_char :: fn (buf: []u8, cur: s32, c: u8) s32 #inline {
+    if cur >= buf.len { return cur; }
+    buf[cur] = c;
+    return cur + 1;
+};
+
+print_u64 :: fn (buf: []u8, cur: s32, v: u64, base: FmtIntBase, digits: s32, print_prefix := true) s32 {
+    tbl :: "0123456789abcdef";
+    b: u64 #noinit;
+
+    switch base {
+        FmtIntBase.Dec { b = 10; }
+        FmtIntBase.Bin { 
+            b = 2;  
+            if print_prefix { cur = print_string(buf, cur, "0b"); }
+        }
+        FmtIntBase.Oct { 
+            b = 8;  
+            if print_prefix { cur = print_char(buf, cur, '0'); }
+        }
+        FmtIntBase.Hex { 
+            b = 16; 
+            if print_prefix { cur = print_string(buf, cur, "0x"); }
+        }
+    }
+
+    prev_cur :: cur;
+    loop v > 0 {
+        d :: v % b;
+        cur = print_char(buf, cur, tbl[auto d]);
+        v = v / b;
+    }
+
+    loop (cur - prev_cur) < digits {
+        cur = print_char(buf, cur, '0');
+    }
+    
+    reverse(buf, prev_cur, cur - 1);
+    return cur;
+}
+
+print_f64 :: fn (buf: []u8, cur: s32, v: f64, trailing: s32) s32 {
+    if trailing < 0 { trailing = DEFAULT_REAL_TRAILING; }
+    ipart :: cast(u64) v;
+    fpart := v - cast(f64) ipart;
+    cur = print_u64(buf, cur, ipart, FmtIntBase.Dec, 1);
+
+    if trailing != 0 { 
+        cur = print_char(buf, cur, '.');
+        fpart = fpart * pow(10., auto trailing); 
+        cur = print_u64(buf, cur, cast(u64) ceil(fpart), FmtIntBase.Dec, trailing); 
+    } 
+
+    return cur;
+};
+
+s64_from_u8_ptr :: fn (ptr: *u8, bit_count: s32) s64 {
+    if bit_count == 64 { return ^ cast(*s64) ptr; }
+    if bit_count == 32 { return ^ cast(*s32) ptr; }
+    if bit_count == 16 { return ^ cast(*s16) ptr; }
+    if bit_count ==  8 { return ^ cast(*s8)  ptr; }
+
+    return 0;
+};
+
+u64_from_u8_ptr :: fn (ptr: *u8, bit_count: s32) u64 {
+    if bit_count == 64 { return ^ cast(*u64) ptr; }
+    if bit_count == 32 { return ^ cast(*u32) ptr; }
+    if bit_count == 16 { return ^ cast(*u16) ptr; }
+    if bit_count ==  8 { return ^ cast(*u8)  ptr; }
+
+    return 0;
+};
+
+f64_from_u8_ptr :: fn (ptr: *u8, bit_count: s32) f64 {
+    if bit_count == 64 { return ^ cast(*f64) ptr; }
+    if bit_count == 32 { return cast(f64) (^ cast(*f32) ptr); }
+
+    return 0.;
+};
+
+ptr_from_ptr :: fn (ptr: *u8) *u8 {
+    return cast(*u8) ^ cast(*usize) ptr;
+};
+
+reverse :: fn (buf: []u8, start: s64, end: s64) #inline {
+    loop start < end {
+        temp :: buf[start]; 
+        buf[start] = buf[end]; 
+        buf[end] = temp; 
+        start += 1; 
+        end   -= 1; 
+    }
+}

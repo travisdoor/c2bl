@@ -1,0 +1,499 @@
+#import "std/test"
+#import "std/debug_allocator"
+
+#import "std/string"
+
+main :: fn () s32 {
+    dbgalloc_init();
+    defer dbgalloc_terminate();
+    return test_run();    
+}
+
+#private
+test_multiline_string_literal :: fn () #test {
+    FOO :: 
+       "Hello "
+       "this "
+       "is "
+       "multiline "
+       "string"
+       "!";
+    test_eq(FOO, "Hello this is multiline string!");
+}
+
+test_strings_init1 :: fn () #test {
+    s1 := string_new();
+    assert(s1.ptr != null);
+    assert(s1.len == 0);
+
+    string_append(&s1, "foo");
+    assert(string_compare("foo", s1));
+
+    string_append(&s1, 12);
+    assert(string_compare("foo12", s1));
+
+    string_append(&s1, true);
+    assert(string_compare("foo12true", s1));
+};
+
+test_strings_init2 :: fn () #test {
+    s :: string_new();
+    defer string_delete(s);
+    test_eq(s.len, 0);
+    test_true(s.ptr);
+}
+
+test_strings_init3 :: fn () #test {
+    s :: string_new(100);
+    defer string_delete(s);
+    test_eq(s.len, 0);
+    test_true(s.ptr);
+}
+
+test_strings_init4 :: fn () #test {
+    s :: string_new("hello");
+    defer string_delete(s);
+    test_eq(s.len, 5);
+    test_true(s.ptr);
+    test_eq(s, "hello");
+}
+
+test_strings_init5 :: fn () #test {
+    cstr := {:[6]u8: 'h', 'e', 'l', 'l', 'o', '\0'};
+    s :: string_new(cstr.ptr);
+    defer string_delete(s);
+    test_eq(s.len, 5);
+    test_true(s.ptr);
+    test_eq(s, "hello");
+}
+
+test_string_split_by_last :: fn () #test {
+    lhs: string;
+    rhs: string;
+
+    if string_split_by_last("1234/1234", '/', &lhs, &rhs) {
+        assert(lhs.len == 4);
+        assert(rhs.len == 4);
+    }
+
+    if string_split_by_last("/12341234", '/', &lhs, &rhs) {
+        assert(lhs.len == 0);
+        assert(rhs.len == 8);
+    }
+
+    if string_split_by_last("12341234/", '/', &lhs, &rhs) {
+        assert(lhs.len == 8);
+        assert(rhs.len == 0);
+    }
+
+    if string_split_by_last("/", '/', &lhs, &rhs) {
+        assert(lhs.len == 0);
+        assert(rhs.len == 0);
+    }
+
+    assert(!string_split_by_last("12341234", '/', &lhs, &rhs));
+    assert(!string_split_by_last("", '/', &lhs, &rhs));
+}
+
+test_string_split_by_first :: fn () #test {
+    lhs: string;
+    rhs: string;
+
+    if string_split_by_first("1234/1234", '/', &lhs, &rhs) {
+        assert(lhs.len == 4);
+        assert(rhs.len == 4);
+    }
+
+    if string_split_by_first("/12341234", '/', &lhs, &rhs) {
+        assert(lhs.len == 0);
+        assert(rhs.len == 8);
+    }
+
+    if string_split_by_first("12341234/", '/', &lhs, &rhs) {
+        assert(lhs.len == 8);
+        assert(rhs.len == 0);
+    }
+
+    if string_split_by_first("/", '/', &lhs, &rhs) {
+        assert(lhs.len == 0);
+        assert(rhs.len == 0);
+    }
+
+    assert(!string_split_by_first("12341234", '/', &lhs, &rhs));
+    assert(!string_split_by_first("", '/', &lhs, &rhs));
+}
+
+test_string_compare1 :: fn () #test {
+    test_true(string_compare("hello", "hello")); 
+    test_true(string_compare("", "")); 
+    test_false(string_compare("aaaa", "bb")); 
+    test_false(string_compare("aa", "bbbb")); 
+    test_false(string_compare("", "bbbb")); 
+    test_false(string_compare("aa", "")); 
+}
+
+test_string_compare2 :: fn () #test {
+    test_true(string_compare("", "", 0)); 
+    test_true(string_compare("", "", 10)); 
+    test_true(string_compare("hello", "hello", 0)); 
+    test_true(string_compare("hello", "hello", -1)); 
+    test_true(string_compare("hello", "hello", 3)); 
+    test_true(string_compare("bbaa", "bb", 2)); 
+    test_true(string_compare("b", "b", 100)); 
+    test_true(string_compare("b", "b", 0)); 
+    test_true(string_compare("bbbb", "b", 0)); 
+    test_true(string_compare("b", "bbbb", 0)); 
+    test_true(string_compare("bbbb", "b", 1)); 
+    test_true(string_compare("b", "bbbb", 1)); 
+    test_true(string_compare("", "b", 0)); 
+    test_true(string_compare("b", "", 0)); 
+    test_false(string_compare("", "b", 1)); 
+    test_false(string_compare("b", "", 1)); 
+}
+
+test_string_to_s64 :: fn () #test {
+    test_eq(string_to_s64(""), 0);
+    test_eq(string_to_s64("1"), 1);
+    test_eq(string_to_s64("654132"), 654132);
+    test_eq(string_to_s64("-1"), -1);
+    test_eq(string_to_s64("-654132"), -654132);
+}
+
+test_string_to_f32 :: fn () #test {
+    test_eq(string_to_f32(""), 0.f);
+    test_eq(string_to_f32("1.1"), 1.1f);
+    test_eq(string_to_f32("654132.02"), 654132.02f);
+    test_eq(string_to_f32("-1.0"), -1.f);
+    test_eq(string_to_f32("-654.132"), -654.132f);
+}
+
+test_string_to_lower :: fn () #test {
+    tmp := string_new();
+    defer string_delete(tmp);
+
+    string_clear(&tmp);
+    string_append(&tmp, "");
+    string_to_lower(tmp);
+    test_eq(tmp, "");
+
+    string_clear(&tmp);
+    string_append(&tmp, "AaAaa AAa ");
+    string_to_lower(tmp);
+    test_eq(tmp, "aaaaa aaa ");
+
+    string_clear(&tmp);
+    string_append(&tmp, "0123456789~!@#$%^&*()_+");
+    string_to_lower(tmp);
+    test_eq(tmp, "0123456789~!@#$%^&*()_+");
+}
+
+test_string_to_upper :: fn () #test {
+    tmp := string_new();
+    defer string_delete(tmp);
+
+    string_clear(&tmp);
+    string_append(&tmp, "");
+    string_to_upper(tmp);
+    test_eq(tmp, "");
+
+    string_clear(&tmp);
+    string_append(&tmp, "AaAaa AAa ");
+    string_to_upper(tmp);
+    test_eq(tmp, "AAAAA AAA ");
+
+    string_clear(&tmp);
+    string_append(&tmp, "0123456789~!@#$%^&*()_+");
+    string_to_upper(tmp);
+    test_eq(tmp, "0123456789~!@#$%^&*()_+");
+}
+
+test_string_replace1 :: fn () #test {
+    tmp := string_new();
+    defer string_delete(tmp);
+
+    string_clear(&tmp);
+    string_append(&tmp, "");
+    test_eq(string_replace_all(&tmp, ' ', ','), 0);
+    test_eq(tmp, "");
+
+    string_clear(&tmp);
+    string_append(&tmp, "1 23 456 7 89 ");
+    test_eq(string_replace_all(&tmp, ' ', ','), 5);
+    test_eq(tmp, "1,23,456,7,89,");
+
+    string_clear(&tmp);
+    string_append(&tmp, "     ");
+    test_eq(string_replace_all(&tmp, ' ', ','), 5);
+    test_eq(tmp, ",,,,,");
+}
+
+test_string_replace2 :: fn () #test {
+    tmp := string_new();
+    defer string_delete(tmp);
+
+    string_clear(&tmp);
+    string_append(&tmp, "");
+    test_eq(string_replace_all(&tmp, ' '), 0);
+    test_eq(tmp.len, 0);
+    test_eq(tmp, "");
+
+    string_clear(&tmp);
+    string_append(&tmp, "     ");
+    test_eq(string_replace_all(&tmp, ' '), 5);
+    test_eq(tmp.len, 0);
+    test_eq(tmp, "");
+
+    string_clear(&tmp);
+    string_append(&tmp, " 12  345 6 789     ");
+    test_eq(string_replace_all(&tmp, ' '), 10);
+    test_eq(tmp.len, 9);
+    test_eq(tmp, "123456789");
+
+    string_clear(&tmp);
+    string_append(&tmp, " 12  345 6 78     9");
+    test_eq(string_replace_all(&tmp, ' '), 10);
+    test_eq(tmp.len, 9);
+    test_eq(tmp, "123456789");
+
+    string_clear(&tmp);
+    string_append(&tmp, "d, d");
+    test_eq(string_replace_all(&tmp, ' '), 1);
+    test_eq(tmp.len, 3);
+    test_eq(tmp, "d,d");
+}
+
+test_string_count :: fn () #test {
+    test_eq(string_count("", ','), 0);
+    test_eq(string_count("dfa, asfdas, fq,, fas ,", ','), 5);
+    test_eq(string_count("dfa, asfdas, fq,, fas ,", ':'), 0);
+}
+
+test_string_split_by1 :: fn () #test {
+    s1 :: string_split_by("this,is,cool,string", ',');
+    defer slice_terminate(s1);
+    test_eq(s1.len, 4);
+    test_eq(s1[0], "this");
+    test_eq(s1[1], "is");
+    test_eq(s1[2], "cool");
+    test_eq(s1[3], "string");
+}
+
+test_string_split_by2 :: fn () #test {
+    s1 :: string_split_by(",", ',');
+    defer slice_terminate(s1);
+    test_eq(s1.len, 2);
+    test_eq(s1[0], "");
+    test_eq(s1[1], "");
+}
+
+test_string_split_by3 :: fn () #test {
+    s1 :: string_split_by(",,,", ',');
+    defer slice_terminate(s1);
+    test_eq(s1.len, 4);
+    test_eq(s1[0], "");
+    test_eq(s1[1], "");
+    test_eq(s1[2], "");
+    test_eq(s1[3], "");
+}
+
+test_string_split_by4 :: fn () #test {
+    s1 :: string_split_by("abc", ':');
+    defer slice_terminate(s1);
+    test_eq(s1.len, 1);
+    test_eq(s1[0], "abc");
+}
+
+test_string_split_by5 :: fn () #test {
+    s1 :: string_split_by("", ':');
+    defer slice_terminate(s1);
+    test_eq(s1.len, 1);
+    test_eq(s1[0], "");
+}
+
+test_string_split_by6 :: fn () #test {
+    s1 :: string_split_by("d,d", ',');
+    defer slice_terminate(s1);
+    test_eq(s1.len, 2);
+    test_eq(s1[0], "d");
+    test_eq(s1[1], "d");
+}
+
+test_string_erase1 :: fn () #test {
+    s1 :: string_new("");
+    defer string_delete(s1);
+    test_false(string_erase(&s1, 0));
+    test_false(string_erase(&s1, 1));
+    test_false(string_erase(&s1, -1));
+}
+
+test_string_erase2 :: fn () #test {
+    s1 :: string_new("aaa");
+    defer string_delete(s1);
+    test_true(string_erase(&s1, 2));
+    test_true(string_erase(&s1, 1));
+    test_true(string_erase(&s1, 0));
+    test_eq(s1.len, 0);
+}
+
+test_string_erase3 :: fn () #test {
+    s1 :: string_new("abcdef");
+    defer string_delete(s1);
+    test_true(string_erase(&s1, 5));
+    test_true(string_erase(&s1, 4));
+    test_true(string_erase(&s1, 3));
+    test_eq(s1.len, 3);
+    test_eq(s1, "abc");
+}
+
+test_string_erase4 :: fn () #test {
+    s1 :: string_new("abcdef");
+    defer string_delete(s1);
+    test_true(string_erase(&s1, 0));
+    test_true(string_erase(&s1, 0));
+    test_true(string_erase(&s1, 0));
+    test_eq(s1.len, 3);
+    test_eq(s1, "def");
+}
+
+test_string_erase5 :: fn () #test {
+    s1 :: string_new("abcdef");
+    defer string_delete(s1);
+    test_true(string_erase(&s1, 3));
+    test_true(string_erase(&s1, 3));
+    test_true(string_erase(&s1, 3));
+    test_eq(s1.len, 3);
+    test_eq(s1, "abc");
+}
+
+test_string_insert1 :: fn () #test {
+    s1 :: string_new("");
+    defer string_delete(s1);
+    test_true(string_insert(&s1, 0, "hello"));
+    test_eq(s1.len, 5);
+    test_eq(s1, "hello");
+}
+
+test_string_insert2 :: fn () #test {
+    s1 :: string_new("");
+    defer string_delete(s1);
+    test_false(string_insert(&s1, 1, "hello"));
+    test_eq(s1.len, 0);
+    test_eq(s1, "");
+}
+
+test_string_insert3 :: fn () #test {
+    s1 :: string_new("foo");
+    defer string_delete(s1);
+    test_true(string_insert(&s1, 3, "bar"));
+    test_eq(s1.len, 6);
+    test_eq(s1, "foobar");
+}
+
+test_string_insert4 :: fn () #test {
+    s1 :: string_new("foo");
+    defer string_delete(s1);
+    test_true(string_insert(&s1, 0, "bar"));
+    test_eq(s1.len, 6);
+    test_eq(s1, "barfoo");
+}
+
+test_string_insert5 :: fn () #test {
+    s1 :: string_new("foo");
+    defer string_delete(s1);
+    test_true(string_insert(&s1, 0, "barbar"));
+    test_eq(s1.len, 9);
+    test_eq(s1, "barbarfoo");
+}
+
+test_string_insert6 :: fn () #test {
+    s1 :: string_new("AGH");
+    defer string_delete(s1);
+    test_true(string_insert(&s1, 1, "BCDEF"));
+    test_eq(s1.len, 8);
+    test_eq(s1, "ABCDEFGH");
+}
+
+test_string_count1 :: fn () #test {
+    s1 :: string_new("");
+    defer string_delete(s1);
+    test_eq(string_count(s1, ' '), 0);
+}
+
+test_string_count2 :: fn () #test {
+    s1 :: string_new("abba ab abba abbaa  abbba");
+    defer string_delete(s1);
+    test_eq(string_count(s1, ' '), 5);
+}
+
+test_string_sub_default_len :: fn () #test {
+    s1 :: string_sub("hello world", 0);
+    test_eq(s1.len, 11); 
+    test_eq(s1, "hello world"); 
+}
+
+test_string_sub_empty :: fn () #test {
+    s1 :: string_sub(string_empty, 0);
+    test_eq(s1.len, 0); 
+    test_eq(s1, string_empty); 
+}
+
+test_string_sub_empty2 :: fn () #test {
+    s1 :: string_sub("hello world", 0, 0);
+    test_eq(s1.len, 0); 
+    test_eq(s1, string_empty); 
+}
+
+test_string_sub_full :: fn () #test {
+    s1 :: string_sub("hello world", 0, 11);
+    test_eq(s1.len, 11); 
+    test_eq(s1, "hello world"); 
+}
+
+test_string_sub_1 :: fn () #test {
+    s1 :: string_sub("hello world", 0, 5);
+    test_eq(s1.len, 5); 
+    test_eq(s1, "hello"); 
+}
+
+test_string_sub_2 :: fn () #test {
+    s1 :: string_sub("hello world", 6, 5);
+    test_eq(s1.len, 5); 
+    test_eq(s1, "world"); 
+}
+
+test_string_sub_3 :: fn () #test {
+    s1 :: string_sub("hello world", 10, 1);
+    test_eq(s1.len, 1); 
+    test_eq(s1, "d"); 
+}
+
+test_string_sub_4 :: fn () #test {
+    s1 :: string_sub("hello world", 10);
+    test_eq(s1.len, 1); 
+    test_eq(s1, "d"); 
+}
+
+test_string_sub_5 :: fn () #test {
+    s1 :: string_sub("hello world", 6);
+    test_eq(s1.len, 5); 
+    test_eq(s1, "world"); 
+}
+
+test_string_sub_6 :: fn () #test {
+    s1 :: string_sub("hello world", 11);
+    test_eq(s1.len, 0); 
+    test_eq(s1, string_empty); 
+}
+
+test_string_clean_concat_1 :: fn () #test {
+    s :: string_new();
+    defer string_delete(s);
+    string_clear_concat(&s);
+    test_eq(s.len, 0);
+
+    string_clear_concat(&s, "Hello");
+    test_eq(s, "Hello");
+
+    string_clear_concat(&s, 1, 2, 3);
+    test_eq(s, "123");
+}

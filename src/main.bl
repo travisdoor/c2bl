@@ -1,0 +1,66 @@
+//*****************************************************************************
+// c2bl
+//
+// File:   c2bl.bl
+// Author: Martin Dorazil
+// Date:   9/19/2019
+//
+// Copyright 2019 Martin Dorazil
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//*****************************************************************************
+
+#import "clang"
+    
+main :: fn () u32 {
+    file :: "../test/testfile.h";
+    print("Converting file '%'.\n", file);
+
+    idx := clang_createIndex(0, 0);
+    defer clang_disposeIndex(idx);
+    options :: make_TU_flags(
+        CXTranslationUnit_Flags.SkipFunctionBodies,
+    );
+    tu : CXTranslationUnit = null;
+    result := clang_parseTranslationUnit2(idx, file.ptr, null, 0, null, 0, options, &tu);
+    defer clang_disposeTranslationUnit(tu);
+    if result != CXErrorCode.Success {
+        panic("Error: %\n", result);
+    }
+    cursor := clang_getTranslationUnitCursor(tu);
+    clang_visitChildren(cursor, &emit_top_level, null);
+    return 0;
+}
+
+emit_top_level :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
+    loc := clang_getCursorLocation(c);
+    if clang_Location_isFromMainFile(loc) == 0 { 
+        return CXChildVisitResult.Continue;
+    }
+    print("%\n", c);
+    return CXChildVisitResult.Continue;
+}
+
+make_TU_flags :: fn (flags: ...CXTranslationUnit_Flags) u32 {
+    result: u32;
+    loop i := 0; i < flags.len; i += 1 {
+        result = result | auto flags[i];
+    }
+    return result;
+}
