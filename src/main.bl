@@ -72,6 +72,7 @@ handle_args :: fn () bool {
     arg_parser :: arg_parser_new();
     defer arg_parser_delete(arg_parser);
 
+    /*
     arg_parser_add(
         arg_parser,
         "-o",
@@ -82,6 +83,7 @@ handle_args :: fn () bool {
             a.out_dir = "";
             return 1, ok();
         });
+    */
         
     arg_parser_add(
         arg_parser,
