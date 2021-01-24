@@ -1,39 +1,52 @@
-typedef void *CXIndex;
-typedef void *CXType;
-typedef void *CXCursor;
+#define HOMO 1
 
-CXType
-clang_getTypedefDeclUnderlyingType(CXCursor C);
 
-int
-foo(int number, char c);
+int foo(int number, char c);
 
-int
-bar(void);
+const char *hello(void);
 
-int
-bar2(void *ptr, long **i);
+void homo();
 
-typedef int Int;
+void homo2(void *homo);
 
-enum Month;
-enum Month;
-enum Month;
+typedef void (*printer_t)(int number);
+typedef printer_t my_printer_t, his_printer_t;
 
-enum Day2 {
-	Sunday,
-	Monday
+enum MyEnum {
+    A, B
+};
+
+typedef enum MyEnum HisEnum, HisSecondEnum;
+
+void use_enum(enum MyEnum foo);
+
+typedef enum {
+    C, D
+} Foo, Foo2, Foo3;
+
+typedef Foo3 Homo3;
+
+typedef enum AnotherOne Bar;
+enum AnotherOne {
+    E, F
 };
 
 
-typedef enum Day2 Day2;
+struct S_One {
+    int i;
+    const char *str;
+};
 
-typedef enum {
-	January,
-	February
-} Month;
+typedef struct S_One S_Two, S_Three;
 
-typedef struct Person_S {
-    int age;
-    const char *name;
-} Person;
+typedef struct S_Four {
+    int i;
+    const char *str;
+} S_Four, S_Five, S_Six;
+
+void cool(S_Two data);
+
+typedef union FooFoo {
+    int i;
+    char c;
+} FooFoo2;
