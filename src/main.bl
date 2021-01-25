@@ -61,9 +61,9 @@ Ctx :: struct {
 
 Args :: struct #base ArgCtx {
     out_dir: string;
+    include_dir: string;
     translate_macros: bool;
     check_syntax: bool;
-    process_includes: bool;
 }
 
 _args: Args;
@@ -72,18 +72,26 @@ handle_args :: fn () bool {
     arg_parser :: arg_parser_new();
     defer arg_parser_delete(arg_parser);
 
-    /*
+    _args.include_dir = ".";
+
     arg_parser_add(
         arg_parser,
-        "-o",
-        "--output-directory",
-        "Speficy output directory.",
+        "-I",
+        "--include-directory",
+        "Speficy include directory.",
         &fn (parser: ArgParser, args: []string, ctx: *ArgCtx) (s32, Error) {
             a: *Args = auto ctx;
-            a.out_dir = "";
-            return 1, ok();
+            if (args.len < 2) {
+                return 0, error("Expected directory name!");
+            }
+            string_replace_all(&args[1], '\\', '/');
+            a.include_dir = args[1];
+            is_valid_directory :: fs_is_directory(a.include_dir);
+            if !is_valid_directory {  
+                return 0, error("Invalid include directory path '%'!", a.include_dir);
+            }
+            return 2, ok();
         });
-    */
         
     arg_parser_add(
         arg_parser,
@@ -107,17 +115,6 @@ handle_args :: fn () bool {
             return 1, ok();
         });
         
-    arg_parser_add(
-        arg_parser,
-        "-i",
-        "--process-includes",
-        "Translate all included files.",
-        &fn (parser: ArgParser, args: []string, ctx: *ArgCtx) (s32, Error) {
-            a: *Args = auto ctx;
-            a.process_includes = true;
-            return 1, ok();
-        });
-
     state :: arg_parser_run(arg_parser, command_line_arguments, &_args, 1);
     if !is_ok(state) {
         print_err("%", state);
@@ -137,7 +134,12 @@ process_file :: fn (in_filepath: string) Error {
         options = make_TU_flags(CXTranslationUnit_Flags.SkipFunctionBodies);
     }
     tu : CXTranslationUnit = null;
-    result := clang_parseTranslationUnit2(idx, in_filepath.ptr, null, 0, null, 0, options, &tu);
+
+    arg_include_path :: sprint("-I", _args.include_dir);
+    defer string_delete(arg_include_path);
+    parser_args :: {:[1]*u8: arg_include_path.ptr};
+
+    result := clang_parseTranslationUnit2(idx, in_filepath.ptr, parser_args.ptr, 1, null, 0, options, &tu);
     defer clang_disposeTranslationUnit(tu);
     if result != CXErrorCode.Success {
         return error("Cannot process file '%'.", in_filepath);
@@ -147,7 +149,7 @@ process_file :: fn (in_filepath: string) Error {
     // prepare output file 
     ctx: Ctx;
     if !string_split_by_last(in_filepath, '/', null, &ctx.filename) {
-        ctx.filename = "unknown.file";
+        ctx.filename = in_filepath;
     }
     out_filepath :: sprint(fs_remove_extension(ctx.filename), ".bl");
     defer string_delete(out_filepath);
@@ -159,7 +161,7 @@ process_file :: fn (in_filepath: string) Error {
 
     print("Converting file '%' to '%'.\n", in_filepath, out_filepath);
     fs_write_fmt(ctx.out, "// Generated from '%'.\n// c2bl version: %\n", ctx.filename, VERSION);    
-    clang_visitChildren(cursor, &emit_top_level, auto &ctx);
+    clang_visitChildren(cursor, &visitor, auto &ctx);
     fs_close(out_file);
     array_terminate(ctx.type_cache);
     array_terminate(ctx.sym_cache);
@@ -174,10 +176,19 @@ process_file :: fn (in_filepath: string) Error {
     return ok();
 }
 
-emit_top_level :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
+visitor :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
     ctx :: cast(*Ctx) client_data;
     loc := clang_getCursorLocation(c);
-    if (!_args.process_includes) && clang_Location_isFromMainFile(loc) == 0 { 
+    if false { // TEST
+        file: CXFile;
+        clang_getExpansionLocation(loc, &file, null, null, null);
+        spelling :: clang_getFileName(file);
+        if spelling.data {
+            name :: {:string: auto c_strlen(auto spelling.data), spelling.data};
+            print("% ", name);
+        }
+    }
+    if clang_Location_isFromMainFile(loc) == 0 { 
         return CXChildVisitResult.Continue;
     }
     
@@ -199,14 +210,14 @@ emit_top_level :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) 
         CXCursorKind.EnumDecl {
             if !clang_isCursorDefinition(c) { return CXChildVisitResult.Continue; }
             emit_name(ctx, c);
-            fs_write_string(ctx.out, " :: ");
+            fs_write_string(ctx.out, " :: ");
             switch c.kind {
                 CXCursorKind.StructDecl { emit_struct(ctx, c); }
                 CXCursorKind.UnionDecl  { emit_union(ctx, c);  }
                 CXCursorKind.EnumDecl   { emit_enum(ctx, c);   }
                 default;
             }                                
-            fs_write_string(ctx.out, "\n");
+            fs_write_string(ctx.out, "\n");
             add_cached_type(ctx, clang_getCursorType(c));
         }
         CXCursorKind.TypedefDecl {
@@ -250,68 +261,68 @@ emit_func :: fn (ctx: *Ctx, c: CXCursor) {
     type :: clang_getCursorType(c);
     if !emit_name(ctx, c) { return; }
     fs_write_string(ctx.out, " :: fn (");
-    argc :: clang_Cursor_getNumArguments(c);
-    loop i := 0; i < argc; i += 1 {
-        arg_cursor :: clang_Cursor_getArgument(c, auto i);
+    argc :: clang_Cursor_getNumArguments(c);
+    loop i := 0; i < argc; i += 1 {
+        arg_cursor :: clang_Cursor_getArgument(c, auto i);
         if !emit_name(ctx, arg_cursor) {
-            fs_write_fmt(ctx.out, "_%: ", i);
+            fs_write_fmt(ctx.out, "_%: ", i);
         } else {
-            fs_write_fmt(ctx.out, ": ", i);
+            fs_write_fmt(ctx.out, ": ", i);
         }
-        arg_type :: clang_getArgType(type, i);
-        emit_type(ctx, arg_type, true);
+        arg_type :: clang_getArgType(type, i);
+        emit_type(ctx, arg_type, true);
         if i < argc - 1 { fs_write_string(ctx.out, ", "); }
     }
-    fs_write_string(ctx.out, ") ");
-    type_result := clang_getResultType(type);
-    emit_type(ctx, type_result, true);
+    fs_write_string(ctx.out, ") ");
+    type_result := clang_getResultType(type);
+    emit_type(ctx, type_result, true);
     fs_write_string(ctx.out, " #extern;\n");
 }
 
 emit_enum :: fn (ctx: *Ctx, c: CXCursor) {
-    fs_write_string(ctx.out, "enum c_int {\n");
+    fs_write_string(ctx.out, "enum c_int {\n");
     clang_visitChildren(c, &emit_enum_variant, auto ctx);
-    fs_write_string(ctx.out, "}");
+    fs_write_string(ctx.out, "}");
 }
 
 emit_enum_variant :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
     ctx :: cast(*Ctx) client_data;
-    fs_write_string(ctx.out, "    ");
+    fs_write_string(ctx.out, "    ");
     emit_name(ctx, c);
-    value :: clang_getEnumConstantDeclValue(c);
-    fs_write_fmt(ctx.out, " :: %;\n", value);
+    value :: clang_getEnumConstantDeclValue(c);
+    fs_write_fmt(ctx.out, " :: %;\n", value);
     return CXChildVisitResult.Continue;
 }
 
 emit_struct :: fn (ctx: *Ctx, c: CXCursor) {
-    fs_write_string(ctx.out, "struct {\n");
+    fs_write_string(ctx.out, "struct {\n");
     clang_visitChildren(c, &emit_struct_member, auto ctx);
-    fs_write_string(ctx.out, "}");
+    fs_write_string(ctx.out, "}");
 }
 
 emit_union :: fn (ctx: *Ctx, c: CXCursor) {
-    fs_write_string(ctx.out, "union {\n");
+    fs_write_string(ctx.out, "union {\n");
     clang_visitChildren(c, &emit_struct_member, auto ctx);
-    fs_write_string(ctx.out, "}");
+    fs_write_string(ctx.out, "}");
 }
 
 emit_struct_member :: fn (c: CXCursor, parent: CXCursor, client_data: CXClientData) CXChildVisitResult {
     ctx :: cast(*Ctx) client_data;
-    fs_write_string(ctx.out, "    ");
+    fs_write_string(ctx.out, "    ");
     emit_name(ctx, c);
-    fs_write_fmt(ctx.out, ": ");
+    fs_write_fmt(ctx.out, ": ");
     type :: clang_getCursorType(c);
     emit_type(ctx, type);
-    fs_write_fmt(ctx.out, ";\n");
+    fs_write_fmt(ctx.out, ";\n");
     return CXChildVisitResult.Continue;
 }
 
-emit_typedef :: fn (ctx: *Ctx, c: CXCursor) {
+emit_typedef :: fn (ctx: *Ctx, c: CXCursor) {
     if !emit_name(ctx, c) { return; }
-    fs_write_string(ctx.out, " :: ");
-    type :: clang_getTypedefDeclUnderlyingType(c);
-    emit_type(ctx, type, true);
-    fs_write_string(ctx.out, ";\n");
+    fs_write_string(ctx.out, " :: ");
+    type :: clang_getTypedefDeclUnderlyingType(c);
+    emit_type(ctx, type, true);
+    fs_write_string(ctx.out, ";\n");
 }
 
 emit_name :: fn (ctx: *Ctx, c: CXCursor) bool {
@@ -323,45 +334,45 @@ emit_name :: fn (ctx: *Ctx, c: CXCursor) bool {
     return false;
 }
 
-emit_type :: fn (ctx: *Ctx, type: CXType, ignore_void := false) {
-    switch type.kind {
-        CXTypeKind.Bool       { fs_write_string(ctx.out, "bool"); }
-        CXTypeKind.Char_U     { fs_write_string(ctx.out, "c_uchar");   }
-        CXTypeKind.UChar      { fs_write_string(ctx.out, "c_uchar");   }
-        CXTypeKind.Char16     { fs_write_string(ctx.out, "c_short");  }
-        CXTypeKind.Char32     { fs_write_string(ctx.out, "c_int");  }
-        CXTypeKind.UShort     { fs_write_string(ctx.out, "c_ushort");  }
-        CXTypeKind.UInt       { fs_write_string(ctx.out, "c_uint");  }
-        CXTypeKind.ULong      { fs_write_string(ctx.out, "c_ulong");  }
-        CXTypeKind.ULongLong  { fs_write_string(ctx.out, "c_ulonglong");  }
-        CXTypeKind.Char_S     { fs_write_string(ctx.out, "c_char");   }
-        CXTypeKind.SChar      { fs_write_string(ctx.out, "c_char");   }
-        CXTypeKind.WChar      { fs_write_string(ctx.out, "c_short");  }
-        CXTypeKind.Short      { fs_write_string(ctx.out, "c_short");  }
-        CXTypeKind.Int        { fs_write_string(ctx.out, "c_int");  }
-        CXTypeKind.Long       { fs_write_string(ctx.out, "c_long");  }
-        CXTypeKind.LongLong   { fs_write_string(ctx.out, "c_longlong");  }
-        CXTypeKind.Float      { fs_write_string(ctx.out, "f32");  }
-        CXTypeKind.Double     { fs_write_string(ctx.out, "f64");  }
-        CXTypeKind.NullPtr    { fs_write_string(ctx.out, "null"); }
-
-        CXTypeKind.Void {
-            if !ignore_void {
-                fs_write_string(ctx.out, "c_void");
-            }
+emit_type :: fn (ctx: *Ctx, type: CXType, ignore_void := false) {
+    switch type.kind {
+        CXTypeKind.Bool       { fs_write_string(ctx.out, "bool"); }
+        CXTypeKind.Char_U     { fs_write_string(ctx.out, "c_uchar");   }
+        CXTypeKind.UChar      { fs_write_string(ctx.out, "c_uchar");   }
+        CXTypeKind.Char16     { fs_write_string(ctx.out, "c_short");  }
+        CXTypeKind.Char32     { fs_write_string(ctx.out, "c_int");  }
+        CXTypeKind.UShort     { fs_write_string(ctx.out, "c_ushort");  }
+        CXTypeKind.UInt       { fs_write_string(ctx.out, "c_uint");  }
+        CXTypeKind.ULong      { fs_write_string(ctx.out, "c_ulong");  }
+        CXTypeKind.ULongLong  { fs_write_string(ctx.out, "c_ulonglong");  }
+        CXTypeKind.Char_S     { fs_write_string(ctx.out, "c_char");   }
+        CXTypeKind.SChar      { fs_write_string(ctx.out, "c_char");   }
+        CXTypeKind.WChar      { fs_write_string(ctx.out, "c_short");  }
+        CXTypeKind.Short      { fs_write_string(ctx.out, "c_short");  }
+        CXTypeKind.Int        { fs_write_string(ctx.out, "c_int");  }
+        CXTypeKind.Long       { fs_write_string(ctx.out, "c_long");  }
+        CXTypeKind.LongLong   { fs_write_string(ctx.out, "c_longlong");  }
+        CXTypeKind.Float      { fs_write_string(ctx.out, "f32");  }
+        CXTypeKind.Double     { fs_write_string(ctx.out, "f64");  }
+        CXTypeKind.NullPtr    { fs_write_string(ctx.out, "null"); }
+
+        CXTypeKind.Void {
+            if !ignore_void {
+                fs_write_string(ctx.out, "c_void");
+            }
         }
         CXTypeKind.Elaborated,
         CXTypeKind.Typedef {
-            c := clang_getTypeDeclaration(type);
+            c := clang_getTypeDeclaration(type);
             if !emit_name(ctx, c) { 
                 type = clang_getCanonicalType(type);
                 emit_type(ctx, type);
             }
-        }
+        }
         
         CXTypeKind.Record,
         CXTypeKind.Enum {
-            c := clang_getTypeDeclaration(type);
+            c := clang_getTypeDeclaration(type);
             if clang_isCursorDefinition(c) {
                 if is_new_type(ctx, type) {
                     switch type.kind {
@@ -373,7 +384,7 @@ emit_type :: fn (ctx: *Ctx, type: CXType, ignore_void := false) {
                 } else {
                     name, is_valid :: get_name(type);
                     if is_valid {
-                        fs_write_string(ctx.out, name);
+                        fs_write_string(ctx.out, name);
                     } else {
                         error_cursor(ctx, c, "unknown type/reference name as %", type.kind);
                     }
@@ -384,43 +395,43 @@ emit_type :: fn (ctx: *Ctx, type: CXType, ignore_void := false) {
         }
           
         CXTypeKind.FunctionNoProto,  
-        CXTypeKind.FunctionProto {
-            fs_write_string(ctx.out, "fn (");
-            argc := clang_getNumArgTypes(type);
-            loop i := 0; i < argc; i += 1 {
-                fs_write_fmt(ctx.out, "_%: ", i);
-                arg_type :: clang_getArgType(type, i);
-                emit_type(ctx, arg_type, true);
-                if i < argc - 1 { fs_write_string(ctx.out, ", "); }
-            }
-            fs_write_string(ctx.out, ") ");
-            type_result := clang_getResultType(type);
-            emit_type(ctx, type_result, true);
-        }
-
-        CXTypeKind.ConstantArray {
-            l := clang_getNumElements(type);
-            fs_write_fmt(ctx.out, "[%]", l);
-            type_elem := clang_getArrayElementType(type);
-            emit_type(ctx, type_elem, true);
-        }
-
-        CXTypeKind.Pointer {
-            fs_write_string(ctx.out, "*");
-            emit_type(ctx, clang_getPointeeType(type), false);
-        }
+        CXTypeKind.FunctionProto {
+            fs_write_string(ctx.out, "fn (");
+            argc := clang_getNumArgTypes(type);
+            loop i := 0; i < argc; i += 1 {
+                fs_write_fmt(ctx.out, "_%: ", i);
+                arg_type :: clang_getArgType(type, i);
+                emit_type(ctx, arg_type, true);
+                if i < argc - 1 { fs_write_string(ctx.out, ", "); }
+            }
+            fs_write_string(ctx.out, ") ");
+            type_result := clang_getResultType(type);
+            emit_type(ctx, type_result, true);
+        }
+
+        CXTypeKind.ConstantArray {
+            l := clang_getNumElements(type);
+            fs_write_fmt(ctx.out, "[%]", l);
+            type_elem := clang_getArrayElementType(type);
+            emit_type(ctx, type_elem, true);
+        }
+
+        CXTypeKind.Pointer {
+            fs_write_string(ctx.out, "*");
+            emit_type(ctx, clang_getPointeeType(type), false);
+        }
         
-        default {
-            c :: clang_getTypeDeclaration(type);
+        default {
+            c :: clang_getTypeDeclaration(type);
             error_cursor(ctx, c, "unsupported type as %", type.kind);
-        }
-    }
+        }
+    }
 }
 
 get_name :: fn { _get_name_cursor; _get_name_type; }
 
 _get_name_cursor :: fn (c: CXCursor) (string, bool) {
-    spelling :: clang_getCursorSpelling(c);
+    spelling :: clang_getCursorSpelling(c);
     name :: {:string: auto c_strlen(auto spelling.data), spelling.data};
     if string_is_empty(name) { return "", false; }
     return name, true;
@@ -467,13 +478,13 @@ add_cached_sym :: fn (ctx: *Ctx, sym: string) {
     array_push(ctx.sym_cache, hash);
 }
 
-error_cursor :: fn (ctx: *Ctx, c: CXCursor, fmt: string, args: ...) {
-    location := clang_getCursorLocation(c);
-    line : u32;
-    clang_getExpansionLocation(location, null, &line, null, null);
+error_cursor :: fn (ctx: *Ctx, c: CXCursor, fmt: string, args: ...) {
+    location := clang_getCursorLocation(c);
+    line : u32;
+    clang_getExpansionLocation(location, null, &line, null, null);
     buf: [1024]u8;
     len :: bprint(buf, fmt, args);
     str :: {:string: auto len, buf.ptr};
-    eprint("ERROR [%:%] %\n", ctx.filename, line, str);
+    eprint("ERROR [%:%] %\n", ctx.filename, line, str);
     fs_write_fmt(ctx.out, "\n// ERROR [%:%] %\n", ctx.filename, line, str);
 }

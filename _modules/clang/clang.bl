@@ -468,7 +468,7 @@ CXCursorKind :: enum {
 clang_createIndex :: fn (excludeDeclarationsFromPCH: s32, displayDiagnostics: s32) CXIndex #extern;
 clang_disposeIndex :: fn (index: CXIndex) #extern;
 clang_parseTranslationUnit :: fn (CIdx: CXIndex, source_filename: *u8, command_line_args: *u8, num_command_line_args: s32, unsaved_files: *CXUnsavedFile, num_unsaved_files: u32, options: u32) CXTranslationUnit #extern;
-clang_parseTranslationUnit2 :: fn (CIdx: CXIndex, source_filename: *u8, command_line_args: *u8, num_command_line_args: s32, unsaved_files: *CXUnsavedFile, num_unsaved_files: u32, options: u32, out_TU: *CXTranslationUnit) CXErrorCode #extern;
+clang_parseTranslationUnit2 :: fn (CIdx: CXIndex, source_filename: *u8, command_line_args: **u8, num_command_line_args: s32, unsaved_files: *CXUnsavedFile, num_unsaved_files: u32, options: u32, out_TU: *CXTranslationUnit) CXErrorCode #extern;
 clang_visitChildren :: fn (parent: CXCursor, visitor: CXCursorVisitor, client_data: CXClientData) u32 #extern;
 clang_getCursorSpelling :: fn (cursor: CXCursor) CXString #extern;
 clang_getCursorResultType :: fn (cursor: CXCursor) CXType #extern;
@@ -516,3 +516,5 @@ clang_Cursor_getTranslationUnit :: fn (C: CXCursor) CXTranslationUnit #extern;
 clang_getCursorExtent :: fn (C: CXCursor) CXSourceRange #extern;
 clang_tokenize :: fn (TU: CXTranslationUnit, Range: CXSourceRange, Tokens: **CXToken, NumTokens: *u32) #extern;
 clang_disposeTokens :: fn (TU: CXTranslationUnit, Tokens: *CXToken, NumTokens: u32) #extern;
+clang_File_tryGetRealPathName :: fn (file: CXFile) CXString #extern;
+clang_getFileName :: fn (SFile: CXFile) CXString #extern;

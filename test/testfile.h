@@ -1,3 +1,4 @@
+#include "nested/testfile2.h"
 #define HOMO 1
 
 
@@ -50,3 +51,6 @@ typedef union FooFoo {
     int i;
     char c;
 } FooFoo2;
+
+
+void get_module(MyRef m);
