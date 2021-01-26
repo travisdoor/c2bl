@@ -10,17 +10,21 @@
 
 #import "std/array"
 
+/// Arguments context base type.
 ArgCtx :: struct {
+    /// Contains other arguments not considered as options (i.e. input files).
     other: []string;
+    /// True when help was invoked implicitly.
     help: bool;
 }
 
 ArgParser :: *u8;
 ArgParserHandlerFn :: *fn (parser: ArgParser, args: []string, ctx: *ArgCtx) (s32, Error);
 
-arg_parser_new :: fn () ArgParser {
+arg_parser_new :: fn (help_text := string_empty) ArgParser {
     parser := cast(*Parser) alloc(sizeof(Parser));
     parser.pad = 0;
+    parser.help_text = string_new(help_text);
     array_init(parser.entries);
 
     arg_parser_add(
@@ -43,6 +47,7 @@ arg_parser_delete :: fn (_parser: ArgParser) {
         entry_delete(&parser.entries[i]);
     }
     array_terminate(parser.entries);
+    string_delete(parser.help_text);
     free(auto parser);
 }
 
@@ -108,6 +113,9 @@ arg_parser_add :: fn (
 
 arg_parser_print_help :: fn (_parser: ArgParser) {
     parser: *Parser = auto _parser;
+    if !string_is_empty(parser.help_text) {
+        print("%\n", parser.help_text);
+    }
     print("Options:\n");
     loop i := 0; i < parser.entries.len; i += 1 {
         entry :: &parser.entries[i];
@@ -123,6 +131,7 @@ arg_parser_print_help :: fn (_parser: ArgParser) {
 Parser :: struct {
     entries: [..]Entry;
     pad: s32;
+    help_text: string; 
 }
 
 Entry :: struct {

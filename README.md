@@ -13,7 +13,14 @@ blc -release-fast -b
 ## Usage
 
 ```bash
-c2bl.exe [options] <input file>
+Usage:
+  c2bl [options] <input files>
+Options:
+  -h, --help              Print this help.
+  -I, --include-directory Specify include directory.
+  -sc, --syntax-check     Check syntax of output files. BL compiler is required in PATH.
+  -tm, --translate-macros Translate C macros into BL, this feature is experimental.
+  -o, --output            Specify name of the output file.
 ```
 
 ## Known issues
